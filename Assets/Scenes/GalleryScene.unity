@@ -368,22 +368,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GalleryInterface
       objectReference: {fileID: 0}
-    - target: {fileID: 7106485031958062012, guid: f1473e69d603f6f48a814bd09942bd80,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 8178383109795122049, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-    - target: {fileID: 7106485031958062012, guid: f1473e69d603f6f48a814bd09942bd80,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UnloadGallery
-      objectReference: {fileID: 0}
-    - target: {fileID: 7106485031958062012, guid: f1473e69d603f6f48a814bd09942bd80,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
