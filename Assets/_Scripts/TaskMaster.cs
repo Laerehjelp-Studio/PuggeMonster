@@ -47,7 +47,6 @@ public class TaskMaster : MonoBehaviour {
 				for (int i = 0; i < _maxTasks; i++) {
 					// first implementation, Will be replaced when a difficulty system has been created.
 
-
 					_mathTasks.Add( MathGenerator.GenerateMathQuestion( GetDifficultyLetter() ) ); // TODO: Update to actually reflect our GDD.
 				}
 				break;
