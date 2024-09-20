@@ -63,7 +63,6 @@ public class TaskMaster : MonoBehaviour {
 				break;
 			case GameModeType.None:
 				break;
-
 		}
 		if (_mathTasks.Count > 0 ) {
 			MathTask mathTask = _mathTasks[0];
@@ -142,10 +141,10 @@ public struct MathDifficulty {
 }
 
 public struct MathTask {
-	public float[] Components; // Array with 2 numbers
+	public List<float> Components; // Array with 2 numbers
 	public string Operator; // + - * or /
 	public float Correct; // The correct answer.
-	public float[] Incorrect; // Incorrect options.
+	public List<float> Incorrect; // Incorrect options.
 	public Sprite NumberSprite;
 }
 public struct LetterTask {
