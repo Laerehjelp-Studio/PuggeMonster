@@ -121,9 +121,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8178383109795122049, guid: 95882c41123c54343ac4a10aeaee5474,
-          type: 3}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 6618957895198634079}
+        m_TargetAssemblyTypeName: GalleryManager, Assembly-CSharp
         m_MethodName: UnloadGallery
         m_Mode: 1
         m_Arguments:
