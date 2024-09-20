@@ -46,10 +46,9 @@ public class TaskMaster : MonoBehaviour {
 
 				for (int i = 0; i < _maxTasks; i++) {
 					// first implementation, Will be replaced when a difficulty system has been created.
-					int _difficulty = Random.Range( 0, 3 );
-					string _difficultyString = (_difficulty == 0) ? "h" : (_difficulty == 1) ? "m" : "e";
 
-					_mathTasks.Add( MathGenerator.GenerateMathQuestion( _difficultyString ) ); // TODO: Update to actually reflect our GDD.
+
+					_mathTasks.Add( MathGenerator.GenerateMathQuestion( GetDifficultyLetter() ) ); // TODO: Update to actually reflect our GDD.
 				}
 				break;
 			case GameModeType.Words:
@@ -70,6 +69,25 @@ public class TaskMaster : MonoBehaviour {
 			MathTask mathTask = _mathTasks[0];
 			SwapQuestion( mathTask );
 		}
+	}
+
+	private string GetDifficultyLetter () {
+		int _difficulty = Random.Range( 0, 3 );
+		string _difficultyString = "";
+
+		switch (_difficulty) {
+			case 0:
+				_difficultyString = "h";
+				break;
+			case 1:
+				_difficultyString = "m";
+				break;
+			case 2:
+				_difficultyString = "e";
+				break;
+		}
+
+		return _difficultyString;
 	}
 
 	public void RegisterAnswer ( MathTask mathTask, float mathValue ) {
