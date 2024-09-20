@@ -26,8 +26,10 @@ public static class MathGenerator
             case "e":
                 {
                     //   Easy difficulty question
-                    task.Components[0] = Random.Range(0, 10);
-                    task.Components[1] = Random.Range(0, 10);
+                    task.Components = new();
+                    task.Incorrect = new();
+                    task.Components.Add(Random.Range(0, 10));
+                    task.Components.Add(Random.Range(0, 10));
 
                     string op = "+";
                     task.Operator = op;
@@ -36,8 +38,8 @@ public static class MathGenerator
 
                     if (temp <= 0)
                     {
-                        task.Incorrect[0] = temp + Random.Range(1, 3);
-                        task.Incorrect[1] = temp + Random.Range(1, 3);
+                        task.Incorrect.Add(temp + Random.Range(1, 3));
+                        task.Incorrect.Add(temp + Random.Range(1, 3));
                         if (task.Incorrect[0] == task.Incorrect[1])
                         {
                             task.Incorrect[1] += 1;
@@ -45,8 +47,8 @@ public static class MathGenerator
                     }
                     else
                     {
-                        task.Incorrect[0] = temp + Random.Range(-2, 3) + 1;
-                        task.Incorrect[1] = temp + Random.Range(-2, 3) + 1;
+                        task.Incorrect.Add(temp + Random.Range(-2, 3) + 1);
+                        task.Incorrect.Add(temp + Random.Range(-2, 3) + 1);
                         if (task.Incorrect[0] == task.Incorrect[1])
                         {
                             task.Incorrect[1] += 1;
@@ -62,8 +64,10 @@ public static class MathGenerator
                 break;
             case "m"://   Medium difficulty question
                 {
-                    task.Components[0] = Random.Range(0, 101);
-                    task.Components[1] = Random.Range(10, 101);
+                    task.Components = new();
+                    task.Incorrect = new();
+                    task.Components.Add(Random.Range(0, 101));
+                    task.Components.Add(Random.Range(10, 101));
 
                     string op = "+";
                     task.Operator = op;
@@ -72,8 +76,8 @@ public static class MathGenerator
 
                     if (temp <= 0)
                     {
-                        task.Incorrect[0] = temp + Random.Range(2, 10);
-                        task.Incorrect[1] = temp + Random.Range(2, 10);
+                        task.Incorrect.Add(temp + Random.Range(2, 10));
+                        task.Incorrect.Add(temp + Random.Range(2, 10));
                         if (task.Incorrect[0] == task.Incorrect[1])
                         {
                             task.Incorrect[1] += 3;
@@ -81,8 +85,8 @@ public static class MathGenerator
                     }
                     else
                     {
-                        task.Incorrect[0] = temp + Random.Range(-2, 10) + 1;
-                        task.Incorrect[1] = temp + Random.Range(-2, 10) + 1;
+                        task.Incorrect.Add(temp + Random.Range(-2, 10) + 1);
+                        task.Incorrect.Add(temp + Random.Range(-2, 10) + 1);
                         if (task.Incorrect[0] == task.Incorrect[1])
                         {
                             task.Incorrect[1] += 1;
@@ -96,16 +100,18 @@ public static class MathGenerator
                 break;
             case "h"://   Hard difficulty question
                 {
-                    task.Components[0] = Random.Range(7000, 40000);
-                    task.Components[1] = Random.Range(-7000, -300);
+                    task.Components = new();
+                    task.Incorrect = new();
+                    task.Components.Add(Random.Range(7000, 40000));
+                    task.Components.Add(Random.Range(-7000, -300));
 
                     string op = "*";
                     task.Operator = op;
                     float temp = task.Components[0] * task.Components[1];
                     task.Correct = temp;
 
-                    task.Incorrect[0] = temp + Random.Range(1, 3);
-                    task.Incorrect[1] = temp + Random.Range(1, 3);
+                    task.Incorrect.Add(temp + Random.Range(1, 3));
+                    task.Incorrect.Add(temp + Random.Range(1, 3));
                     if (task.Incorrect[0] == task.Incorrect[1])
                     {
                         task.Incorrect[1] += 1;
