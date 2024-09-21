@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933d54121381d0d4d8f243589dd70364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxTasks: 4
 --- !u!1001 &2798696117798439223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -399,6 +400,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 280177765164827399, guid: e74c2e3244cef2743aff431806e4c667,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 280177765164827399, guid: e74c2e3244cef2743aff431806e4c667,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 510734811299951992, guid: e74c2e3244cef2743aff431806e4c667,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 603134598778228277, guid: e74c2e3244cef2743aff431806e4c667,
         type: 3}
@@ -540,11 +556,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GamePlayCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 6539672397829459322, guid: e74c2e3244cef2743aff431806e4c667,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 57.580017
-      objectReference: {fileID: 0}
     - target: {fileID: 8032559379341767038, guid: e74c2e3244cef2743aff431806e4c667,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -574,11 +585,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8588227031051103849, guid: e74c2e3244cef2743aff431806e4c667,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 208.09998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
