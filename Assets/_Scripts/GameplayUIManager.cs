@@ -12,14 +12,6 @@ public class GameplayUIManager : MonoBehaviour {
 	private Dictionary<Button, TMP_Text> _buttonRegistry = new();
 	private List<int> _tempPlacementList = new();
 
-	private void OnEnable () {
-		GameManager.Instance.RegisterUIManager(this);
-	}
-	private void OnDisable () {
-		// Empty argument de-registers the current UiManager
-		GameManager.Instance.RegisterUIManager();
-	}
-
 	private void Awake () {
 		if (_answerButtons.Count == 0) {
 			Debug.LogError( $"{this.name} is missing answerButton-references." );
@@ -28,8 +20,17 @@ public class GameplayUIManager : MonoBehaviour {
 			TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
 			_buttonRegistry.Add( button, buttonText );
 		}
+		GameManager.Instance.RegisterManager( this );
 	}
 
+	private void OnEnable () {
+		GameManager.Instance.RegisterManager( this );
+	}
+
+	private void OnDisable () {
+		// Empty argument de-registers the current UiManager
+		GameManager.Instance.UnRegisterManager( this );
+	}
 	public void MathQuestion ( MathTask mathTask ) {
 		// Reset 
 		_tempPlacementList.Clear();

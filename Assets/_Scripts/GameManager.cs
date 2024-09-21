@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,8 +8,8 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance { get; private set; }
 	public static TaskMaster TaskMaster { get; private set; }
-	public static StatManager StatManager { get; private set; }
 	public static GameplayUIManager UIManager { get; private set; }
+	public static GalleryManager GalleryManager { get; private set; }
 
 	public delegate void VoidDelegateGameMode ( GameModeType gameMode);
 
@@ -23,21 +24,39 @@ public class GameManager : MonoBehaviour {
 		SceneManager.sceneLoaded += NewSceneLoaded;
 	}
 
+	private void OnDisable () {
+		SceneManager.sceneLoaded -= NewSceneLoaded;
+	}
+
 	private void NewSceneLoaded ( Scene arg0, LoadSceneMode arg1 ) {
 		OnSceneLoad?.Invoke( _gameMode );
 	}
 
-	public void RegisterTaskMaster (TaskMaster taskMaster = default) {
+#region Registering/deregistering Managers
+	public void RegisterManager (TaskMaster taskMaster = default) {
 		TaskMaster = taskMaster;
 	}
 
-	public void RegisterUIManager ( GameplayUIManager uiManager = default ) {
+	public void RegisterManager ( GameplayUIManager uiManager = default ) {
 		UIManager = uiManager;
 	}
 
-	public void RegisterStatManager ( StatManager statManager = default ) {
-		StatManager = statManager;
+	public void RegisterManager ( GalleryManager galleryManager = default ) {
+		GalleryManager = galleryManager;
 	}
+	
+	public void UnRegisterManager ( TaskMaster taskMaster ) {
+		TaskMaster = default;
+	}
+
+	public void UnRegisterManager ( GameplayUIManager uiManager) {
+		UIManager = default;
+	}
+
+	public void UnRegisterManager ( GalleryManager galleryManager ) {
+		GalleryManager = default;
+	}
+	#endregion
 
 	public void GalleryLoader ( string sceneName ) {
 		SceneLoader( sceneName, true );
@@ -85,6 +104,8 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	public GameModeType GameMode { get { return _gameMode; } set { _gameMode = value; OnGameModeUpdate?.Invoke( _gameMode ); } }
+
+	
 }
 
 public enum GameModeType {

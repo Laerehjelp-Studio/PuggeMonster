@@ -17,20 +17,21 @@ public class TaskMaster : MonoBehaviour {
 	private int _currentTaskIndex = 0;
 	private int _numberOfAnswers = 0;
 
-	private void Start () {
+	private void Awake () {
 		//_gameMode = GameManager.Instance.GameMode;
+		GameManager.Instance.RegisterManager( this );
 	}
 
 	private void OnEnable () {
 		// Register TaskMaster enabling GameManager.TaskMaster-syntax.
-		GameManager.Instance.RegisterTaskMaster(this);
+		GameManager.Instance.RegisterManager(this);
 		//GameManager.Instance.OnGameModeUpdate += UpdateGameMode;
 		GameManager.Instance.OnSceneLoad += RefreshTasks;
 	}
 
 	private void OnDisable () {
 		// Empty argument de-registers the current TaskMaster
-		GameManager.Instance.RegisterTaskMaster();
+		GameManager.Instance.UnRegisterManager( this );
 		//GameManager.Instance.OnGameModeUpdate -= UpdateGameMode;
 		GameManager.Instance.OnSceneLoad -= RefreshTasks;
 	}
