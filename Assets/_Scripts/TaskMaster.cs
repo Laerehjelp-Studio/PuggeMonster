@@ -12,13 +12,15 @@ public class TaskMaster : MonoBehaviour {
 	private List<LetterTask> _letterTasks = new();
 	private List<WordTask> _wordTasks = new();
 
-	private MathDifficulty _currentDifficulty;
+	private MathDifficulty _currentDifficulty = new();
 	[SerializeField] private int _maxTasks = 4;
 	private int _currentTaskIndex = 0;
 	private int _numberOfAnswers = 0;
+	private float _currentScore = 0;
 
 	private void Awake () {
 		//_gameMode = GameManager.Instance.GameMode;
+		_currentDifficulty.AverageDifficulty = new();
 		GameManager.Instance.RegisterManager( this );
 	}
 
@@ -92,28 +94,39 @@ public class TaskMaster : MonoBehaviour {
 	public void RegisterAnswer ( MathTask mathTask, float mathValue ) {
 		_numberOfAnswers++;
 
-		float points = 1 * (1 / _numberOfAnswers);
+		float points = 1f * (1f / _numberOfAnswers);
 
 		if (points < 0.4) {
 			points = 0;
 		}
+		Debug.Log($"Correct answer = {mathValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 		_currentDifficulty.AverageDifficulty.Add( points );
-		GameManager.StatManager.RegisterAnswer(mathTask, points);
+
+		StatManager.RegisterAnswer(mathTask, points);
 
 		if (mathTask.Correct == mathValue) {
-			NextQuestion(mathTask);
+			if ( _currentScore >= _maxTasks) {
+				_currentScore = 0;
+				PuggeMonsterManager.AddPuggeMonster();
+			} else {
+				_currentScore = _currentScore + points;
+			}
+			GameManager.UIManager.SetExpBar( _currentScore );
+			NextQuestion( mathTask);
 		}
 	}
 
 	private void NextQuestion (MathTask mathTask) {
 		_currentTaskIndex = _mathTasks.IndexOf(mathTask );
-		
-		if (_currentTaskIndex < _mathTasks.Count) {
+		_numberOfAnswers = 0;
+
+		if (_currentTaskIndex + 1 < _mathTasks.Count) {
 			_currentTaskIndex = _currentTaskIndex + 1;
 		} else {
 			_currentTaskIndex = 0;
+			RefreshTasks(_gameMode);
+			return;
 		}
-		
 		MathTask newMathTask = _mathTasks[ _currentTaskIndex ];
 
 		SwapQuestion( newMathTask );
