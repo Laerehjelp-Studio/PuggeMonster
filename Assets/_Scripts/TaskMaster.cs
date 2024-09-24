@@ -110,6 +110,7 @@ public class TaskMaster : MonoBehaviour {
 			if (_currentScore >= _maxTasks) {
 				_currentScore = 0;
 				PuggeMonsterManager.AddPuggeMonster();
+				RefreshTasks(GameModeType.Math);
 			}
 
 			GameManager.UIManager.SetExpBar( _currentScore );
