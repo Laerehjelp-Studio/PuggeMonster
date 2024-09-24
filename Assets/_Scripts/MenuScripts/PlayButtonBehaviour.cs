@@ -40,29 +40,24 @@ public class PlayButtonBehaviour : MonoBehaviour
 
         // Ensure the final position is set (in case elapsed went slightly over)
         cameraObj.transform.position = targetPosition;
-        Debug.Log("Done Sliding");
         sliding = false;
     }
 
 
     public void SlideToTheLeft()
     {
-        Debug.Log("ButtonClicked");
         if (!sliding)
         {
             StartCoroutine(TimerCoroutine(slideDuration, -154));
-            Debug.Log("sliding Left");
             sliding = true;
         }
     }
 
     public void SlideToTheRight()
     {
-        Debug.Log("ButtonClicked");
         if (!sliding)
         {
             StartCoroutine(TimerCoroutine(slideDuration, 0));
-            Debug.Log("sliding Right");
             sliding = true;
         }
     }
