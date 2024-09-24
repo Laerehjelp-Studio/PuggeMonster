@@ -8,10 +8,6 @@ public static class MathGenerator
 
     // Fake numbers
     static private int generalMastery = 0;
-
-
-
-
     public static MathTask GenerateMathQuestion(string Difficulty)
     {
         //public float[] Components; // Array with 2 numbers
@@ -66,8 +62,8 @@ public static class MathGenerator
                 {
                     task.Components = new();
                     task.Incorrect = new();
-                    task.Components.Add(Random.Range(0, 101));
-                    task.Components.Add(Random.Range(10, 101));
+                    task.Components.Add(Random.Range(0, 31));
+                    task.Components.Add(Random.Range(10, 31));
 
                     string op = "+";
                     task.Operator = op;
@@ -102,12 +98,12 @@ public static class MathGenerator
                 {
                     task.Components = new();
                     task.Incorrect = new();
-                    task.Components.Add(Random.Range(7000, 40000));
-                    task.Components.Add(Random.Range(-7000, -300));
+                    task.Components.Add(Random.Range(0, 101));
+                    task.Components.Add(Random.Range(10, 101));
 
-                    string op = "*";
+                    string op = "+";
                     task.Operator = op;
-                    float temp = task.Components[0] * task.Components[1];
+                    float temp = task.Components[0] + task.Components[1];
                     task.Correct = temp;
 
                     task.Incorrect.Add(temp + Random.Range(1, 3));
