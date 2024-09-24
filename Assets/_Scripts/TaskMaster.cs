@@ -105,12 +105,13 @@ public class TaskMaster : MonoBehaviour {
 		StatManager.RegisterAnswer(mathTask, points);
 
 		if (mathTask.Correct == mathValue) {
-			if ( _currentScore >= _maxTasks) {
+			_currentScore = _currentScore + points;
+			
+			if (_currentScore >= _maxTasks) {
 				_currentScore = 0;
 				PuggeMonsterManager.AddPuggeMonster();
-			} else {
-				_currentScore = _currentScore + points;
 			}
+
 			GameManager.UIManager.SetExpBar( _currentScore );
 			NextQuestion( mathTask);
 		}
