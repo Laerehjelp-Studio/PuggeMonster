@@ -48,7 +48,7 @@ public class PlayButtonBehaviour : MonoBehaviour
     {
         if (!sliding)
         {
-            StartCoroutine(TimerCoroutine(slideDuration, -154));
+            StartCoroutine(TimerCoroutine(slideDuration, -2048 ) );
             sliding = true;
         }
     }

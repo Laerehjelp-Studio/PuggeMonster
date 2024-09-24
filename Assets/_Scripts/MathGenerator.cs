@@ -6,78 +6,78 @@ using UnityEngine;
 public static class MathGenerator
 {
 
-    // Fake numbers
-    static private int generalMastery = 0;
-    public static MathTask GenerateMathQuestion(string Difficulty)
-    {
-        //public float[] Components; // Array with 2 numbers
-        //public string Operator; // + - * or /
-        //public float Correct; // The correct answer.
-        //public float[] Incorrect; // Incorrect options.
+	// Fake numbers
+	static private int generalMastery = 0;
+	public static MathTask GenerateMathQuestion(string Difficulty)
+	{
+		//public float[] Components; // Array with 2 numbers
+		//public string Operator; // + - * or /
+		//public float Correct; // The correct answer.
+		//public float[] Incorrect; // Incorrect options.
 
-        MathTask task = new();
+		MathTask task = new();
 
-        switch (Difficulty)
-        {
-            case "e":
-                {
-                    //   Easy difficulty question
-                    task.Components = new();
-                    task.Incorrect = new();
-                    task.Components.Add(Random.Range(0, 10));
-                    task.Components.Add(Random.Range(0, 10));
+		switch (Difficulty)
+		{
+			case "e":
+				{
+					//   Easy difficulty question
+					task.Components = new();
+					task.Incorrect = new();
+					task.Components.Add(Random.Range(0, 10));
+					task.Components.Add(Random.Range(0, 10));
 
-                    string op = "+";
-                    task.Operator = op;
-                    float temp = task.Components[0] + task.Components[1];
-                    task.Correct = temp;
-
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-				}
-
-
-                break;
-            case "m"://   Medium difficulty question
-                {
-                    task.Components = new();
-                    task.Incorrect = new();
-                    task.Components.Add(Random.Range(0, 31));
-                    task.Components.Add(Random.Range(10, 31));
-
-                    string op = "+";
-                    task.Operator = op;
-                    float temp = task.Components[0] + task.Components[1];
-                    task.Correct = temp;
-
-
-                    task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-                    task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-                }
-                break;
-            case "h"://   Hard difficulty question
-                {
-                    task.Components = new();
-                    task.Incorrect = new();
-                    task.Components.Add(Random.Range(0, 101));
-                    task.Components.Add(Random.Range(10, 101));
-
-                    string op = "+";
-                    task.Operator = op;
-                    float temp = task.Components[0] + task.Components[1];
-                    task.Correct = temp;
+					string op = "+";
+					task.Operator = op;
+					float temp = task.Components[0] + task.Components[1];
+					task.Correct = temp;
 
 					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
 					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
 				}
-                break;
-        }
 
-        // FindDifficulty() this returns...  sprite, operator, 
-        // 
-        
-        return task;
-    }
+
+				break;
+			case "m"://   Medium difficulty question
+				{
+					task.Components = new();
+					task.Incorrect = new();
+					task.Components.Add(Random.Range(0, 31));
+					task.Components.Add(Random.Range(10, 31));
+
+					string op = "+";
+					task.Operator = op;
+					float temp = task.Components[0] + task.Components[1];
+					task.Correct = temp;
+
+
+					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
+					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
+				}
+				break;
+			case "h"://   Hard difficulty question
+				{
+					task.Components = new();
+					task.Incorrect = new();
+					task.Components.Add(Random.Range(0, 101));
+					task.Components.Add(Random.Range(10, 101));
+
+					string op = "+";
+					task.Operator = op;
+					float temp = task.Components[0] + task.Components[1];
+					task.Correct = temp;
+
+					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
+					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
+				}
+				break;
+		}
+
+		// FindDifficulty() this returns...  sprite, operator, 
+		// 
+		
+		return task;
+	}
 
 	/// <summary>
 	/// Creates an incorrect answer using float correct, list float Incorrect, and int range.
@@ -109,8 +109,8 @@ public static class MathGenerator
 	/// </summary>
 	/// <param name="diff"></param>
 	private static void FindDifficulty(int diff)
-    {
+	{
 
-    }
+	}
 
 }
