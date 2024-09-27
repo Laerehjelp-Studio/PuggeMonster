@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6067ef9f2b6cff48af30ba6e525849b, type: 3}
+  m_Name: PuggeMonster Registry
+  m_EditorClassIdentifier: 
+  _puggeMonsters:
+  - {fileID: 11400000, guid: 815ce4632dbe69943946372fd05c99fd, type: 2}
+  - {fileID: 11400000, guid: eeea416bde10f2e43a797c7bc35d96aa, type: 2}
+  - {fileID: 11400000, guid: 9e7710008e132db46b98d6741447ef94, type: 2}
+  - {fileID: 11400000, guid: 5c428c23727b8e540a218ef05f359423, type: 2}
