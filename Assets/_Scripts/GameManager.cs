@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	[SerializeField] GameObject _mainMenu;
@@ -35,47 +36,64 @@ public class GameManager : MonoBehaviour {
 
 
 	public float[] GetDeviceBasedRectSize() {
-		float[] result = new float[2];
+		float[] result = new float[3];
 
 		switch (DeviceScaler) {
 			case DeviceScale.WebGL: 
 				result[ 0 ] = 960f; // Width
 				result[ 1 ] = 600f; // Height
+				result[ 2 ] = 0.4f; // Main Menu Scale
 			break;
 			case DeviceScale.iPad7:
 				result[ 0 ] = 2048f; // Width
 				result[ 1 ] = 1536f; // Height
-			break;
+				result[ 2 ] = 1f; // Main Menu Scale
+				break;
 		}
 		return result;
 	}
 
-private void ResizeByScale ( DeviceScale deviceScaler ) {
+	private void ResizeByScale ( DeviceScale deviceScaler ) {
 		float[] size = GetDeviceBasedRectSize();
 
 		// Main Menu Scene
-		SetMainMenuCanvasSizes( size[ 0 ], size[ 1 ] );
+		SetMainMenuCanvasSizes( size[ 0 ], size[ 1 ], size[2] );
 	}
 
-	private void SetMainMenuCanvasSizes ( float width, float height ) {
-		GameObject _panningTransformGameObject = GameObject.Find( "PanningTransform" );
-
+	private void SetMainMenuCanvasSizes ( float width, float height, float scale ) {
+		// Set Canvas Scaler Resolution.
 		GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
+		if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent(out CanvasScaler canvasScaler)) {
+			canvasScaler.referenceResolution = new Vector2 ( width, height );
+		}
 		if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
 			SetRectTransform( _mainMenuCanvas, width, height );
 		}
-
-		GameObject _mainMenuCanvasBackgroundGameObject = GameObject.Find( "BackGroundPLACEHOLDER" );
-		if (_mainMenuCanvasBackgroundGameObject != null && _mainMenuCanvasBackgroundGameObject.TryGetComponent( out RectTransform _mainMenuCanvasBackground )) {
-			// Reminder: Our current background scale is 
-			SetRectTransform( _mainMenuCanvasBackground, width * 2 * 1.2f, height );
+		GameObject _mainMenuGameObject = GameObject.Find( "MainMenu" );
+		if (_mainMenuGameObject != null && _mainMenuGameObject.TryGetComponent(out RectTransform _mainMenuRectTransform)) {
+			_mainMenuRectTransform.localScale = new Vector3 ( scale , scale , scale );
 		}
+
+
+		// Set PanningTransform's Size.
+		float modifier = (DeviceScaler == DeviceScale.WebGL ) ? 1.2f: 1f;
+		GameObject _panningTransformGameObject = GameObject.Find( "PanningTransform" );
+
 		if (_panningTransformGameObject != null && _panningTransformGameObject.TryGetComponent( out RectTransform _panningTransformRect )) {
-			float[] pos = { (width * 2 * 1.2f) / 4, _panningTransformRect.rect.y };
-			float[] size = { _panningTransformRect.rect.width, _panningTransformRect.rect.height };
+			float[] pos = { -width * 0.5f, _panningTransformRect.anchoredPosition.y, 11f };
+			float[] size = { width * 2 , height};
 
-			SetRectTransform( _panningTransformRect, pos, size);
+			SetRectTransform( _panningTransformRect, pos, size );
 		}
+
+
+		
+
+		//GameObject _mainMenuCanvasBackgroundGameObject = GameObject.Find( "BackGroundPLACEHOLDER" );
+
+		//if (_mainMenuCanvasBackgroundGameObject != null && _mainMenuCanvasBackgroundGameObject.TryGetComponent( out RectTransform _mainMenuCanvasBackground )) {
+		//	SetRectTransform( _mainMenuCanvasBackground, width * 2 * modifier, height );
+		//}
 	}
 	/// <summary>
 	/// Sets a RectTransform's settings.
@@ -90,7 +108,10 @@ private void ResizeByScale ( DeviceScale deviceScaler ) {
 			return;
 		}
 
-		resizableCanvas.rect.Set( pos[ 0], pos[ 1 ], size[ 0 ], size[ 1 ] );
+		resizableCanvas.sizeDelta = new Vector2( size[ 0 ], size[ 1 ] );
+		resizableCanvas.anchoredPosition = new Vector3( pos[ 0 ], pos[ 1 ], 0f );
+
+		//resizableCanvas.rect.Set( pos[ 0], pos[ 1 ], size[ 0 ], size[ 1 ] );
 	}
 	/// <summary>
 	/// Sets a RectTransform's settings.
@@ -104,7 +125,11 @@ private void ResizeByScale ( DeviceScale deviceScaler ) {
 		if (resizableCanvas == null) {
 			return;
 		}
-		resizableCanvas.rect.Set(resizableCanvas.rect.x, resizableCanvas.rect.y, width, height);
+		
+		//resizableCanvas.sizeDelta = new Vector2( width, height );
+
+		resizableCanvas.SetSizeWithCurrentAnchors( RectTransform.Axis.Horizontal, width );
+		resizableCanvas.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, height );
 	}
 
 	private void OnDisable () {
