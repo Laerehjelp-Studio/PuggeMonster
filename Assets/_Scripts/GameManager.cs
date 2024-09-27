@@ -48,46 +48,27 @@ public class GameManager : MonoBehaviour {
 				result[ 0 ] = 2048f; // Width
 				result[ 1 ] = 1536f; // Height
 			break;
-			default:
-				result[ 0 ] = 1920f; // Width
-				result[ 1 ] = 1080f; // Height
-				break;
 		}
 		return result;
 	}
 
 private void ResizeByScale ( DeviceScale deviceScaler ) {
-		switch (deviceScaler) {
-			case DeviceScale.WebGL: {
-				float width = 960f;
-				float height = 600f;
+		float[] size = GetDeviceBasedRectSize();
 
-				// Main Menu Scene
-				GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
-				if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
-					SetCanvasSize( _mainMenuCanvas, width, height );
-				}
+		// Main Menu Scene
+		SetMainMenuCanvasSizes( size[ 0 ], size[ 1 ] );
+	}
 
-				//// Gameplay Scene
-				//RectTransform _gameplayCanvas = GameObject.Find( "MainMenuCanvas" );
-				//SetCanvasSize( _gameplayCanvas, width, height );
-			}
-			break;
-			case DeviceScale.iPad7: {
-				float width = 2048f;
-				float height = 1536f;
+	private void SetMainMenuCanvasSizes ( float width, float height ) {
+		GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
+		if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
+			SetCanvasSize( _mainMenuCanvas, width, height );
+		}
 
-				// Main Menu Scene
-				GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
-				if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
-					SetCanvasSize( _mainMenuCanvas, width, height );
-				}
-
-				// Gameplay Scene
-				//RectTransform _gameplayCanvas = GameObject.Find( "MainMenuCanvas" );
-				//SetCanvasSize( _gameplayCanvas, width, height );
-			}
-			break;
+		GameObject _mainMenuCanvasBackgroundGameObject = GameObject.Find( "BackGroundPLACEHOLDER" );
+		if (_mainMenuCanvasBackgroundGameObject != null && _mainMenuCanvasBackgroundGameObject.TryGetComponent( out RectTransform _mainMenuCanvasBackground )) {
+			// Reminder: Our current background scale is 
+			SetCanvasSize( _mainMenuCanvasBackground, width * 2, height );
 		}
 	}
 
@@ -103,6 +84,7 @@ private void ResizeByScale ( DeviceScale deviceScaler ) {
 	}
 
 	private void NewSceneLoaded ( Scene arg0, LoadSceneMode arg1 ) {
+		ResizeByScale(DeviceScaler);
 		OnSceneLoad?.Invoke( _gameMode );
 	}
 
