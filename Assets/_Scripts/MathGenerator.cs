@@ -1,11 +1,10 @@
-
+using System;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class MathGenerator
 {
-
 	// Fake numbers
 	static private int generalMastery = 0;
 	public static MathTask GenerateMathQuestion(string Difficulty)
@@ -32,8 +31,8 @@ public static class MathGenerator
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
 
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
+					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
+					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
 				}
 
 
@@ -42,34 +41,112 @@ public static class MathGenerator
 				{
 					task.Components = new();
 					task.Incorrect = new();
-					task.Components.Add(Random.Range(0, 31));
+					task.Components.Add(Random.Range(10, 31));
 					task.Components.Add(Random.Range(10, 31));
 
 					string op = "+";
 					task.Operator = op;
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
+					int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
 
 
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
+					string tempString = "" +temp;
+                    tempString = tempString[tempString.Length - 1].ToString();
+                    lastDigitInAnwer = Int32.Parse(tempString);
+					Debug.Log("answLast: "+ lastDigitInAnwer + " Full ans: " + tempString);
+
+					tempString = "" + task.Components[0];
+					tempString = tempString[tempString.Length - 1].ToString();
+                    lastDigitInOption1 = Int32.Parse(tempString);
+                    Debug.Log("opt1: "+lastDigitInOption1);
+
+                    tempString = "" + task.Components[1];
+                    tempString = tempString[tempString.Length - 1].ToString();
+                    lastDigitInOption2 = Int32.Parse(tempString);
+                    Debug.Log("opt2: "+lastDigitInOption2);
+
+					if (lastDigitInOption1 + lastDigitInOption2 > 9)
+					{
+                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
+                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
+                    }
+					else
+					{
+                        int tempOptions = Random.Range(0, 3);
+                        switch (tempOptions)
+                        {
+                            case 0:
+                                task.Incorrect.Add(temp + 10);
+                                task.Incorrect.Add(temp - 10);
+                                break;
+                            case 1:
+                                task.Incorrect.Add(temp + 10);
+                                task.Incorrect.Add(temp + 20);
+                                break;
+                            case 2:
+                                task.Incorrect.Add(temp - 10);
+                                task.Incorrect.Add(temp - 20);
+                                break;
+                        }
+                    }
 				}
 				break;
 			case "h"://   Hard difficulty question
 				{
 					task.Components = new();
 					task.Incorrect = new();
-					task.Components.Add(Random.Range(0, 101));
-					task.Components.Add(Random.Range(10, 101));
+					task.Components.Add(Random.Range(20, 101));
+					task.Components.Add(Random.Range(30, 101));
 
 					string op = "+";
 					task.Operator = op;
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
 
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 10 ) );
-				}
+                    int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
+
+
+                    string tempString = "" + temp;
+                    tempString = tempString[tempString.Length - 1].ToString();
+                    lastDigitInAnwer = Int32.Parse(tempString);
+                    Debug.Log("answLast: " + lastDigitInAnwer + " Full ans: " + tempString);
+
+                    tempString = "" + task.Components[0];
+                    tempString = tempString[tempString.Length - 1].ToString();
+                    lastDigitInOption1 = Int32.Parse(tempString);
+                    Debug.Log("opt1: " + lastDigitInOption1);
+
+                    tempString = "" + task.Components[1];
+                    tempString = tempString[tempString.Length - 1].ToString();
+                    lastDigitInOption2 = Int32.Parse(tempString);
+                    Debug.Log("opt2: " + lastDigitInOption2);
+
+                    if (lastDigitInOption1 + lastDigitInOption2 > 9)
+                    {
+                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
+                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
+                    }
+                    else
+                    {
+                        int tempOptions = Random.Range(0, 3);
+                        switch (tempOptions)
+                        {
+                            case 0:
+                                task.Incorrect.Add(temp + 10);
+                                task.Incorrect.Add(temp - 10);
+                                break;
+                            case 1:
+                                task.Incorrect.Add(temp + 10);
+                                task.Incorrect.Add(temp + 20);
+                                break;
+                            case 2:
+                                task.Incorrect.Add(temp - 10);
+                                task.Incorrect.Add(temp - 20);
+                                break;
+                        }
+                    }
+                }
 				break;
 		}
 

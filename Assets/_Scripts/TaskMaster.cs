@@ -75,6 +75,7 @@ public class TaskMaster : MonoBehaviour {
 	private string GetDifficultyLetter () {
 		int _difficulty = Random.Range( 0, 3 );
 		string _difficultyString = "";
+        //return "h";
 
 		switch (_difficulty) {
 			case 0:
