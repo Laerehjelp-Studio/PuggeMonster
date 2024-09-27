@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6067ef9f2b6cff48af30ba6e525849b, type: 3}
   m_Name: PuggeMonster Registry
   m_EditorClassIdentifier: 
-  _puggeMonsters: []
+  _puggeMonsters:
+  - {fileID: 11400000, guid: 815ce4632dbe69943946372fd05c99fd, type: 2}
+  - {fileID: 11400000, guid: eeea416bde10f2e43a797c7bc35d96aa, type: 2}
+  - {fileID: 11400000, guid: 9e7710008e132db46b98d6741447ef94, type: 2}
+  - {fileID: 11400000, guid: 5c428c23727b8e540a218ef05f359423, type: 2}
