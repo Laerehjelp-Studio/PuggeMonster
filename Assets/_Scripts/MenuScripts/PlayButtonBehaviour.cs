@@ -1,29 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayButtonBehaviour : MonoBehaviour
 {
-    private GameObject cameraObj;
     private bool sliding = false;
-    [SerializeField] private float slideDuration = 1f;
+    
+	[SerializeField] private float slideDuration = 1f;
+	[SerializeField] private RectTransform panningTransform;
 
-    private void Start()
-    {
-        cameraObj = Camera.main.transform.gameObject;
-    }
-
-    private IEnumerator TimerCoroutine(float duration, float targetPosX)
+    private IEnumerator TimerCoroutine(RectTransform panningTransform, float duration)
     {
         float elapsed = 0f;
+		// Record the starting position
+		float startPosition = panningTransform.anchoredPosition.x;
+		float targetPosition = panningTransform.anchoredPosition.x * -1;
 
-        // Record the starting position
-        Vector3 startPosition = cameraObj.transform.position;
-        Vector3 targetPosition = new Vector3(targetPosX, startPosition.y, startPosition.z);
-
-        while (elapsed < duration)
+		while (elapsed < duration)
         {
             // Increase the elapsed time
             elapsed += Time.deltaTime;
@@ -31,33 +23,25 @@ public class PlayButtonBehaviour : MonoBehaviour
             // Calculate the interpolation factor (progress) between 0 and 1
             float progress = Mathf.Clamp01(elapsed / duration);
 
-            // Perform the action: in this case, we linearly interpolate the position
-            cameraObj.transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
+			// Perform the action: in this case, we linearly interpolate the position
+			float currentX = Mathf.Lerp( startPosition, targetPosition, progress );
+			panningTransform.anchoredPosition = new Vector2(currentX, panningTransform.anchoredPosition.y );
 
-            // Wait for the next frame
-            yield return null;
+			// Wait for the next frame
+			yield return null;
         }
 
         // Ensure the final position is set (in case elapsed went slightly over)
-        cameraObj.transform.position = targetPosition;
-        sliding = false;
+        panningTransform.anchoredPosition = new Vector2(targetPosition, panningTransform.anchoredPosition.y );
+        
+		sliding = false;
     }
 
-
-    public void SlideToTheLeft()
+    public void Slide()
     {
         if (!sliding)
         {
-            StartCoroutine(TimerCoroutine(slideDuration, -2048 ) );
-            sliding = true;
-        }
-    }
-
-    public void SlideToTheRight()
-    {
-        if (!sliding)
-        {
-            StartCoroutine(TimerCoroutine(slideDuration, 0));
+            StartCoroutine(TimerCoroutine(panningTransform, slideDuration) );
             sliding = true;
         }
     }
