@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -60,19 +58,49 @@ private void ResizeByScale ( DeviceScale deviceScaler ) {
 	}
 
 	private void SetMainMenuCanvasSizes ( float width, float height ) {
+		GameObject _panningTransformGameObject = GameObject.Find( "PanningTransform" );
+
 		GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
 		if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
-			SetCanvasSize( _mainMenuCanvas, width, height );
+			SetRectTransform( _mainMenuCanvas, width, height );
 		}
 
 		GameObject _mainMenuCanvasBackgroundGameObject = GameObject.Find( "BackGroundPLACEHOLDER" );
 		if (_mainMenuCanvasBackgroundGameObject != null && _mainMenuCanvasBackgroundGameObject.TryGetComponent( out RectTransform _mainMenuCanvasBackground )) {
 			// Reminder: Our current background scale is 
-			SetCanvasSize( _mainMenuCanvasBackground, width * 2, height );
+			SetRectTransform( _mainMenuCanvasBackground, width * 2 * 1.2f, height );
+		}
+		if (_panningTransformGameObject != null && _panningTransformGameObject.TryGetComponent( out RectTransform _panningTransformRect )) {
+			float[] pos = { (width * 2 * 1.2f) / 4, _panningTransformRect.rect.y };
+			float[] size = { _panningTransformRect.rect.width, _panningTransformRect.rect.height };
+
+			SetRectTransform( _panningTransformRect, pos, size);
 		}
 	}
+	/// <summary>
+	/// Sets a RectTransform's settings.
+	/// </summary>
+	/// <param name="resizableCanvas"></param>
+	/// <param name="pos"></param>
+	/// <param name="size"></param>
+	private void SetRectTransform ( RectTransform resizableCanvas, float[] pos, float[] size ) {
+		Debug.Log( $"Canvas: {resizableCanvas.name}, Scaler: {DeviceScaler}, X: {pos[0]}, Y: {pos[ 1 ]}, Width:{size[0]}, Height: {size[ 1 ]}" );
 
-	private void SetCanvasSize ( RectTransform resizableCanvas, float width, float height ) {
+		if (resizableCanvas == null || pos == null || size == null) {
+			return;
+		}
+
+		resizableCanvas.rect.Set( pos[ 0], pos[ 1 ], size[ 0 ], size[ 1 ] );
+	}
+	/// <summary>
+	/// Sets a RectTransform's settings.
+	/// </summary>
+	/// <param name="resizableCanvas"></param>
+	/// <param name="width"></param>
+	/// <param name="height"></param>
+	private void SetRectTransform ( RectTransform resizableCanvas, float width, float height ) {
+		Debug.Log($"Canvas: {resizableCanvas.name}, Scaler: {DeviceScaler}, Width:{width}, Height: {height}");
+
 		if (resizableCanvas == null) {
 			return;
 		}
