@@ -1,17 +1,20 @@
 ﻿using System;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
+[CreateAssetMenu( menuName = "Scriptable Objects/New PuggeMonster", fileName = "PM_PuggeMonster" )]
 [Serializable]
-public class PuggeMonster {
+public class PuggeMonster : ScriptableObject {
 	public bool Shiny;
-	public PuggeMonsterRarity Rarity {get; private set;}
-	public Sprite Image;
+	public PuggeMonsterRarity Rarity = PuggeMonsterRarity.KjempeVanlig;
+	public int ImageIndex = 0;
+	public Sprite[] Images;
+	public Sprite Picture { get { return Images[ ImageIndex ]; } }
+	public string Name;
+	public string Lore;
 	
-	public PuggeMonster (bool shiny, PuggeMonsterRarity rarity, Sprite sprite) {
-		Shiny = shiny;
+	public PuggeMonster ( PuggeMonsterRarity rarity, int spriteIndex) {
 		Rarity = rarity;
-		Image = sprite;
+		ImageIndex = spriteIndex;
 	}
 	public PuggeMonster (  ) {
 		// Randomize everything.

@@ -6,10 +6,10 @@ using UnityEngine;
 [Serializable]
 static public class PuggeMonsterManager
 {
-	[SerializeField] static private List<PuggeMonster> _puggeMonRegistry = new();
+	[SerializeField] static private SO_PuggeMonsterRegistry _puggeMonRegistry;
 	[SerializeField] static private List<PuggeMonster> _playerPuggeMonRegistry = new();
 
-	static public List<PuggeMonster> PuggeMonster { get {  return _puggeMonRegistry; } }
+	static public List<PuggeMonster> AllPuggeMonsters { get {  return _puggeMonRegistry.GetAllPuggeMonsters; } }
 
 	/// <summary>
 	/// Adds a randomized characteristic PuggeMon
