@@ -10,9 +10,9 @@ public class PuggeMonster : ScriptableObject {
 	public Sprite[] Images;
 	public Sprite Picture { get { return Images[ ImageIndex ]; } }
 	public string Name;
+	public string Lore;
 	
-	public PuggeMonster (bool shiny, PuggeMonsterRarity rarity, int spriteIndex) {
-		Shiny = shiny;
+	public PuggeMonster ( PuggeMonsterRarity rarity, int spriteIndex) {
 		Rarity = rarity;
 		ImageIndex = spriteIndex;
 	}
