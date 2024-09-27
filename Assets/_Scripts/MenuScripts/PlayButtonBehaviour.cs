@@ -6,13 +6,19 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayButtonBehaviour : MonoBehaviour
 {
-    private GameObject cameraObj;
+	public float SetSlideLength { set { slideLength = value;  }  }
+    
+	private GameObject cameraObj;
     private bool sliding = false;
-    [SerializeField] private float slideDuration = 1f;
+    
+	[SerializeField] private float slideDuration = 1f;
+	private float slideLength = 2048f;
 
     private void Start()
     {
         cameraObj = Camera.main.transform.gameObject;
+
+		slideLength = GameManager.Instance.GetDeviceBasedRectSize()[0]; // Grab the Width based on device.
     }
 
     private IEnumerator TimerCoroutine(float duration, float targetPosX)
@@ -48,7 +54,7 @@ public class PlayButtonBehaviour : MonoBehaviour
     {
         if (!sliding)
         {
-            StartCoroutine(TimerCoroutine(slideDuration, -2048 ) );
+            StartCoroutine(TimerCoroutine(slideDuration, -slideLength ) );
             sliding = true;
         }
     }

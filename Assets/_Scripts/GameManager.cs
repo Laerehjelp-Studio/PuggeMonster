@@ -16,12 +16,86 @@ public class GameManager : MonoBehaviour {
 	public VoidDelegateGameMode OnGameModeUpdate;
 	public VoidDelegateGameMode OnSceneLoad;
 
+	public DeviceScale DeviceScaler;
+
+	public float GetDeviceWidth {  get; }
+
 	private GameModeType _gameMode;
 
 	private void Awake () {
 		Instance = this;
 		DontDestroyOnLoad( Instance );
 		SceneManager.sceneLoaded += NewSceneLoaded;
+
+		if (Application.platform == RuntimePlatform.WebGLPlayer) {
+			DeviceScaler = DeviceScale.WebGL;
+		}
+		
+		ResizeByScale( DeviceScaler );
+	}
+
+
+
+	public float[] GetDeviceBasedRectSize() {
+		float[] result = new float[2];
+
+		switch (DeviceScaler) {
+			case DeviceScale.WebGL: 
+				result[ 0 ] = 960f; // Width
+				result[ 1 ] = 600f; // Height
+			break;
+			case DeviceScale.iPad7:
+				result[ 0 ] = 2048f; // Width
+				result[ 1 ] = 1536f; // Height
+			break;
+			default:
+				result[ 0 ] = 1920f; // Width
+				result[ 1 ] = 1080f; // Height
+				break;
+		}
+		return result;
+	}
+
+private void ResizeByScale ( DeviceScale deviceScaler ) {
+		switch (deviceScaler) {
+			case DeviceScale.WebGL: {
+				float width = 960f;
+				float height = 600f;
+
+				// Main Menu Scene
+				GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
+				if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
+					SetCanvasSize( _mainMenuCanvas, width, height );
+				}
+
+				//// Gameplay Scene
+				//RectTransform _gameplayCanvas = GameObject.Find( "MainMenuCanvas" );
+				//SetCanvasSize( _gameplayCanvas, width, height );
+			}
+			break;
+			case DeviceScale.iPad7: {
+				float width = 2048f;
+				float height = 1536f;
+
+				// Main Menu Scene
+				GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
+				if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
+					SetCanvasSize( _mainMenuCanvas, width, height );
+				}
+
+				// Gameplay Scene
+				//RectTransform _gameplayCanvas = GameObject.Find( "MainMenuCanvas" );
+				//SetCanvasSize( _gameplayCanvas, width, height );
+			}
+			break;
+		}
+	}
+
+	private void SetCanvasSize ( RectTransform resizableCanvas, float width, float height ) {
+		if (resizableCanvas == null) {
+			return;
+		}
+		resizableCanvas.rect.Set(resizableCanvas.rect.x, resizableCanvas.rect.y, width, height);
 	}
 
 	private void OnDisable () {
@@ -104,13 +178,19 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	public GameModeType GameMode { get { return _gameMode; } set { _gameMode = value; OnGameModeUpdate?.Invoke( _gameMode ); } }
-
-	
 }
+
 
 public enum GameModeType {
 	None,
 	Math,
 	Letters,
 	Words
+}
+
+
+public enum DeviceScale {
+	None,
+	WebGL,
+	iPad7
 }
