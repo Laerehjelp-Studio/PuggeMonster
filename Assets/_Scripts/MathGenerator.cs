@@ -9,10 +9,10 @@ public static class MathGenerator
 	static private int generalMastery = 0;
 	public static MathTask GenerateMathQuestion(string Difficulty)
 	{
-		//public float[] Components; // Array with 2 numbers
+		//public float<> Components; // Array with 2 numbers
 		//public string Operator; // + - * or /
 		//public float Correct; // The correct answer.
-		//public float[] Incorrect; // Incorrect options.
+		//public float<> Incorrect; // Incorrect options.
 
 		MathTask task = new();
 
@@ -110,17 +110,14 @@ public static class MathGenerator
                     string tempString = "" + temp;
                     tempString = tempString[tempString.Length - 1].ToString();
                     lastDigitInAnwer = Int32.Parse(tempString);
-                    Debug.Log("answLast: " + lastDigitInAnwer + " Full ans: " + tempString);
 
                     tempString = "" + task.Components[0];
                     tempString = tempString[tempString.Length - 1].ToString();
                     lastDigitInOption1 = Int32.Parse(tempString);
-                    Debug.Log("opt1: " + lastDigitInOption1);
 
                     tempString = "" + task.Components[1];
                     tempString = tempString[tempString.Length - 1].ToString();
                     lastDigitInOption2 = Int32.Parse(tempString);
-                    Debug.Log("opt2: " + lastDigitInOption2);
 
                     if (lastDigitInOption1 + lastDigitInOption2 > 9)
                     {
@@ -148,11 +145,7 @@ public static class MathGenerator
                     }
                 }
 				break;
-		}
-
-		// FindDifficulty() this returns...  sprite, operator, 
-		// 
-		
+		}		
 		return task;
 	}
 
