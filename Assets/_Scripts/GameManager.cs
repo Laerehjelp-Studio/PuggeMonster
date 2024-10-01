@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -35,73 +37,83 @@ public class GameManager : MonoBehaviour {
 
 
 
-	public float[] GetDeviceBasedRectSize() {
-		float[] result = new float[3];
+	public float[] GetDeviceBasedRectSizeAndScale() {
+		float[] result = new float[ 4 ];
 
 		switch (DeviceScaler) {
-			case DeviceScale.WebGL: 
-				result[ 0 ] = 960f; // Width
-				result[ 1 ] = 600f; // Height
-				result[ 2 ] = 0.4f; // Main Menu Scale
-			break;
 			case DeviceScale.iPad7:
-				result[ 0 ] = 2048f; // Width
-				result[ 1 ] = 1536f; // Height
-				result[ 2 ] = 1f; // Main Menu Scale
+				result = new float[ ]{
+					2048f, // Width
+					1536f, // Height
+					0.86f, // Main Menu Scale X
+					1f, // Main Menu Scale Y
+				};
+				// Left Menu Scale  Resolution Ratio: 2.13, 2.56
+				break;
+
+			case DeviceScale.WebGL:
+			default:
+				result = new float[]{
+					960f, // Width
+					600f, // Height
+					0.4f, // Main Menu Scale X
+					0.4f, // Main Menu Scale Y
+				};
 				break;
 		}
 		return result;
 	}
 
 	private void ResizeByScale ( DeviceScale deviceScaler ) {
-		float[] size = GetDeviceBasedRectSize();
+		float[] sizeAndScale = GetDeviceBasedRectSizeAndScale();
+		Vector3 scale = new Vector3( sizeAndScale[ 2 ] , sizeAndScale[ 3 ] , sizeAndScale[ 2 ] );
 
 		// Main Menu Scene
-		SetMainMenuCanvasSizes( size[ 0 ], size[ 1 ], size[2] );
+		SetMainMenuCanvasSizes( sizeAndScale[ 0 ], sizeAndScale[ 1 ], scale );
 	}
 
-	private void SetMainMenuCanvasSizes ( float width, float height, float scale ) {
-		// Set Canvas Scaler Resolution.
-		GameObject _mainMenuCanvasGameObject = GameObject.Find( "MainMenuCanvas" );
-		if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent(out CanvasScaler canvasScaler)) {
-			canvasScaler.referenceResolution = new Vector2 ( width, height );
-		}
-		if (_mainMenuCanvasGameObject != null && _mainMenuCanvasGameObject.TryGetComponent( out RectTransform _mainMenuCanvas )) {
-			SetRectTransform( _mainMenuCanvas, width, height );
-		}
-		GameObject _mainMenuGameObject = GameObject.Find( "MainMenu" );
-		if (_mainMenuGameObject != null && _mainMenuGameObject.TryGetComponent(out RectTransform _mainMenuRectTransform)) {
-			_mainMenuRectTransform.localScale = new Vector3 ( scale , scale , scale );
+	private void SetMainMenuCanvasSizes ( float width, float height, Vector3 scale ) {
+		// Find Master Main Menu Canvas. - It needs to be found since the reference breaks upon scene load.
+		GameObject _mainMenuMasterCanvasGameObject = GameObject.Find( "Main Menu Master Canvas" );
+
+		// Set reference Resolution, and Rect Transform size.
+		if (_mainMenuMasterCanvasGameObject != null ) { 
+			if (_mainMenuMasterCanvasGameObject.TryGetComponent(out CanvasScaler canvasScaler)) {
+				canvasScaler.referenceResolution = new Vector2 ( width, height );
+			}
+
+			if (_mainMenuMasterCanvasGameObject.TryGetComponent( out RectTransform _mainMenuMasterCanvas )) {
+				SetRectTransform( _mainMenuMasterCanvas, width, height );
+			}
 		}
 
+		// Find Panned Main Menu Game Object. 
+		Transform _mainMenuGameObject = _mainMenuMasterCanvasGameObject.transform.Find( "Main Menu Panned Canvas" );
+
+		// Set scale for Panned Main Menu.
+		if (_mainMenuGameObject != null && _mainMenuGameObject.TryGetComponent(out RectTransform _mainMenuRectTransform)) {
+			_mainMenuRectTransform.localScale = new Vector3 ( scale.x, scale.y, scale.z );
+		}
 
 		// Set PanningTransform's Size.
 		float modifier = (DeviceScaler == DeviceScale.WebGL ) ? 1.2f: 1f;
-		GameObject _panningTransformGameObject = GameObject.Find( "PanningTransform" );
+		Transform _panningTransformGameObject = _mainMenuMasterCanvasGameObject.transform.Find( "PanningTransform" );
 
 		if (_panningTransformGameObject != null && _panningTransformGameObject.TryGetComponent( out RectTransform _panningTransformRect )) {
 			float[] pos = { -width * 0.5f, _panningTransformRect.anchoredPosition.y, 11f };
 			float[] size = { width * 2 , height};
-
-			SetRectTransform( _panningTransformRect, pos, size );
+			
+			SetRectTransform( _panningTransformRect, pos, size, default );
 		}
-
-
-		
-
-		//GameObject _mainMenuCanvasBackgroundGameObject = GameObject.Find( "BackGroundPLACEHOLDER" );
-
-		//if (_mainMenuCanvasBackgroundGameObject != null && _mainMenuCanvasBackgroundGameObject.TryGetComponent( out RectTransform _mainMenuCanvasBackground )) {
-		//	SetRectTransform( _mainMenuCanvasBackground, width * 2 * modifier, height );
-		//}
 	}
+
 	/// <summary>
 	/// Sets a RectTransform's settings.
 	/// </summary>
 	/// <param name="resizableCanvas"></param>
 	/// <param name="pos"></param>
 	/// <param name="size"></param>
-	private void SetRectTransform ( RectTransform resizableCanvas, float[] pos, float[] size ) {
+	private void SetRectTransform ( RectTransform resizableCanvas, float[] pos, float[] size, float[] scale ) {
 		Debug.Log( $"Canvas: {resizableCanvas.name}, Scaler: {DeviceScaler}, X: {pos[0]}, Y: {pos[ 1 ]}, Width:{size[0]}, Height: {size[ 1 ]}" );
 
 		if (resizableCanvas == null || pos == null || size == null) {
@@ -111,6 +123,9 @@ public class GameManager : MonoBehaviour {
 		resizableCanvas.sizeDelta = new Vector2( size[ 0 ], size[ 1 ] );
 		resizableCanvas.anchoredPosition = new Vector3( pos[ 0 ], pos[ 1 ], 0f );
 
+		if (scale != default) {
+			resizableCanvas.localScale = new Vector3( scale[ 1 ], scale[ 2 ], scale[ 1 ] );
+		}
 		//resizableCanvas.rect.Set( pos[ 0], pos[ 1 ], size[ 0 ], size[ 1 ] );
 	}
 	/// <summary>
