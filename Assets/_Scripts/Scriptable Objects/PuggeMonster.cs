@@ -19,6 +19,9 @@ public class PuggeMonster : ScriptableObject {
 	public PuggeMonster (  ) {
 		// Randomize everything.
 	}
+	public Sprite GetPicture(int index) {
+		return Images[index];
+	}
 }
 
 public enum PuggeMonsterRarity {

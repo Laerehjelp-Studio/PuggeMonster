@@ -1,17 +1,21 @@
 using UnityEngine;
-using UnityEngine.Rendering;
+using AYellowpaper.SerializedCollections;
 
 public class MonsterIndexLibrary : MonoBehaviour
 {
     public static MonsterIndexLibrary Instance { get; private set; }
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     [SerializedDictionary("Index", "PuggeMonAsset")]
-    public static SerializedDictionary<int, PuggeMonster> monsterDictionary = new();
+    public SerializedDictionary<int, PuggeMonster> monsterDictionary = new();
     public static PuggeMonster GetMonsterFromIndex(int indexVal)
     {
-        if (monsterDictionary.ContainsKey(indexVal))
+        if (MonsterIndexLibrary.Instance.monsterDictionary.ContainsKey(indexVal))
         {
-            return monsterDictionary[indexVal];
+            return MonsterIndexLibrary.Instance.monsterDictionary[indexVal];
         }
         Debug.LogWarning("Trying to access a monster that does not exist!");
         return null;
