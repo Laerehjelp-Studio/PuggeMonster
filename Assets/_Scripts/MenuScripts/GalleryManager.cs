@@ -32,19 +32,19 @@ public class GalleryManager : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < unlockedMonsers.Count; i++)
+        for (int i = 0; i < unlockedMonsers.Count; i++) // display the unlocked monsters
         {
             GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
             Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(unlockedMonsers[i]).GetPicture(0);
         }
 
-        for (int i = 0; i < lockedMonsers.Count; i++)
+        for (int i = 0; i < lockedMonsers.Count; i++) // then display the locked monsters after
         {
             GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
             Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(lockedMonsers[i]).GetPicture(1);
         }
 
-        /*
+        /* // this will make the monsters apear, but not in order of unlocked or not
         for (int i = 0; i < PlayerStats.Instance.PuggemonArray.Length; i++)
         {
             GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
