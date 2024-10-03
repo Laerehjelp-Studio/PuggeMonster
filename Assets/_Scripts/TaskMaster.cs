@@ -144,7 +144,7 @@ public class TaskMaster : MonoBehaviour {
 /// Helper to maintain average difficulty across _maxTasks in order to properly ascertain the difficulty curve it should adopt.
 /// </summary>
 public struct MathDifficulty {
-	public List<float> AverageDifficulty;
+	public List<float> AverageDifficulty; // the averedge score for the set of four generated questions
 	public float CurrentDifficultyAverage { 
 		get {
 			float _sum = 0;

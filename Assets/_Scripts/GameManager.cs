@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 	public float GetDeviceWidth {  get; }
 
 	private GameModeType _gameMode;
+	private bool _galleryLoaded = false;
 
 	private void Awake () {
 		Instance = this;
@@ -69,7 +70,10 @@ public class GameManager : MonoBehaviour {
 		Vector3 scale = new Vector3( sizeAndScale[ 2 ] , sizeAndScale[ 3 ] , sizeAndScale[ 2 ] );
 
 		// Main Menu Scene
-		SetMainMenuCanvasSizes( sizeAndScale[ 0 ], sizeAndScale[ 1 ], scale );
+		if (!_galleryLoaded) // the main menu scaler got mad when the gallery is loaded, because the gallery function disables the mainMenu Object
+		{
+            SetMainMenuCanvasSizes( sizeAndScale[ 0 ], sizeAndScale[ 1 ], scale );
+		}
 	}
 
 	private void SetMainMenuCanvasSizes ( float width, float height, Vector3 scale ) {
@@ -88,23 +92,25 @@ public class GameManager : MonoBehaviour {
 		}
 
 		// Find Panned Main Menu Game Object. 
-		Transform _mainMenuGameObject = _mainMenuMasterCanvasGameObject.transform.Find( "Main Menu Panned Canvas" );
+		Transform _mainMenuGameObject = _mainMenuMasterCanvasGameObject.transform.Find("Main Menu Panned Canvas");
 
-		// Set scale for Panned Main Menu.
-		if (_mainMenuGameObject != null && _mainMenuGameObject.TryGetComponent(out RectTransform _mainMenuRectTransform)) {
-			_mainMenuRectTransform.localScale = new Vector3 ( scale.x, scale.y, scale.z );
-		}
+        // Set scale for Panned Main Menu.
+        if (_mainMenuGameObject != null && _mainMenuGameObject.TryGetComponent(out RectTransform _mainMenuRectTransform))
+        {
+            _mainMenuRectTransform.localScale = new Vector3(scale.x, scale.y, scale.z);
+        }
 
-		// Set PanningTransform's Size.
-		float modifier = (DeviceScaler == DeviceScale.WebGL ) ? 1.2f: 1f;
-		Transform _panningTransformGameObject = _mainMenuMasterCanvasGameObject.transform.Find( "PanningTransform" );
+        // Set PanningTransform's Size.
+        float modifier = (DeviceScaler == DeviceScale.WebGL) ? 1.2f : 1f;
+        Transform _panningTransformGameObject = _mainMenuMasterCanvasGameObject.transform.Find("PanningTransform");
 
-		if (_panningTransformGameObject != null && _panningTransformGameObject.TryGetComponent( out RectTransform _panningTransformRect )) {
-			float[] pos = { -width * 0.5f, _panningTransformRect.anchoredPosition.y, 11f };
-			float[] size = { width * 2 , height};
-			
-			SetRectTransform( _panningTransformRect, pos, size, default );
-		}
+        if (_panningTransformGameObject != null && _panningTransformGameObject.TryGetComponent(out RectTransform _panningTransformRect))
+        {
+            float[] pos = { -width * 0.5f, _panningTransformRect.anchoredPosition.y, 11f };
+            float[] size = { width * 2, height };
+
+            SetRectTransform(_panningTransformRect, pos, size, default);
+        }
 	}
 
 	/// <summary>
@@ -184,7 +190,8 @@ public class GameManager : MonoBehaviour {
 
 	public void GalleryLoader ( string sceneName ) {
 		SceneLoader( sceneName, true );
-		_mainMenu.SetActive( false );
+		_galleryLoaded = true;
+        _mainMenu.SetActive( false );
 	}
 
 	public void MenuLoader ( string sceneName ) {
@@ -197,7 +204,8 @@ public class GameManager : MonoBehaviour {
 		}
 
 		_mainMenu.SetActive( true );
-		UnloadScene( "GalleryScene" );
+		_galleryLoaded = false;
+        UnloadScene( "GalleryScene" );
 	}
 
 	public static void SceneLoader ( string sceneName, bool additive = false ) {

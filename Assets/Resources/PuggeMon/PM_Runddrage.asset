@@ -16,6 +16,7 @@ MonoBehaviour:
   Rarity: 0
   ImageIndex: 0
   Images:
-  - {fileID: 21300000, guid: ca975d6f6de5c4f47a3829d6d8b4371e, type: 3}
+  - {fileID: 21300000, guid: 1666ea4e3c2321045828b5be41f9ae50, type: 3}
+  - {fileID: 21300000, guid: eeac79e6867149742aef293bf286d266, type: 3}
   Name: Runddrage
   Lore: 
