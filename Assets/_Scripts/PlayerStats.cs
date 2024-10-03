@@ -15,6 +15,6 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         PuggemonArray = new int[puggemonsterList.GetAllPuggeMonsters.Count];
-        Debug.Log("The list of monsters contains: " + PuggemonArray.Length + " ammount of monsters");
+        Debug.Log("The list of monsters contains: " + PuggemonArray.Length + " amount of monsters");
     }
 }
