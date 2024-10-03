@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,33 @@ public class GalleryManager : MonoBehaviour {
 
     private void Start()
     {
+        List<int> unlockedMonsers = new();
+        List<int> lockedMonsers = new();
+        for (int i = 0; i < PlayerStats.Instance.PuggemonArray.Length; i++)
+        {
+            if (PlayerStats.Instance.PuggemonArray[i] > 0) // above 0 means it is unlocked, and also how many you have
+            {
+                unlockedMonsers.Add(i); // add their index value to the list
+            }
+            else
+            {
+                lockedMonsers.Add(i); // add their index value to the list
+            }
+        }
+
+        for (int i = 0; i < unlockedMonsers.Count; i++)
+        {
+            GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
+            Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(unlockedMonsers[i]).GetPicture(0);
+        }
+
+        for (int i = 0; i < lockedMonsers.Count; i++)
+        {
+            GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
+            Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(lockedMonsers[i]).GetPicture(1);
+        }
+
+        /*
         for (int i = 0; i < PlayerStats.Instance.PuggemonArray.Length; i++)
         {
             GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
@@ -28,6 +56,6 @@ public class GalleryManager : MonoBehaviour {
             {
                 Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(i).GetPicture(1); // 1 is the White silouette
             }
-        }
+        }*/
     }
 }
