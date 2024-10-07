@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1154198105236302091}
   - component: {fileID: 8178383109795122049}
+  - component: {fileID: 5640791202094714362}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,3 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e58a7cc4762225945bf01e2bef1b8cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainMenu: {fileID: 0}
+  DeviceScaler: 0
+--- !u!114 &5640791202094714362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4606666487107120046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82a0c64372e5b364babdb466940f3130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PuggemonArray: 
+  puggemonsterList: {fileID: 11400000, guid: 260d3b5d33fa70346a7ab5f811a4f14d, type: 2}
