@@ -99,10 +99,6 @@ public class GameManager : MonoBehaviour {
 				SetRectTransform( _mainMenuMasterCanvas, width, height );
 			}
 
-
-			// Set PanningTransform's Size.
-			float modifier = (DeviceScaler == DeviceScale.WebGL) ? 1.2f : 1f;
-
 			if (_panningTransform == null) {
 				_panningTransform = _mMGameObject.transform.Find( "PanningTransform" );
 			}
@@ -248,19 +244,23 @@ public class GameManager : MonoBehaviour {
 	/// This is used with buttons
 	/// </summary>
 	/// <param name="gameMode"></param>
-	public void SetGameMode ( string gameMode ) {
+	public static void SetGameMode ( string gameMode ) {
 		switch (gameMode) {
 			case "letters":
 			case "Letters":
-				GameMode = GameModeType.Letters;
+				GameManager.Instance.GameMode = GameModeType.Letters;
 				break;
 			case "words":
 			case "Words":
-				GameMode = GameModeType.Words;
+				GameManager.Instance.GameMode = GameModeType.Words;
 				break;
 			case "math":
 			case "Math":
-				GameMode = GameModeType.Math;
+				GameManager.Instance.GameMode = GameModeType.Math;
+				break;
+			case "none":
+			case "None":
+				GameManager.Instance.GameMode = GameModeType.None;
 				break;
 		}
 	}
