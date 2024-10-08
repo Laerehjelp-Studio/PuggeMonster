@@ -1,5 +1,4 @@
-﻿using AYellowpaper.SerializedCollections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class WordGenerator 
 {
