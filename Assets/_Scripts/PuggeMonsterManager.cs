@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 static public class PuggeMonsterManager
@@ -15,7 +16,9 @@ static public class PuggeMonsterManager
 	/// Adds a randomized characteristic PuggeMon
 	/// </summary>
 	static public void AddPuggeMonster() {
-		PuggeMonster _puggeMonster = new PuggeMonster();
+		int selectedPuggeMon = Random.Range( 0, _puggeMonRegistry.Length );
+		PuggeMonster _puggeMonster = GameObject.Instantiate(_puggeMonRegistry.GetAllPuggeMonsters[ selectedPuggeMon ]);
+		PlayerStats.Instance.PuggemonArray[ selectedPuggeMon ]++;
 		Debug.Log("User got a new puggeMonster!");
 	}
 }

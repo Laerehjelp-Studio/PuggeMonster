@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-	[SerializeField] GameObject _mainMenu;
+	[Header("Main Menu References")]
+	[SerializeField] GameObject _mMGameObject;
+	[SerializeField] Transform _panningTransform;
+	[SerializeField] Transform _pannedMenuTransform;
 
 	public static GameManager Instance { get; private set; }
 	public static TaskMaster TaskMaster { get; private set; }
@@ -24,8 +27,13 @@ public class GameManager : MonoBehaviour {
 	private GameModeType _gameMode;
 
 	private void Awake () {
-		Instance = this;
-		DontDestroyOnLoad( Instance );
+		if (Instance == null) {
+			Instance = this;
+			DontDestroyOnLoad( Instance );
+		} else {
+			Destroy(gameObject);
+		}
+
 		SceneManager.sceneLoaded += NewSceneLoaded;
 
 		if (Application.platform == RuntimePlatform.WebGLPlayer) {
@@ -74,39 +82,46 @@ public class GameManager : MonoBehaviour {
 
 	private void SetMainMenuCanvasSizes ( float width, float height, Vector3 scale ) {
 		// Find Master Main Menu Canvas. - It needs to be found since the reference breaks upon scene load.
-		GameObject _mainMenuMasterCanvasGameObject = GameObject.Find( "Main Menu Master Canvas" );
+		if (_mMGameObject == null) {
+			_mMGameObject = GameObject.Find( "Main Menu Master Canvas" );
+		}
+		//Debug.LogWarning( _mMGameObject );
 
 		// Set reference Resolution, and Rect Transform size.
-		if (_mainMenuMasterCanvasGameObject != null ) { 
-			if (_mainMenuMasterCanvasGameObject.TryGetComponent(out CanvasScaler canvasScaler)) {
+		if (_mMGameObject != null ) {
+			if (_mMGameObject.TryGetComponent(out CanvasScaler canvasScaler)) {
 				canvasScaler.referenceResolution = new Vector2 ( width, height );
 			}
 
-			if (_mainMenuMasterCanvasGameObject.TryGetComponent( out RectTransform _mainMenuMasterCanvas )) {
+			if (_mMGameObject.TryGetComponent( out RectTransform _mainMenuMasterCanvas )) {
 				SetRectTransform( _mainMenuMasterCanvas, width, height );
 			}
 
 
 			// Set PanningTransform's Size.
 			float modifier = (DeviceScaler == DeviceScale.WebGL) ? 1.2f : 1f;
-			Transform _panningTransformGameObject = _mainMenuMasterCanvasGameObject.transform.Find( "PanningTransform" );
 
-			if (_panningTransformGameObject != null) {
+			if (_panningTransform == null) {
+				_panningTransform = _mMGameObject.transform.Find( "PanningTransform" );
+			}
+
+			if (_panningTransform != null) {
 				
-				if (_panningTransformGameObject.TryGetComponent( out RectTransform _panningTransformRect )) {
+				if (_panningTransform.TryGetComponent( out RectTransform _panningTransformRect )) {
 					float[] pos = { -width * 0.5f, _panningTransformRect.anchoredPosition.y, 11f };
 					float[] size = { width * 2, height };
 
 					SetRectTransform( _panningTransformRect, pos, size, default );
 				}
 
-				// Find Panned Main Menu Game Object. 
-				Transform _mainPannedMenuGameObject = _panningTransformGameObject.transform.Find( "Main Menu Panned Canvas" );
-			
+				if (_pannedMenuTransform == null) {
+					_pannedMenuTransform = _panningTransform.transform.Find( "Main Menu Panned Canvas" );
+				}
+
 				// Set scale for Panned Main Menu.
-				if (_mainPannedMenuGameObject != null && _mainPannedMenuGameObject.TryGetComponent(out RectTransform _mainMenuRectTransform))
+				if (_pannedMenuTransform != null && _pannedMenuTransform.TryGetComponent(out RectTransform _mainMenuRectTransform))
 				{
-					_mainMenuRectTransform.localScale = new Vector3(scale.x, scale.y, scale.z);
+					_pannedMenuTransform.localScale = new Vector3(scale.x, scale.y, scale.z);
 				}
 			}
 		}
@@ -157,6 +172,16 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void NewSceneLoaded ( Scene arg0, LoadSceneMode arg1 ) {
+
+		if (arg0.name != "MainMenuScene") {
+			if (_mMGameObject != default) {
+				_mMGameObject.SetActive( false );
+			}
+		} else {
+			_mMGameObject.SetActive( true );
+			_mMGameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+		}
+
 		ResizeByScale(DeviceScaler);
 		OnSceneLoad?.Invoke( _gameMode );
 	}
@@ -189,19 +214,18 @@ public class GameManager : MonoBehaviour {
 
 	public void GalleryLoader ( string sceneName ) {
 		SceneLoader( sceneName, true );
-        _mainMenu.SetActive( false );
 	}
 
 	public void MenuLoader ( string sceneName ) {
 		SceneLoader( sceneName );
 	}
 	public void UnloadGallery () {
-		if (_mainMenu == default) {
+		if (_mMGameObject == default) {
 			Debug.LogWarning( "_mainMenu is not defined! Unable to leave Gallery." );
 			return;
 		}
 
-		_mainMenu.SetActive( true );
+		_mMGameObject.SetActive( true );
         UnloadScene( "GalleryScene" );
 	}
 

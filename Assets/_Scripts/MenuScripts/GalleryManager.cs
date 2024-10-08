@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,43 +9,19 @@ public class GalleryManager : MonoBehaviour {
 	[SerializeField] private GameObject monsterImageGrid;
     [SerializeField] private GameObject monsterPrefab;
 
-	private void Awake () {
-		GameManager.Instance.RegisterManager( this );
-	}
+	List<int> unlockedMonsers = new();
+	List<int> lockedMonsers = new();
 
 	public void UnloadGallery () {
 		GameManager.Instance.UnloadGallery();
 	}
 
-    private void Start()
-    {
-        List<int> unlockedMonsers = new();
-        List<int> lockedMonsers = new();
-        for (int i = 0; i < PlayerStats.Instance.PuggemonArray.Length; i++)
-        {
-            if (PlayerStats.Instance.PuggemonArray[i] > 0) // above 0 means it is unlocked, and also how many you have
-            {
-                unlockedMonsers.Add(i); // add their index value to the list
-            }
-            else
-            {
-                lockedMonsers.Add(i); // add their index value to the list
-            }
-        }
+    private void OnEnable() {
+		UpdatePuggeMonLists();
 
-        for (int i = 0; i < unlockedMonsers.Count; i++) // display the unlocked monsters
-        {
-            GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
-            Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(unlockedMonsers[i]).GetPicture(0);
-        }
+		RenderGallery();
 
-        for (int i = 0; i < lockedMonsers.Count; i++) // then display the locked monsters after
-        {
-            GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
-            Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(lockedMonsers[i]).GetPicture(1);
-        }
-
-        /* // this will make the monsters apear, but not in order of unlocked or not
+		/* // this will make the monsters apear, but not in order of unlocked or not
         for (int i = 0; i < PlayerStats.Instance.PuggemonArray.Length; i++)
         {
             GameObject Go = Instantiate(monsterPrefab, monsterImageGrid.transform);
@@ -57,5 +34,39 @@ public class GalleryManager : MonoBehaviour {
                 Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.GetMonsterFromIndex(i).GetPicture(1); // 1 is the White silouette
             }
         }*/
-    }
+	}
+
+	private void RenderGallery () {
+		for (int i = 0; i < unlockedMonsers.Count; i++) // display the unlocked monsters
+		{
+			GameObject Go = Instantiate( monsterPrefab, monsterImageGrid.transform );
+			Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex( unlockedMonsers[ i ] ).GetPicture( 0 );
+		}
+
+		for (int i = 0; i < lockedMonsers.Count; i++) // then display the locked monsters after
+		{
+			GameObject Go = Instantiate( monsterPrefab, monsterImageGrid.transform );
+
+			Debug.Log( MonsterIndexLibrary.Instance );
+
+			PuggeMonster puggeMonster = MonsterIndexLibrary.Instance.GetMonsterFromIndex( lockedMonsers[ i ] );
+			if (puggeMonster) { 
+				Go.GetComponentInChildren<Image>().sprite = puggeMonster.GetPicture( 1 );
+			}
+		}
+	}
+
+	private void UpdatePuggeMonLists () {
+		unlockedMonsers.Clear();
+		lockedMonsers.Clear();
+
+		for (int i = 0; i < PlayerStats.Instance.PuggemonArray.Length; i++) {
+			if (PlayerStats.Instance.PuggemonArray[ i ] > 0) // above 0 means it is unlocked, and also how many you have
+			{
+				unlockedMonsers.Add( i ); // add their index value to the list
+			} else {
+				lockedMonsers.Add( i ); // add their index value to the list
+			}
+		}
+	}
 }

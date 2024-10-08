@@ -217,7 +217,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 314386207}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 3440375136893853896}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1346,6 +1346,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5640791202094714362, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: PuggemonArray.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8178383109795122049, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: _mainMenu
@@ -1366,10 +1371,33 @@ PrefabInstance:
       propertyPath: DeviceScaler
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8178383109795122049, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: _mMGameObject
+      value: 
+      objectReference: {fileID: 190966167}
+    - target: {fileID: 8178383109795122049, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: _panningTransform
+      value: 
+      objectReference: {fileID: 314386207}
+    - target: {fileID: 8178383109795122049, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: _pannedMenuTransform
+      value: 
+      objectReference: {fileID: 5595972292060806742}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1154198105236302091, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 190966171}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4606666487107120046, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3440375136893853897}
   m_SourcePrefab: {fileID: 100100000, guid: 95882c41123c54343ac4a10aeaee5474, type: 3}
 --- !u!114 &3440375136893853893 stripped
 MonoBehaviour:
@@ -1377,12 +1405,50 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3440375136893853892}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3440375136893853894}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e58a7cc4762225945bf01e2bef1b8cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3440375136893853894 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606666487107120046, guid: 95882c41123c54343ac4a10aeaee5474,
+    type: 3}
+  m_PrefabInstance: {fileID: 3440375136893853892}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3440375136893853896 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1154198105236302091, guid: 95882c41123c54343ac4a10aeaee5474,
+    type: 3}
+  m_PrefabInstance: {fileID: 3440375136893853892}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3440375136893853897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3440375136893853894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8951ee29355802e4e9b12217b425b728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterDictionary:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 11400000, guid: 815ce4632dbe69943946372fd05c99fd, type: 2}
+    - Key: 1
+      Value: {fileID: 11400000, guid: eeea416bde10f2e43a797c7bc35d96aa, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: 4f1f6cfa1bdb43842b129f17d48badd3, type: 2}
+    - Key: 3
+      Value: {fileID: 11400000, guid: fd990e4e88b9c0e43b91e61fd2870cc6, type: 2}
+    - Key: 4
+      Value: {fileID: 11400000, guid: 9e7710008e132db46b98d6741447ef94, type: 2}
+    - Key: 5
+      Value: {fileID: 11400000, guid: 5c428c23727b8e540a218ef05f359423, type: 2}
 --- !u!224 &3603564942403466582
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2291,4 +2357,3 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 3440375136893853892}
   - {fileID: 1291113385}
-  - {fileID: 190966171}
