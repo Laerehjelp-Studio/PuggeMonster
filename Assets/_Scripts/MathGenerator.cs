@@ -25,8 +25,9 @@ public static class MathGenerator
 					task.Incorrect = new();
 					task.Components.Add(Random.Range(0, 10));
 					task.Components.Add(Random.Range(0, 10));
+                    task.difficultyLevelStringValue = "Easy";
 
-					string op = "+";
+                    string op = "+";
 					task.Operator = op;
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
@@ -43,8 +44,8 @@ public static class MathGenerator
 					task.Incorrect = new();
 					task.Components.Add(Random.Range(10, 31));
 					task.Components.Add(Random.Range(10, 31));
-
-					string op = "+";
+                    task.difficultyLevelStringValue = "Medium";
+                    string op = "+";
 					task.Operator = op;
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
@@ -98,7 +99,7 @@ public static class MathGenerator
 					task.Incorrect = new();
 					task.Components.Add(Random.Range(20, 101));
 					task.Components.Add(Random.Range(30, 101));
-
+					task.difficultyLevelStringValue = "Hard";
 					string op = "+";
 					task.Operator = op;
 					float temp = task.Components[0] + task.Components[1];

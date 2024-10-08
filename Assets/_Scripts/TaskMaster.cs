@@ -228,6 +228,7 @@ public struct MathTask {
 	public float Correct; // The correct answer.
 	public List<float> Incorrect; // Incorrect options.
 	public Sprite NumberSprite;
+	public string difficultyLevelStringValue;
 }
 public struct LetterTask {
 	public AudioClip LetterSound;
