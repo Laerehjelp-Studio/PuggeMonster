@@ -190,6 +190,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &62998342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 62998344}
+  m_Layer: 0
+  m_Name: StickerEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &62998344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62998342}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.6631893, y: -0, z: -0, w: 0.7484517}
+  m_LocalPosition: {x: 61.3, y: -73.2, z: 62.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -83.087, y: 0, z: 0}
 --- !u!1 &435444968
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,6 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 940971052}
   - component: {fileID: 940971053}
+  - component: {fileID: 940971054}
   m_Layer: 0
   m_Name: TaskMaster
   m_TagString: Untagged
@@ -362,7 +394,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933d54121381d0d4d8f243589dd70364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardAnimationScript: {fileID: 940971054}
   _maxTasks: 4
+--- !u!114 &940971054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940971051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 617bccfb666996b4aaf58b073e8248b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterPrefab: {fileID: 693747856532061468, guid: 605dec38e396e514786442d89726f240,
+    type: 3}
+  startPos: {fileID: 1317314276}
+  midPos: {fileID: 992701166}
+  endPos: {fileID: 62998344}
+  animationSpeed: 100
+--- !u!1 &992701164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992701166}
+  m_Layer: 0
+  m_Name: StickerMid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &992701166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992701164}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38, y: 10.3, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1317314274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1317314276}
+  m_Layer: 0
+  m_Name: StickerStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1317314276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317314274}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.43749294, y: -0.25792846, z: -0.224103, w: 0.83177567}
+  m_LocalPosition: {x: 141.4, y: 4.6, z: -30.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -57.501, y: -25.699, z: -15.892}
 --- !u!1 &1622487202
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,3 +851,6 @@ SceneRoots:
   - {fileID: 8502204}
   - {fileID: 2798696117798439223}
   - {fileID: 940971052}
+  - {fileID: 1317314276}
+  - {fileID: 992701166}
+  - {fileID: 62998344}

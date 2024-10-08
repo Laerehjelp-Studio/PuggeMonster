@@ -8,6 +8,8 @@ public class TaskMaster : MonoBehaviour {
 	
 	private GameModeType _gameMode;
 
+	[SerializeField] private PuggeMonsterRewardAnimationBehaviour rewardAnimationScript;
+
 	private List<MathTask> _mathTasks = new();
 	private List<LetterTask> _letterTasks = new();
 	private List<WordTask> _wordTasks = new();
@@ -120,8 +122,10 @@ public class TaskMaster : MonoBehaviour {
 			
 			if (_currentScore >= _maxTasks) {
 				_currentScore = 0;
-				PlayerStats.Instance.AddPuggeMonster();
-				RefreshTasks(GameModeType.Math);
+                int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
+                PlayerStats.Instance.AddPuggeMonster(temp);
+                rewardAnimationScript.PlayRewardAnimation(temp);
+                RefreshTasks(GameModeType.Math);
 			}
 
 			GameManager.UIManager.SetExpBar( _currentScore );
@@ -151,8 +155,11 @@ public class TaskMaster : MonoBehaviour {
 			if (_currentScore >= _maxTasks)
 			{
 				_currentScore = 0;
-				PlayerStats.Instance.AddPuggeMonster();
-				RefreshTasks(GameModeType.Words);
+				int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
+                PlayerStats.Instance.AddPuggeMonster(temp);
+				rewardAnimationScript.PlayRewardAnimation(temp);
+
+                RefreshTasks(GameModeType.Words);
 			}
 
 			GameManager.UIManager.SetExpBar(_currentScore);
