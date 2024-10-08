@@ -17,8 +17,7 @@ public class PlayerStats : MonoBehaviour
 		}
 	}
 
-	public void AddPuggeMonster() {
-		int selectedPuggeMon = Random.Range( 0, puggemonsterList.Length);
-		PuggemonArray[ selectedPuggeMon ]++;
+	public void AddPuggeMonster(int monsterIndex) {
+		PuggemonArray[monsterIndex]++;
 	}
 }
