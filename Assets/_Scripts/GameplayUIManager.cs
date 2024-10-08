@@ -11,8 +11,8 @@ public class GameplayUIManager : MonoBehaviour {
 
 	[Header("Questions")]
 	[SerializeField] private Image _questionBackground;
-    [SerializeField] private Image _questionSprite;
-    [SerializeField] private TMP_Text _questionText;
+	[SerializeField] private Image _questionSprite;
+	[SerializeField] private TMP_Text _questionText;
 
 	[Header("Experience Bar")]
 	[SerializeField] private Slider _expBar;
@@ -43,6 +43,9 @@ public class GameplayUIManager : MonoBehaviour {
 	public void MathQuestion ( MathTask mathTask ) {
 		// Reset 
 		_tempPlacementList.Clear();
+		_questionText.enabled = true;
+		_questionSprite.enabled = false;
+
 		foreach ( Button button in _answerButtons) {
 			button.interactable = true;
 			button.onClick.RemoveAllListeners();
@@ -75,73 +78,76 @@ public class GameplayUIManager : MonoBehaviour {
 		}
 	}
 
-    public void WordQuestion(WordTask wordTask)
-    {
-        // Reset 
-        _tempPlacementList.Clear();
-        foreach (Button button in _answerButtons)
-        {
-            button.interactable = true;
-            button.onClick.RemoveAllListeners();
-            _tempPlacementList.Add(_answerButtons.IndexOf(button));
-        }
+	public void WordQuestion(WordTask wordTask)
+	{
+		// Reset 
+		_tempPlacementList.Clear();
+		_questionText.enabled = false;
+		_questionSprite.enabled = true;
 
-        int _correctPlacement = GetRandomAnswerPlacement();
-        if (_correctPlacement == -1)
-        {
-            return;
-        }
+		foreach (Button button in _answerButtons)
+		{
+			button.interactable = true;
+			button.onClick.RemoveAllListeners();
+			_tempPlacementList.Add(_answerButtons.IndexOf(button));
+		}
+
+		int _correctPlacement = GetRandomAnswerPlacement();
+		if (_correctPlacement == -1)
+		{
+			return;
+		}
 
 		_questionSprite.sprite = wordTask.WordSprite;
 
-        /*
-		 	public Sprite WordSprite;
+		/*
+			public Sprite WordSprite;
 			public string Correct;
 			public string[] Incorrect;
 		 */
 
-        _buttonRegistry[_answerButtons[_correctPlacement]].text = $"{wordTask.Correct}";
-        _answerButtons[_correctPlacement].onClick.AddListener(() => {
-            AnswerButtonClick(wordTask.Correct, wordTask, _correctPlacement);
-        });
+		_buttonRegistry[_answerButtons[_correctPlacement]].text = $"{wordTask.Correct}";
+		_answerButtons[_correctPlacement].onClick.AddListener(() => {
+			AnswerButtonClick(wordTask.Correct, wordTask, _correctPlacement);
+		});
 
-        foreach (string incorrectValue in wordTask.Incorrect)
-        {
-            int _incorrectPlacement = GetRandomAnswerPlacement();
+		foreach (string incorrectValue in wordTask.Incorrect)
+		{
+			int _incorrectPlacement = GetRandomAnswerPlacement();
 
-            if (_incorrectPlacement == -1)
-            {
-                return;
-            }
+			if (_incorrectPlacement == -1)
+			{
+				return;
+			}
 
-            _buttonRegistry[_answerButtons[_incorrectPlacement]].text = $"{incorrectValue}";
-            _answerButtons[_incorrectPlacement].onClick.AddListener(() => {
-                AnswerButtonClick(incorrectValue, wordTask, _incorrectPlacement);
-            });
-        }
-    }
+			_buttonRegistry[_answerButtons[_incorrectPlacement]].text = $"{incorrectValue}";
+			_answerButtons[_incorrectPlacement].onClick.AddListener(() => {
+				AnswerButtonClick(incorrectValue, wordTask, _incorrectPlacement);
+			});
+		}
+	}
 
-    private void AnswerButtonClick ( float valuePicked, MathTask mathTask, int _correctPlacement ) {
+	private void AnswerButtonClick ( float valuePicked, MathTask mathTask, int _correctPlacement ) {
 		_answerButtons[ _correctPlacement ].interactable = false;
 		MathButtonClicked( valuePicked, mathTask );
 	}
 
-    private void AnswerButtonClick(string valuePicked, WordTask wordTask, int _correctPlacement)
-    {
-        _answerButtons[_correctPlacement].interactable = false;
-        WordButtonClicked(valuePicked, wordTask);
-    }
+	private void AnswerButtonClick(string valuePicked, WordTask wordTask, int _correctPlacement)
+	{
+		_answerButtons[_correctPlacement].interactable = false;
+		WordButtonClicked(valuePicked, wordTask);
+	}
 
-    private void MathButtonClicked ( float mathValue, MathTask mathTask ) {
+	private void MathButtonClicked ( float mathValue, MathTask mathTask ) {
 		GameManager.TaskMaster.RegisterAnswer( mathTask, mathValue );
 	}
 
-    private void WordButtonClicked(string buttonValue, WordTask wordTask)
-    {
-        GameManager.TaskMaster.RegisterAnswer(wordTask, buttonValue);
-    }
+	private void WordButtonClicked(string buttonValue, WordTask wordTask)
+	{
+		GameManager.TaskMaster.RegisterAnswer(wordTask, buttonValue);
+	}
 
-    private int GetRandomAnswerPlacement ( ) {
+	private int GetRandomAnswerPlacement ( ) {
 		if (_tempPlacementList.Count == 0) {
 			Debug.LogWarning( "_tempPlacementList is empty. This will not work." );
 			return -1;

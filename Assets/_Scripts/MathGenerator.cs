@@ -52,44 +52,44 @@ public static class MathGenerator
 
 
 					string tempString = "" +temp;
-                    tempString = tempString[tempString.Length - 1].ToString();
-                    lastDigitInAnwer = Int32.Parse(tempString);
+					tempString = tempString[tempString.Length - 1].ToString();
+					lastDigitInAnwer = Int32.Parse(tempString);
 					Debug.Log("answLast: "+ lastDigitInAnwer + " Full ans: " + tempString);
 
 					tempString = "" + task.Components[0];
 					tempString = tempString[tempString.Length - 1].ToString();
-                    lastDigitInOption1 = Int32.Parse(tempString);
-                    Debug.Log("opt1: "+lastDigitInOption1);
+					lastDigitInOption1 = Int32.Parse(tempString);
+					Debug.Log("opt1: "+lastDigitInOption1);
 
-                    tempString = "" + task.Components[1];
-                    tempString = tempString[tempString.Length - 1].ToString();
-                    lastDigitInOption2 = Int32.Parse(tempString);
-                    Debug.Log("opt2: "+lastDigitInOption2);
+					tempString = "" + task.Components[1];
+					tempString = tempString[tempString.Length - 1].ToString();
+					lastDigitInOption2 = Int32.Parse(tempString);
+					Debug.Log("opt2: "+lastDigitInOption2);
 
 					if (lastDigitInOption1 + lastDigitInOption2 > 9)
 					{
-                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
-                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
-                    }
+						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
+						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
+					}
 					else
 					{
-                        int tempOptions = Random.Range(0, 3);
-                        switch (tempOptions)
-                        {
-                            case 0:
-                                task.Incorrect.Add(temp + 10);
-                                task.Incorrect.Add(temp - 10);
-                                break;
-                            case 1:
-                                task.Incorrect.Add(temp + 10);
-                                task.Incorrect.Add(temp + 20);
-                                break;
-                            case 2:
-                                task.Incorrect.Add(temp - 10);
-                                task.Incorrect.Add(temp - 20);
-                                break;
-                        }
-                    }
+						int tempOptions = Random.Range(0, 3);
+						switch (tempOptions)
+						{
+							case 0:
+								task.Incorrect.Add(temp + 10);
+								task.Incorrect.Add(temp - 10);
+								break;
+							case 1:
+								task.Incorrect.Add(temp + 10);
+								task.Incorrect.Add(temp + 20);
+								break;
+							case 2:
+								task.Incorrect.Add(temp - 10);
+								task.Incorrect.Add(temp - 20);
+								break;
+						}
+					}
 				}
 				break;
 			case "h"://   Hard difficulty question
@@ -104,46 +104,46 @@ public static class MathGenerator
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
 
-                    int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
+					int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
 
 
-                    string tempString = "" + temp;
-                    tempString = tempString[tempString.Length - 1].ToString();
-                    lastDigitInAnwer = Int32.Parse(tempString);
+					string tempString = "" + temp;
+					tempString = tempString[tempString.Length - 1].ToString();
+					lastDigitInAnwer = Int32.Parse(tempString);
 
-                    tempString = "" + task.Components[0];
-                    tempString = tempString[tempString.Length - 1].ToString();
-                    lastDigitInOption1 = Int32.Parse(tempString);
+					tempString = "" + task.Components[0];
+					tempString = tempString[tempString.Length - 1].ToString();
+					lastDigitInOption1 = Int32.Parse(tempString);
 
-                    tempString = "" + task.Components[1];
-                    tempString = tempString[tempString.Length - 1].ToString();
-                    lastDigitInOption2 = Int32.Parse(tempString);
+					tempString = "" + task.Components[1];
+					tempString = tempString[tempString.Length - 1].ToString();
+					lastDigitInOption2 = Int32.Parse(tempString);
 
-                    if (lastDigitInOption1 + lastDigitInOption2 > 9)
-                    {
-                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
-                        task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
-                    }
-                    else
-                    {
-                        int tempOptions = Random.Range(0, 3);
-                        switch (tempOptions)
-                        {
-                            case 0:
-                                task.Incorrect.Add(temp + 10);
-                                task.Incorrect.Add(temp - 10);
-                                break;
-                            case 1:
-                                task.Incorrect.Add(temp + 10);
-                                task.Incorrect.Add(temp + 20);
-                                break;
-                            case 2:
-                                task.Incorrect.Add(temp - 10);
-                                task.Incorrect.Add(temp - 20);
-                                break;
-                        }
-                    }
-                }
+					if (lastDigitInOption1 + lastDigitInOption2 > 9)
+					{
+						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
+						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
+					}
+					else
+					{
+						int tempOptions = Random.Range(0, 3);
+						switch (tempOptions)
+						{
+							case 0:
+								task.Incorrect.Add(temp + 10);
+								task.Incorrect.Add(temp - 10);
+								break;
+							case 1:
+								task.Incorrect.Add(temp + 10);
+								task.Incorrect.Add(temp + 20);
+								break;
+							case 2:
+								task.Incorrect.Add(temp - 10);
+								task.Incorrect.Add(temp - 20);
+								break;
+						}
+					}
+				}
 				break;
 		}		
 		return task;

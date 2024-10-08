@@ -29,8 +29,12 @@ public class WordQuestionLibrary : MonoBehaviour
 
     public WordQuestionPair GetWordAndSprite()
     {
+		if (spriteList.Count == 0) {
+			Debug.Log($"Something is terribly wrong and I was unable to generate a WQPair: {spriteList.Count}");
+			//return new WordQuestionPair();
+		}
         WordQuestionPair var = new WordQuestionPair();
-        var.Picture = spriteList[Random.Range(0, spriteList.Count)];
+		var.Picture = spriteList[ Random.Range( 0, spriteList.Count ) ];
         var.Word = wordTaskLibrary[var.Picture];
         return var;
     }
@@ -65,7 +69,10 @@ public class WordQuestionLibrary : MonoBehaviour
 
     public string GetInCorrectWord(Sprite[] blockedSprite)
     {
-        List<Sprite> tempSpriteList = spriteList;
+        List<Sprite> tempSpriteList = new();
+		foreach (Sprite item in spriteList) {
+			tempSpriteList.Add( item );
+		}
 
         foreach (Sprite item in blockedSprite)
         {

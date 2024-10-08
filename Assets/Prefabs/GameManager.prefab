@@ -723,11 +723,35 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 2073361052456089825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8178383109795122049}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: MenuLoader
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: GamePlayScene
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8178383109795122049}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SetGameMode
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Words
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3822006547511424467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,6 +1036,7 @@ GameObject:
   - component: {fileID: 8178383109795122049}
   - component: {fileID: 5640791202094714362}
   - component: {fileID: 3118631845475903235}
+  - component: {fileID: 8783838723174872008}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1091,6 +1116,23 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 9e7710008e132db46b98d6741447ef94, type: 2}
     - Key: 5
       Value: {fileID: 11400000, guid: 5c428c23727b8e540a218ef05f359423, type: 2}
+--- !u!114 &8783838723174872008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4606666487107120046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c8c50d2b7aa0754484011b1ff669b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteList:
+  - {fileID: 21300000, guid: 1b7d202bdc315114e854937d7f03122b, type: 3}
+  - {fileID: 21300000, guid: 8c6a976f46aa79e4aa5c9025562de325, type: 3}
+  - {fileID: 21300000, guid: f66821ac6d13766418b4b7bc3710d476, type: 3}
+  - {fileID: 21300000, guid: 2a7126d86e36f4643ade54c68e10d01e, type: 3}
 --- !u!1 &4627868692117602720
 GameObject:
   m_ObjectHideFlags: 0

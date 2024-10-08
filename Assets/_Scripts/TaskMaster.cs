@@ -62,6 +62,7 @@ public class TaskMaster : MonoBehaviour {
 
 					_wordTasks.Add(WordGenerator.GenerateWordQuestion());
 				}
+				Debug.Log($"WordTasks: {_wordTasks.Count}, first Task: {_wordTasks[0].Correct}");
 				break;
 			case GameModeType.Letters:
 				_letterTasks.Clear();
@@ -75,12 +76,16 @@ public class TaskMaster : MonoBehaviour {
 			MathTask mathTask = _mathTasks[0];
 			SwapQuestion( mathTask );
 		}
+		if (_wordTasks.Count > 0) {
+			WordTask wordTask = _wordTasks[ 0 ];
+			SwapQuestion( wordTask );
+		}
 	}
 
 	private string GetDifficultyLetter () {
 		int _difficulty = Random.Range( 0, 3 );
 		string _difficultyString = "";
-        //return "h";
+		//return "h";
 
 		switch (_difficulty) {
 			case 0:
@@ -124,38 +129,38 @@ public class TaskMaster : MonoBehaviour {
 		}
 	}
 
-    public void RegisterAnswer(WordTask wordTask, string buttonInputValue)
-    {
-        _numberOfAnswers++;
+	public void RegisterAnswer(WordTask wordTask, string buttonInputValue)
+	{
+		_numberOfAnswers++;
 
-        float points = 1f * (1f / _numberOfAnswers);
+		float points = 1f * (1f / _numberOfAnswers);
 
-        if (points < 0.4)
-        {
-            points = 0;
-        }
-        Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-        //_currentDifficulty.AverageDifficulty.Add(points);
+		if (points < 0.4)
+		{
+			points = 0;
+		}
+		Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
+		//_currentDifficulty.AverageDifficulty.Add(points);
 
-        //StatManager.RegisterAnswer(mathTask, points);
+		//StatManager.RegisterAnswer(mathTask, points);
 
-        if (wordTask.Correct == buttonInputValue)
-        {
-            _currentScore = _currentScore + points;
+		if (wordTask.Correct == buttonInputValue)
+		{
+			_currentScore = _currentScore + points;
 
-            if (_currentScore >= _maxTasks)
-            {
-                _currentScore = 0;
-                PuggeMonsterManager.AddPuggeMonster();
-                RefreshTasks(GameModeType.Math);
-            }
+			if (_currentScore >= _maxTasks)
+			{
+				_currentScore = 0;
+				PlayerStats.Instance.AddPuggeMonster();
+				RefreshTasks(GameModeType.Words);
+			}
 
-            GameManager.UIManager.SetExpBar(_currentScore);
-            NextQuestion(wordTask);
-        }
-    }
+			GameManager.UIManager.SetExpBar(_currentScore);
+			NextQuestion(wordTask);
+		}
+	}
 
-    private void NextQuestion (MathTask mathTask) {
+	private void NextQuestion (MathTask mathTask) {
 		_currentTaskIndex = _mathTasks.IndexOf(mathTask );
 		_numberOfAnswers = 0;
 
@@ -171,34 +176,34 @@ public class TaskMaster : MonoBehaviour {
 		SwapQuestion( newMathTask );
 	}
 
-    private void NextQuestion(WordTask wordTask)
-    {
-        _currentTaskIndex = _wordTasks.IndexOf(wordTask);
-        _numberOfAnswers = 0;
+	private void NextQuestion(WordTask wordTask)
+	{
+		_currentTaskIndex = _wordTasks.IndexOf(wordTask);
+		_numberOfAnswers = 0;
 
-        if (_currentTaskIndex + 1 < _wordTasks.Count)
-        {
-            _currentTaskIndex = _currentTaskIndex + 1;
-        }
-        else
-        {
-            _currentTaskIndex = 0;
-            RefreshTasks(_gameMode);
-            return;
-        }
-        WordTask newWordTask = _wordTasks[_currentTaskIndex];
+		if (_currentTaskIndex + 1 < _wordTasks.Count)
+		{
+			_currentTaskIndex = _currentTaskIndex + 1;
+		}
+		else
+		{
+			_currentTaskIndex = 0;
+			RefreshTasks(_gameMode);
+			return;
+		}
+		WordTask newWordTask = _wordTasks[_currentTaskIndex];
 
-        SwapQuestion(newWordTask);
-    }
+		SwapQuestion(newWordTask);
+	}
 
-    private void SwapQuestion ( MathTask newMathTask ) {
+	private void SwapQuestion ( MathTask newMathTask ) {
 		GameManager.UIManager.MathQuestion(newMathTask );
 	}
 
-    private void SwapQuestion(WordTask newWordTask)
-    {
-        GameManager.UIManager.WordQuestion(newWordTask);
-    }
+	private void SwapQuestion(WordTask newWordTask)
+	{
+		GameManager.UIManager.WordQuestion(newWordTask);
+	}
 }
 
 /// <summary>

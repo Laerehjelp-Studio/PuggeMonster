@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour {
 		Vector3 scale = new Vector3( sizeAndScale[ 2 ] , sizeAndScale[ 3 ] , sizeAndScale[ 2 ] );
 
 		// Main Menu Scene
-        SetMainMenuCanvasSizes( sizeAndScale[ 0 ], sizeAndScale[ 1 ], scale );
+		SetMainMenuCanvasSizes( sizeAndScale[ 0 ], sizeAndScale[ 1 ], scale );
 	}
 
 	private void SetMainMenuCanvasSizes ( float width, float height, Vector3 scale ) {
@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour {
 	/// <param name="width"></param>
 	/// <param name="height"></param>
 	private void SetRectTransform ( RectTransform resizableCanvas, float width, float height ) {
-		Debug.Log($"Canvas: {resizableCanvas.name}, Scaler: {DeviceScaler}, Width:{width}, Height: {height}");
+		//Debug.Log($"Canvas: {resizableCanvas.name}, Scaler: {DeviceScaler}, Width:{width}, Height: {height}");
 
 		if (resizableCanvas == null) {
 			return;
@@ -178,8 +178,10 @@ public class GameManager : MonoBehaviour {
 				_mMGameObject.SetActive( false );
 			}
 		} else {
-			_mMGameObject.SetActive( true );
-			_mMGameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+			if (_mMGameObject != default) { 
+				_mMGameObject.SetActive( true );
+				_mMGameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+			}
 		}
 
 		ResizeByScale(DeviceScaler);
@@ -226,11 +228,12 @@ public class GameManager : MonoBehaviour {
 		}
 
 		_mMGameObject.SetActive( true );
-        UnloadScene( "GalleryScene" );
+		UnloadScene( "GalleryScene" );
 	}
 
 	public static void SceneLoader ( string sceneName, bool additive = false ) {
-		SceneManager.LoadScene( sceneName, additive ? LoadSceneMode.Additive : LoadSceneMode.Single );
+		LoadSceneMode loadSceneMode = additive ? LoadSceneMode.Additive: LoadSceneMode.Single;
+		SceneManager.LoadScene( sceneName, loadSceneMode );
 	}
 
 	public static void UnloadScene ( string sceneName ) {
