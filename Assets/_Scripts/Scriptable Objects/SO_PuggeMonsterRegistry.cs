@@ -7,6 +7,7 @@ public class SO_PuggeMonsterRegistry : ScriptableObject
 {
 	[SerializeField] private List<PuggeMonster> _puggeMonsters = new ();
 	public List<PuggeMonster> GetAllPuggeMonsters { get { return _puggeMonsters; } }
+	public int Length { get { return _puggeMonsters.Count; } }
 
 
 }

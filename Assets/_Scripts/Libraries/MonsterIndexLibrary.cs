@@ -6,12 +6,12 @@ public class MonsterIndexLibrary : MonoBehaviour
     public static MonsterIndexLibrary Instance { get; private set; }
     private void Awake()
     {
-        Instance = this;
-    }
+		Instance = this;
+	}
 
     [SerializedDictionary("Index", "PuggeMonAsset")]
     public SerializedDictionary<int, PuggeMonster> monsterDictionary = new();
-    public static PuggeMonster GetMonsterFromIndex(int indexVal)
+    public PuggeMonster GetMonsterFromIndex(int indexVal)
     {
         if (MonsterIndexLibrary.Instance.monsterDictionary.ContainsKey(indexVal))
         {
