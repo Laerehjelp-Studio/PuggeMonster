@@ -15,7 +15,7 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
 
     public void PlayRewardAnimation(int monsterIndex)
     {
-        midPos.transform.position = new Vector3(Random.Range(-50, 50), Random.Range(-40, 40), midPos.transform.position.z);
+        midPos.transform.position = new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), midPos.transform.position.z);
 
         changeAnimationCoolDown = 3f;
         Go = Instantiate(monsterPrefab);
@@ -35,7 +35,7 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
         {
             changeAnimationCoolDown -= Time.deltaTime;
             var step = animationSpeed * Time.deltaTime;
-            Go.transform.position = Vector3.MoveTowards(Go.transform.position, midPos.position, step * 2.5f);
+            Go.transform.position = Vector3.MoveTowards(Go.transform.position, midPos.position, step * 4f);
             Go.transform.rotation = Quaternion.RotateTowards(Go.transform.rotation, midPos.rotation, step * 1.2f);
         }
         else
