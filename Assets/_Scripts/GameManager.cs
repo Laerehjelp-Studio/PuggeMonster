@@ -262,6 +262,13 @@ public class GameManager : MonoBehaviour {
 				break;
 		}
 	}
+
+	public void EnablePannedMainMenuClickability ( bool gameObjectEnabled ) {
+		if (_pannedMenuTransform.TryGetComponent(out GraphicRaycaster graphicRaycaster)) {
+			graphicRaycaster.enabled = gameObjectEnabled;
+		}
+	}
+
 	public GameModeType GameMode { get { return _gameMode; } set { _gameMode = value; OnGameModeUpdate?.Invoke( _gameMode ); } }
 }
 

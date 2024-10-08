@@ -35,6 +35,9 @@ public class PlayButtonBehaviour : MonoBehaviour
         panningTransform.anchoredPosition = new Vector2(targetPosition, panningTransform.anchoredPosition.y );
         
 		sliding = false;
+
+		// Re-enable menu-buttons
+		GameManager.Instance.EnablePannedMainMenuClickability(true);
     }
 
     public void Slide()
@@ -43,6 +46,10 @@ public class PlayButtonBehaviour : MonoBehaviour
         {
             StartCoroutine(TimerCoroutine(panningTransform, slideDuration) );
             sliding = true;
-        }
+
+			// Disable Main Menu clickability while Sliding
+			GameManager.Instance.EnablePannedMainMenuClickability(false);
+
+		}
     }
 }
