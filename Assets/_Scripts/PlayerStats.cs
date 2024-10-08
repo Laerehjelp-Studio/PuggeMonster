@@ -15,7 +15,6 @@ public class PlayerStats : MonoBehaviour
 		
 			Instance = this;
 		}
-
 	}
 
 	public void AddPuggeMonster() {

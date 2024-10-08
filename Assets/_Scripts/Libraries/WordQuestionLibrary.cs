@@ -1,7 +1,5 @@
 using UnityEngine;
-using AYellowpaper.SerializedCollections;
 using System.Collections.Generic;
-using static UnityEditor.Progress;
 
 public class WordQuestionLibrary : MonoBehaviour
 {
@@ -14,16 +12,18 @@ public class WordQuestionLibrary : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
-        // grab the sprites from the list and generate a dictionary with the names stripped from the sprite names.
-        for (int i = 0; i < spriteList.Count; i++)
-        {
-            string temp = spriteList[i].name;
-            temp = temp.Replace("WD_", "");
-            wordTaskLibrary.Add(spriteList[i], temp);
-            incorrectWordList.Add(temp);
-        }
+        if (Instance == default) {
+			Instance = this;
+			
+			// grab the sprites from the list and generate a dictionary with the names stripped from the sprite names.
+			for (int i = 0; i < spriteList.Count; i++)
+			{
+				string temp = spriteList[i].name;
+				temp = temp.Replace("WD_", "");
+				wordTaskLibrary.Add(spriteList[i], temp);
+				incorrectWordList.Add(temp);
+			}
+		}
     }
 
 
@@ -58,7 +58,6 @@ public class WordQuestionLibrary : MonoBehaviour
             {
                 if (item.Value == key)
                 {
-
                     return item.Key;
                 }
             }

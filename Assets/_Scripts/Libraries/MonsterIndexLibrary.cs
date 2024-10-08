@@ -6,7 +6,9 @@ public class MonsterIndexLibrary : MonoBehaviour
     public static MonsterIndexLibrary Instance { get; private set; }
     private void Awake()
     {
-		Instance = this;
+		if (Instance == default) {
+			Instance = this;
+		}
 	}
 
     [SerializedDictionary("Index", "PuggeMonAsset")]
