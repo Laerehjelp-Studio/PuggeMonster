@@ -435,6 +435,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4935994770442100702, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: _menuMusakVolume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935994770442100702, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: _gamePlayMusakVolume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6584844377072708213, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7860595673872487802, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: Camera

@@ -10,11 +10,11 @@ public class MusicManager : MonoBehaviour
 	[SerializeField] private AudioSource _audioSourceGM;
 	[Header("Music References")]
 	[SerializeField] private AudioClip _mainMenuSceneMusak;
-	[Range(0,1)] [SerializeField] private float _menuMusakVolume = 0.05f;
+	[Range(0,1)] [SerializeField] private float _menuMusakVolume = 0.2f;
 	[SerializeField] private AudioClip _gamePlaySceneMathMusak;
 	[SerializeField] private AudioClip _gamePlaySceneWordsMusak;
 	[SerializeField] private AudioClip _gamePlaySceneLettersMusak;
-	[Range(0,1)] [SerializeField] private float _gamePlayMusakVolume = 0.06f;
+	[Range(0,1)] [SerializeField] private float _gamePlayMusakVolume = 0.2f;
 
 
 	private void OnEnable () {
