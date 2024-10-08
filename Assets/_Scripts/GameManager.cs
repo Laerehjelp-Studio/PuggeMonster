@@ -27,8 +27,13 @@ public class GameManager : MonoBehaviour {
 	private GameModeType _gameMode;
 
 	private void Awake () {
-		Instance = this;
-		DontDestroyOnLoad( Instance );
+		if (Instance == null) {
+			Instance = this;
+			DontDestroyOnLoad( Instance );
+		} else {
+			Destroy(gameObject);
+		}
+
 		SceneManager.sceneLoaded += NewSceneLoaded;
 
 		if (Application.platform == RuntimePlatform.WebGLPlayer) {
