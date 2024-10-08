@@ -74,12 +74,12 @@ public class GameManager : MonoBehaviour {
 		return result;
 	}
 
-	private void ResizeByScale ( DeviceScale deviceScaler ) {
+	private void ResizeByScale ( DeviceScale deviceScaler ) {/*
 		float[] sizeAndScale = GetDeviceBasedRectSizeAndScale();
 		Vector3 scale = new Vector3( sizeAndScale[ 2 ] , sizeAndScale[ 3 ] , sizeAndScale[ 2 ] );
-
+		
 		// Main Menu Scene
-		SetMainMenuCanvasSizes( sizeAndScale[ 0 ], sizeAndScale[ 1 ], scale );
+		SetMainMenuCanvasSizes( sizeAndScale[ 0 ], sizeAndScale[ 1 ], scale );*/
 	}
 
 	private void SetMainMenuCanvasSizes ( float width, float height, Vector3 scale ) {
