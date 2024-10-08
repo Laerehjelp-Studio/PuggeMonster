@@ -18,6 +18,7 @@ public class MonsterIndexLibrary : MonoBehaviour
             return MonsterIndexLibrary.Instance.monsterDictionary[indexVal];
         }
         Debug.LogWarning("Trying to access a monster that does not exist!");
+
         return null;
     }
 }
