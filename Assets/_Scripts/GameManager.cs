@@ -99,10 +99,6 @@ public class GameManager : MonoBehaviour {
 				SetRectTransform( _mainMenuMasterCanvas, width, height );
 			}
 
-
-			// Set PanningTransform's Size.
-			float modifier = (DeviceScaler == DeviceScale.WebGL) ? 1.2f : 1f;
-
 			if (_panningTransform == null) {
 				_panningTransform = _mMGameObject.transform.Find( "PanningTransform" );
 			}
