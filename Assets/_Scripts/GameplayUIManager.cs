@@ -86,8 +86,10 @@ public class GameplayUIManager : MonoBehaviour {
 		_tempPlacementList.Clear();
 		_questionText.enabled = false;
 		_questionSprite.enabled = true;
+		difficultyLevelText.text = "";
 
-		foreach (Button button in _answerButtons)
+
+        foreach (Button button in _answerButtons)
 		{
 			button.interactable = true;
 			button.onClick.RemoveAllListeners();
