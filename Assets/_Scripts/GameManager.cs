@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] GameObject _mMGameObject;
 	[SerializeField] Transform _panningTransform;
 	[SerializeField] Transform _pannedMenuTransform;
+	[SerializeField] ParallaxingManager _parallaxingManager;
+
 
 	public static GameManager Instance { get; private set; }
 	public static TaskMaster TaskMaster { get; private set; }
@@ -108,7 +110,7 @@ public class GameManager : MonoBehaviour {
 			if (_panningTransform != null) {
 				
 				if (_panningTransform.TryGetComponent( out RectTransform _panningTransformRect )) {
-					float[] pos = { -width * 0.5f, _panningTransformRect.anchoredPosition.y, 11f };
+					float[] pos = { width, _panningTransformRect.anchoredPosition.y, 0f };
 					float[] size = { width * 2, height };
 
 					SetRectTransform( _panningTransformRect, pos, size, default );
@@ -124,6 +126,9 @@ public class GameManager : MonoBehaviour {
 					_pannedMenuTransform.localScale = new Vector3(scale.x, scale.y, scale.z);
 				}
 			}
+
+			// Set Background scales.
+			_parallaxingManager.SetBackgroundScale( (int) width * 2, (int) height );
 		}
 	}
 
@@ -161,10 +166,10 @@ public class GameManager : MonoBehaviour {
 			return;
 		}
 		
-		//resizableCanvas.sizeDelta = new Vector2( width, height );
+		resizableCanvas.sizeDelta = new Vector2( width, height );
 
-		resizableCanvas.SetSizeWithCurrentAnchors( RectTransform.Axis.Horizontal, width );
-		resizableCanvas.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, height );
+		//resizableCanvas.SetSizeWithCurrentAnchors( RectTransform.Axis.Horizontal, width );
+		//resizableCanvas.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, height );
 	}
 
 	private void OnDisable () {
