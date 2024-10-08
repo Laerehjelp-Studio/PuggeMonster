@@ -55,8 +55,13 @@ public class TaskMaster : MonoBehaviour {
 				break;
 			case GameModeType.Words:
 				_wordTasks.Clear();
-				
-				_wordTasks.Add( WordGenerator.GenerateWordQuestion() );
+
+				for (int i = 0; i < _maxTasks; i++)
+				{
+					// first implementation, Will be replaced when a difficulty system has been created.
+
+					_wordTasks.Add(WordGenerator.GenerateWordQuestion());
+				}
 				break;
 			case GameModeType.Letters:
 				_letterTasks.Clear();
@@ -119,7 +124,38 @@ public class TaskMaster : MonoBehaviour {
 		}
 	}
 
-	private void NextQuestion (MathTask mathTask) {
+    public void RegisterAnswer(WordTask wordTask, string buttonInputValue)
+    {
+        _numberOfAnswers++;
+
+        float points = 1f * (1f / _numberOfAnswers);
+
+        if (points < 0.4)
+        {
+            points = 0;
+        }
+        Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
+        //_currentDifficulty.AverageDifficulty.Add(points);
+
+        //StatManager.RegisterAnswer(mathTask, points);
+
+        if (wordTask.Correct == buttonInputValue)
+        {
+            _currentScore = _currentScore + points;
+
+            if (_currentScore >= _maxTasks)
+            {
+                _currentScore = 0;
+                PuggeMonsterManager.AddPuggeMonster();
+                RefreshTasks(GameModeType.Math);
+            }
+
+            GameManager.UIManager.SetExpBar(_currentScore);
+            NextQuestion(wordTask);
+        }
+    }
+
+    private void NextQuestion (MathTask mathTask) {
 		_currentTaskIndex = _mathTasks.IndexOf(mathTask );
 		_numberOfAnswers = 0;
 
@@ -135,9 +171,34 @@ public class TaskMaster : MonoBehaviour {
 		SwapQuestion( newMathTask );
 	}
 
-	private void SwapQuestion ( MathTask newMathTask ) {
+    private void NextQuestion(WordTask wordTask)
+    {
+        _currentTaskIndex = _wordTasks.IndexOf(wordTask);
+        _numberOfAnswers = 0;
+
+        if (_currentTaskIndex + 1 < _wordTasks.Count)
+        {
+            _currentTaskIndex = _currentTaskIndex + 1;
+        }
+        else
+        {
+            _currentTaskIndex = 0;
+            RefreshTasks(_gameMode);
+            return;
+        }
+        WordTask newWordTask = _wordTasks[_currentTaskIndex];
+
+        SwapQuestion(newWordTask);
+    }
+
+    private void SwapQuestion ( MathTask newMathTask ) {
 		GameManager.UIManager.MathQuestion(newMathTask );
 	}
+
+    private void SwapQuestion(WordTask newWordTask)
+    {
+        GameManager.UIManager.WordQuestion(newWordTask);
+    }
 }
 
 /// <summary>
@@ -169,7 +230,7 @@ public struct LetterTask {
 	public string[] Incorrect;
 }
 public struct WordTask {
-	public AudioClip WordSound;
+	public Sprite WordSprite;
 	public string Correct;
-	public string[] Incorrect;
+	public List<string> Incorrect ;
 }
