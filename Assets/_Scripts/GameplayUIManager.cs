@@ -19,6 +19,7 @@ public class GameplayUIManager : MonoBehaviour {
 
 	private Dictionary<Button, TMP_Text> _buttonRegistry = new();
 	private List<int> _tempPlacementList = new();
+	[SerializeField] private TMP_Text difficultyLevelText;
 
 	private void Awake () {
 		if (_answerButtons.Count == 0) {
@@ -58,8 +59,9 @@ public class GameplayUIManager : MonoBehaviour {
 		}
 
 		_questionText.text = $"{mathTask.Components[0]} {mathTask.Operator} {mathTask.Components[ 1 ]}";
-		
-		_buttonRegistry[ _answerButtons[ _correctPlacement ] ].text = $"{mathTask.Correct}";
+		difficultyLevelText.text = mathTask.difficultyLevelStringValue;
+
+        _buttonRegistry[ _answerButtons[ _correctPlacement ] ].text = $"{mathTask.Correct}";
 		_answerButtons[ _correctPlacement ].onClick.AddListener(() => {
 			AnswerButtonClick( mathTask.Correct, mathTask, _correctPlacement );
 		} );
