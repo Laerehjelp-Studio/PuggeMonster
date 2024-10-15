@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
+		StatManager.Initialize();
+
 		SceneManager.sceneLoaded += NewSceneLoaded;
 
 		if (Application.platform == RuntimePlatform.WebGLPlayer) {
@@ -41,7 +43,6 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		ResizeByScale( DeviceScaler );
-		StatManager.Initialize();
 	}
 
 
