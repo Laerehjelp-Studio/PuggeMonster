@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		ResizeByScale( DeviceScaler );
+		StatManager.Initialize();
 	}
 
 
