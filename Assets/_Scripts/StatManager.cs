@@ -1,8 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
-using static UnityEngine.ParticleSystem;
 
 static public class StatManager {
 	private static OperatorStore operatorStore = new();
@@ -120,61 +118,99 @@ static public class StatManager {
 
 		switch (mathTask.Operator) {
 			case "+":
-				operatorStore.Addition.DecimalStats[decimalPair] += points;
-				operatorStore.Addition.OneStats[ decimalPair ] += points;
-				operatorStore.Addition.TensStats[ decimalPair ] += points;
-				operatorStore.Addition.HundredsStats[ decimalPair ] += points;
-				operatorStore.Addition.ThousandsStats[ thousandsPair ] += points;
+				if (decimalPair != null) {
+					operatorStore.Addition.DecimalStats[ decimalPair ] += points;
+					ReorderByFloats( operatorStore.Addition.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
+				}
+				if (onerPair != null) {
+					operatorStore.Addition.OneStats[ onerPair ] += points;
+					ReorderByFloats( operatorStore.Addition.OneDifficultySorted, onerPair, 1, mathTask.Operator );
+				}
+				if (tennerPair != null) {
+					operatorStore.Addition.TensStats[ tennerPair ] += points;
+					ReorderByFloats( operatorStore.Addition.TensDifficultySorted, tennerPair, 2, mathTask.Operator );
+				}
+				if (hundredPair != null) {
+					operatorStore.Addition.HundredsStats[ hundredPair ] += points;
+					ReorderByFloats( operatorStore.Addition.HundredsDifficultySorted, hundredPair, 3, mathTask.Operator );
+				}
+				if (thousandsPair != null) {
+					operatorStore.Addition.ThousandsStats[ thousandsPair ] += points;
+					ReorderByFloats( operatorStore.Addition.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
+				}
 
-				ReorderByFloats(operatorStore.Addition.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
-				ReorderByFloats(operatorStore.Addition.OneDifficultySorted, onerPair, 1, mathTask.Operator );
-				ReorderByFloats(operatorStore.Addition.TensDifficultySorted, tennerPair, 2, mathTask.Operator );
-				ReorderByFloats(operatorStore.Addition.HundredsDifficultySorted, hundredPair, 3, mathTask.Operator );
-				ReorderByFloats(operatorStore.Addition.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
 				break;
 			case "-":
-				operatorStore.Subtraction.DecimalStats[ decimalPair ] += points;
-				operatorStore.Subtraction.OneStats[ decimalPair ] += points;
-				operatorStore.Subtraction.TensStats[ decimalPair ] += points;
-				operatorStore.Subtraction.HundredsStats[ decimalPair ] += points;
-				operatorStore.Subtraction.ThousandsStats[ thousandsPair ] += points;
+				if (decimalPair != null) {
+					operatorStore.Subtraction.DecimalStats[ decimalPair ] += points;
+					ReorderByFloats( operatorStore.Subtraction.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
+				}
+				if (onerPair != null) {
+					operatorStore.Subtraction.OneStats[ onerPair ] += points;
+					ReorderByFloats( operatorStore.Subtraction.OneDifficultySorted, onerPair, 1, mathTask.Operator );
+				}
+				if (tennerPair != null) {
+					operatorStore.Subtraction.TensStats[ tennerPair ] += points;
+					ReorderByFloats( operatorStore.Subtraction.TensDifficultySorted, tennerPair, 2, mathTask.Operator );
+				}
+				if (hundredPair != null) {
+					operatorStore.Subtraction.HundredsStats[ hundredPair ] += points;
+					ReorderByFloats( operatorStore.Subtraction.HundredsDifficultySorted, hundredPair, 3, mathTask.Operator );
+				}
+				if (thousandsPair != null) {
+					operatorStore.Subtraction.ThousandsStats[ thousandsPair ] += points;
+					ReorderByFloats( operatorStore.Subtraction.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
+				}
 
-				ReorderByFloats(operatorStore.Subtraction.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
-				ReorderByFloats(operatorStore.Subtraction.OneDifficultySorted, onerPair, 1, mathTask.Operator );
-				ReorderByFloats(operatorStore.Subtraction.TensDifficultySorted, tennerPair, 2, mathTask.Operator );
-				ReorderByFloats(operatorStore.Subtraction.HundredsDifficultySorted, hundredPair, 3, mathTask.Operator );
-				ReorderByFloats( operatorStore.Subtraction.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
 
 				break;
 			case "*":
-				operatorStore.Multiplication.DecimalStats[ decimalPair ] += points;
-				operatorStore.Multiplication.OneStats[ decimalPair ] += points;
-				operatorStore.Multiplication.TensStats[ decimalPair ] += points;
-				operatorStore.Multiplication.HundredsStats[ decimalPair ] += points;
-				operatorStore.Multiplication.ThousandsStats[ thousandsPair ] += points;
+				if (decimalPair != null) {
+					operatorStore.Multiplication.DecimalStats[ decimalPair ] += points;
+					ReorderByFloats( operatorStore.Multiplication.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
+				}
+				if (onerPair != null) {
+					operatorStore.Multiplication.OneStats[ onerPair ] += points;
+					ReorderByFloats( operatorStore.Multiplication.OneDifficultySorted, onerPair, 1, mathTask.Operator );
+				}
+				if (tennerPair != null) {
+					operatorStore.Multiplication.TensStats[ tennerPair ] += points;
+					ReorderByFloats( operatorStore.Multiplication.TensDifficultySorted, tennerPair, 2, mathTask.Operator );
+				}
+				if (hundredPair != null) {
+					operatorStore.Multiplication.HundredsStats[ hundredPair ] += points;
+					ReorderByFloats( operatorStore.Multiplication.HundredsDifficultySorted, hundredPair, 3, mathTask.Operator );
+				}
+				if (thousandsPair != null) {
+					operatorStore.Multiplication.ThousandsStats[ thousandsPair ] += points;
+					ReorderByFloats( operatorStore.Multiplication.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
+				}
 
-				ReorderByFloats(operatorStore.Multiplication.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
-				ReorderByFloats( operatorStore.Multiplication.OneDifficultySorted, onerPair, 1, mathTask.Operator );
-				ReorderByFloats( operatorStore.Multiplication.TensDifficultySorted, tennerPair, 2, mathTask.Operator );
-				ReorderByFloats( operatorStore.Multiplication.HundredsDifficultySorted, hundredPair, 3, mathTask.Operator );
-				ReorderByFloats( operatorStore.Multiplication.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
 
 				break;
 
 			case "/":
 			case ":":
-				operatorStore.Division.DecimalStats[ decimalPair ] += points;
-				operatorStore.Division.OneStats[ decimalPair ] += points;
-				operatorStore.Division.TensStats[ decimalPair ] += points;
-				operatorStore.Division.HundredsStats[ decimalPair ] += points;
-				operatorStore.Division.ThousandsStats[ thousandsPair ] += points;
-
-				ReorderByFloats( operatorStore.Division.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
-				ReorderByFloats( operatorStore.Division.OneDifficultySorted, onerPair,1, mathTask.Operator );
-				ReorderByFloats( operatorStore.Division.TensDifficultySorted, tennerPair,2, mathTask.Operator );
-				ReorderByFloats( operatorStore.Division.HundredsDifficultySorted, hundredPair,3, mathTask.Operator );
-				ReorderByFloats( operatorStore.Division.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
-
+				if (decimalPair != null) {
+					operatorStore.Division.DecimalStats[ decimalPair ] += points;
+					ReorderByFloats( operatorStore.Division.DecimalDifficultySorted, decimalPair, 0, mathTask.Operator );
+				}
+				if (onerPair != null) {
+					operatorStore.Division.OneStats[ onerPair ] += points;
+					ReorderByFloats( operatorStore.Division.OneDifficultySorted, onerPair, 1, mathTask.Operator );
+				}
+				if (tennerPair != null) {
+					operatorStore.Division.TensStats[ tennerPair ] += points;
+					ReorderByFloats( operatorStore.Division.TensDifficultySorted, tennerPair, 2, mathTask.Operator );
+				}
+				if (hundredPair != null) {
+					operatorStore.Division.HundredsStats[ hundredPair ] += points;
+					ReorderByFloats( operatorStore.Division.HundredsDifficultySorted, hundredPair, 3, mathTask.Operator );
+				}
+				if (thousandsPair != null) {
+					operatorStore.Division.ThousandsStats[ thousandsPair ] += points;
+					ReorderByFloats( operatorStore.Division.ThousandsDifficultySorted, thousandsPair, 4, mathTask.Operator );
+				}
 				break;
 		}
 	}
@@ -183,13 +219,42 @@ static public class StatManager {
 		string[] difficultySortedArray = difficultySortedList.ToArray();
 
 		int currentIndex = Array.IndexOf( difficultySortedArray, componentPair );
-		float currentpairValue = GetFloat(componentPair, decimalSpot, operatorString );
+		float currentPairValue = GetFloat( componentPair, decimalSpot, operatorString );
 		int lowerEntryIndex = (currentIndex - 1 >= 0) ? currentIndex - 1 : 0;
-		int higherEntryIndex = (currentIndex + 1 <= difficultySortedArray.Length - 1) ? currentIndex - 1 : 0;
-		float lowerEntryfloat = GetFloat(componentPair, decimalSpot, operatorString );
+		int higherEntryIndex = (currentIndex + 1 < difficultySortedArray.Length) ? currentIndex - 1 : 0;
+		float lowerEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
 		float higherEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
 
+		if (lowerEntryFloat < currentPairValue) {
+			while (lowerEntryFloat < currentPairValue) {
+				
+				string oldValue = difficultySortedArray[ lowerEntryIndex ];
+				difficultySortedArray[ lowerEntryIndex ] = componentPair;
+				difficultySortedArray[ currentIndex ] = oldValue;
+				currentIndex = lowerEntryIndex;
 
+				if (currentIndex == 0) { break; } // We've moved the item to the top of the list.
+
+				currentPairValue = GetFloat( componentPair, decimalSpot, operatorString );
+				lowerEntryIndex = (currentIndex - 1 >= 0) ? currentIndex - 1 : 0;
+				lowerEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
+
+			}
+		} else if (higherEntryFloat > currentPairValue) {
+			while (higherEntryFloat > currentPairValue) {
+
+				string oldValue = difficultySortedArray[ higherEntryIndex ];
+				difficultySortedArray[ higherEntryIndex ] = componentPair;
+				difficultySortedArray[ currentIndex ] = oldValue;
+				currentIndex = higherEntryIndex;
+
+				if (currentIndex == difficultySortedArray.Length - 1) { break; } // We've moved the item to the top of the list.
+
+				currentPairValue = GetFloat( componentPair, decimalSpot, operatorString );
+				higherEntryIndex = (currentIndex + 1 < difficultySortedArray.Length) ? currentIndex - 1 : 0;
+				higherEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
+			}
+		}
 	}
 
 	private static float GetFloat ( string componentPair, int decimalSpot, string operatorString ) {
