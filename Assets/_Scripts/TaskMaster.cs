@@ -114,7 +114,7 @@ public class TaskMaster : MonoBehaviour {
 		}
 
 
-		Debug.Log($"Selected answer = {mathValue}, Corrrect Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
+		//Debug.Log($"Selected answer = {mathValue}, Corrrect Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 		_currentDifficulty.AverageDifficulty.Add( points );
 
 
