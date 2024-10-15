@@ -425,26 +425,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_text
-      value: Mastery Score
-      objectReference: {fileID: 0}
-    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_enableAutoSizing
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3632522357139704308, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: m_Camera
@@ -455,31 +435,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5489253448811704766, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Padding.m_Top
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 5489253448811704766, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Padding.m_Left
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5489253448811704766, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Padding.m_Right
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7860595673872487802, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 8803938277863923996, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Name
-      value: Mastery Score
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
