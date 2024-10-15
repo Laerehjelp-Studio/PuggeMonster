@@ -4,34 +4,39 @@ using UnityEngine;
 
 public class StatDumper : MonoBehaviour
 {
-	[SerializeField] private TMP_Text _textField;
+	[SerializeField] private GameObject _contentPrefab;
+	[SerializeField] private Transform _targetTransform;
 
 	private void Awake () {
-		StatManager.OnDatabaseUpdate += UpdateInterface;
+		//StatManager.OnDatabaseUpdate += UpdateInterface;
 	}
 
 	private void UpdateInterface () {
 		OperatorStore operatorStore = StatManager.GetStore;
-		string contentString = "Database Content: \n";
-		contentString += "		Addition: \n";
-		contentString += "			Ones- \n";
-		foreach (var item in operatorStore.Addition.OneStats) {
-			contentString += $"				Entry: {item.Key}, Mastery: {item.Value}\n";
+		Debug.Log("Running Update Interface");
+		GameObject _additionGameObject = Instantiate(_contentPrefab, _targetTransform);
+		if (_additionGameObject.TryGetComponent(out ContentDumpOperator additionDumpOperator )) {
+			additionDumpOperator.OperatorDump(operatorStore.Addition, "Addition" );
 		}
-		contentString += "			Tenners- \n";
-		foreach (var item in operatorStore.Addition.TensStats) {
-			contentString += $"				Entry: {item.Key}, Mastery: {item.Value}\n";
+
+		GameObject _subtractionGameObject = Instantiate( _contentPrefab, _targetTransform );
+		if (_subtractionGameObject.TryGetComponent( out ContentDumpOperator subtractionDumpOperator )) {
+			subtractionDumpOperator.OperatorDump( operatorStore.Subtraction, "Subtraction" );
 		}
-		contentString += "			Hundreds- \n";
-		foreach (var item in operatorStore.Addition.HundredsStats) {
-			contentString += $"				Entry: {item.Key}, Mastery: {item.Value}\n";
+
+		GameObject _multiplicationGameObject = Instantiate( _contentPrefab, _targetTransform );
+		if (_multiplicationGameObject.TryGetComponent( out ContentDumpOperator multiplicationDumpOperator )) {
+			multiplicationDumpOperator.OperatorDump( operatorStore.Multiplication, "Multiplication" );
 		}
-		contentString += "			Thousands- \n";
-		foreach (var item in operatorStore.Addition.ThousandsStats) {
-			contentString += $"				Entry: {item.Key}, Mastery: {item.Value}\n";
+
+		GameObject _divisionGameObject = Instantiate( _contentPrefab, _targetTransform );
+		if (_divisionGameObject.TryGetComponent( out ContentDumpOperator divisionDumpOperator )) {
+			divisionDumpOperator.OperatorDump( operatorStore.Division, "Division" );
 		}
-		_textField.SetText( contentString );
 	}
+
+
+
 	private void OnEnable () {
 		UpdateInterface();
 	}

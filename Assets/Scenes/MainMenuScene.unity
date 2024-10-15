@@ -425,74 +425,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2226234457385626865, guid: 95882c41123c54343ac4a10aeaee5474,
+    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: m_text
+      value: Mastery Score
       objectReference: {fileID: 0}
-    - target: {fileID: 3211630197214936983, guid: 95882c41123c54343ac4a10aeaee5474,
+    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
-      propertyPath: m_HorizontalScrollbar
-      value: 
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2872167141635775048, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3632522357139704308, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 3749539331772862073, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3749539331772862073, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3749539331772862073, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -17
-      objectReference: {fileID: 0}
     - target: {fileID: 4606666487107120046, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 7523585377714279159, guid: 95882c41123c54343ac4a10aeaee5474,
+    - target: {fileID: 5489253448811704766, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -9.599998
+      propertyPath: m_Padding.m_Top
+      value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 7759909991650640587, guid: 95882c41123c54343ac4a10aeaee5474,
+    - target: {fileID: 5489253448811704766, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
-      propertyPath: m_Value
-      value: 1
+      propertyPath: m_Padding.m_Left
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5489253448811704766, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: m_Padding.m_Right
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7860595673872487802, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 8630435441037444474, guid: 95882c41123c54343ac4a10aeaee5474,
+    - target: {fileID: 8803938277863923996, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630435441037444474, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
+      propertyPath: m_Name
+      value: Mastery Score
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8778385473485053768, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95882c41123c54343ac4a10aeaee5474, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
