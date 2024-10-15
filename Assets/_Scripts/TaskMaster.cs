@@ -112,12 +112,15 @@ public class TaskMaster : MonoBehaviour {
 		if (points < 0.4) {
 			points = 0;
 		}
-		Debug.Log($"Correct answer = {mathValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
+
+
+		Debug.Log($"Selected answer = {mathValue}, Corrrect Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 		_currentDifficulty.AverageDifficulty.Add( points );
 
-		StatManager.RegisterAnswer(mathTask, mathValue, points );
 
 		if (mathTask.Correct == mathValue) {
+			StatManager.RegisterAnswer(mathTask, mathValue, points );
+			
 			_currentScore = _currentScore + points;
 			
 			if (_currentScore >= _maxTasks) {
@@ -130,6 +133,8 @@ public class TaskMaster : MonoBehaviour {
 
 			GameManager.UIManager.SetExpBar( _currentScore );
 			NextQuestion( mathTask);
+		} else {
+			StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
 		}
 	}
 

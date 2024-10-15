@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 static public class StatManager {
 	private static OperatorStore operatorStore = new();
@@ -9,6 +10,7 @@ static public class StatManager {
 	/// Initialize all dictionaries, and lists we are using for storage.
 	/// </summary>
 	public static void Initialize () {
+		Debug.Log("Initializing StatManager");
 		Dictionary<string, float> _initDictAddition = new();
 		List<string> _initListAddition = new();
 		Dictionary<string, float> _initDictSubtraction = new();
