@@ -115,7 +115,7 @@ public class TaskMaster : MonoBehaviour {
 		Debug.Log($"Correct answer = {mathValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 		_currentDifficulty.AverageDifficulty.Add( points );
 
-		StatManager.RegisterAnswer(mathTask, points);
+		StatManager.RegisterAnswer(mathTask, mathValue, points );
 
 		if (mathTask.Correct == mathValue) {
 			_currentScore = _currentScore + points;
