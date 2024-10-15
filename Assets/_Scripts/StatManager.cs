@@ -2,17 +2,19 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 static public class StatManager {
-	private static OperatorStore _operatorStore = new();
+	[SerializeField] private static OperatorStore _operatorStore = new();
 
 	public static Action OnDatabaseUpdate { get; set; } = delegate { };
+
+	private static bool initialized = false;
 
 	/// <summary>
 	/// Initialize all dictionaries, and lists we are using for storage.
 	/// </summary>
 	public static void Initialize () {
+		if (initialized) { return; }
 		Debug.Log("Initializing StatManager");
 		Dictionary<string, float> _initDictAddition = new();
 		List<string> _initListAddition = new();
@@ -97,6 +99,8 @@ static public class StatManager {
 		_operatorStore.Multiplication.TensDifficultySorted = new( _initListMultiplication );
 		_operatorStore.Multiplication.HundredsDifficultySorted = new( _initListMultiplication );
 		_operatorStore.Multiplication.ThousandsDifficultySorted = new( _initListMultiplication );
+		
+		initialized = true;
 	}
 
 	/// <summary>
@@ -299,6 +303,7 @@ static public class StatManager {
 	/// <param name="hundredPair"></param>
 	/// <param name="thousandsPair"></param>
 	private static void UpdateAdditiveDatabase ( string mathTask, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair ) {
+		
 		if (decimalPair != null) {
 			_operatorStore.Addition.DecimalStats[ decimalPair ] += points;
 			ReorderByFloats( _operatorStore.Addition.DecimalDifficultySorted, decimalPair, 0, mathTask );
@@ -310,9 +315,6 @@ static public class StatManager {
 			return;
 		}
 
-		//UnityEngine.Debug.Log(UnityEngine.JsonUtility.ToJson( operatorStore.Addition.OneStats ) );
-		//Debug.Log($"Ones are: {onerPair} entries.");
-		
 		_operatorStore.Addition.OneStats[ onerPair ] += points;
 		ReorderByFloats( _operatorStore.Addition.OneDifficultySorted, onerPair, 1, mathTask );
 		
@@ -524,12 +526,14 @@ static public class StatManager {
 	public static OperatorStore GetStore {  get { return _operatorStore; } }
 }
 
+[Serializable]
 public struct OperatorStore {
 	public Operator Addition; 
 	public Operator Subtraction; 
 	public Operator Multiplication; 
 	public Operator Division;
 }
+[Serializable]
 public struct Operator {
 	public Dictionary<string, float> DecimalStats;
 	public List<string> DecimalDifficultySorted;
