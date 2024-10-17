@@ -13,6 +13,7 @@ public class StatDumper : MonoBehaviour
 
 	private void UpdateInterface () {
 		OperatorStore operatorStore = StatManager.GetStore;
+		RemoveChildren();
 		Debug.Log("Running Update Interface");
 		GameObject _additionGameObject = Instantiate(_contentPrefab, _targetTransform);
 		if (_additionGameObject.TryGetComponent(out ContentDumpOperator additionDumpOperator )) {
@@ -35,7 +36,11 @@ public class StatDumper : MonoBehaviour
 		}
 	}
 
-
+	private void RemoveChildren () {
+		for (int i = 0; i < _targetTransform.childCount; i++) {
+			Destroy( _targetTransform.GetChild(i).gameObject );
+		}
+	}
 
 	private void OnEnable () {
 		UpdateInterface();
