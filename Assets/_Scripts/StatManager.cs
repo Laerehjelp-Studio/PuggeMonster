@@ -319,7 +319,7 @@ static public class StatManager {
 		ReorderByFloats( _operatorStore.Addition.OneDifficultySorted, onerPair, 1, mathTask );
 		
 		// If the tennerPair does not exist, return early.
-		if (tennerPair == null) {
+		if (tennerPair == null || thousandsPair == "0+0" && hundredPair == "0+0" && tennerPair == "0+0") {
 			//UnityEngine.Debug.LogError( "TennerPair is null;" );
 			return;
 		}
@@ -328,7 +328,7 @@ static public class StatManager {
 		ReorderByFloats( _operatorStore.Addition.TensDifficultySorted, tennerPair, 2, mathTask );
 
 		// If the hundredPair does not exist, return early.
-		if (hundredPair == null) {
+		if (hundredPair == null || thousandsPair == "0+0" && hundredPair == "0+0") {
 			return;
 		}
 
@@ -336,7 +336,7 @@ static public class StatManager {
 		ReorderByFloats( _operatorStore.Addition.HundredsDifficultySorted, hundredPair, 3, mathTask );
 
 		// If the thousandsPair does not exist, return early.
-		if (thousandsPair == null) {
+		if (thousandsPair == null || thousandsPair == "0+0") {
 			return;
 		}
 
