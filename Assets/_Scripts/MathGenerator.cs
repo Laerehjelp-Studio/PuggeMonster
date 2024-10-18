@@ -34,8 +34,8 @@ public static class MathGenerator
 
 				task.Correct = GetMathResult( task );
 
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
 			}
 			break;
 			case "m"://   Medium difficulty question
@@ -98,7 +98,7 @@ public static class MathGenerator
 	}
 
 	private static float GetMathResult ( MathTask task ) {
-		float temp = null;
+		float temp = default;
 
 		switch (task.Operator) {
 			case "+":
@@ -128,9 +128,9 @@ public static class MathGenerator
 	private static MathTask GenerateMathQuestion ( MathCode mathCode, MathTask task ) {
 		string difficulty = GameManager.TaskMaster.GetDifficultyLetter();
 
-		DifficultyLists difficultyLists = StatManager.GetDifficultyList(task.Operator, difficulty );
+		//DifficultyLists difficultyLists = StatManager.GetDifficultyList(task.Operator, difficulty );
 
-		
+		return new MathTask();
 	}
 
 	/// <summary>

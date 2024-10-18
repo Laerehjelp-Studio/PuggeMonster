@@ -569,7 +569,7 @@ static public class StatManager {
 		_difficultyLists.Hundreds = new();
 		_difficultyLists.Thousands = new();
 
-		
+		return new List<string>();
 	}
 }
 
