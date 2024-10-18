@@ -13,7 +13,7 @@ static public class StatManager {
 	/// <summary>
 	/// Initialize all dictionaries, and lists we are using for storage.
 	/// </summary>
-	public static void Initialize () {
+	public static void Initialize (float defaultMasteryScore = 0f) {
 		if (initialized) { return; }
 		Debug.Log("Initializing StatManager");
 		Dictionary<string, float> _initDictAddition = new();
@@ -59,48 +59,74 @@ static public class StatManager {
 		}
 
 
-		_operatorStore.Addition.DecimalStats = new( _initDictAddition );
+		Dictionary<string, float> _initDictZeroRemovedAddition = RemoveZeroOperatorZero( _initDictAddition, "+");
+		_operatorStore.Addition.DecimalStats = new( _initDictZeroRemovedAddition );
 		_operatorStore.Addition.OneStats = new( _initDictAddition );
-		_operatorStore.Addition.TensStats = new( _initDictAddition );
-		_operatorStore.Addition.HundredsStats = new( _initDictAddition );
-		_operatorStore.Addition.ThousandsStats = new( _initDictAddition );
-		_operatorStore.Addition.DecimalDifficultySorted = new( _initListAddition );
+		_operatorStore.Addition.TensStats = new( _initDictZeroRemovedAddition );
+		_operatorStore.Addition.HundredsStats = new( _initDictZeroRemovedAddition );
+		_operatorStore.Addition.ThousandsStats = new( _initDictZeroRemovedAddition );
+
+		List<string> _initListZeroRemovedAddition = RemoveZeroOperatorZero( _initListAddition, "+" );
+		_operatorStore.Addition.DecimalDifficultySorted = new( _initListZeroRemovedAddition );
 		_operatorStore.Addition.OneDifficultySorted = new( _initListAddition );
-		_operatorStore.Addition.TensDifficultySorted = new( _initListAddition );
-		_operatorStore.Addition.HundredsDifficultySorted = new( _initListAddition );
-		_operatorStore.Addition.ThousandsDifficultySorted = new( _initListAddition );
-		_operatorStore.Subtraction.DecimalStats = new( _initDictSubtraction );
-		_operatorStore.Subtraction.OneStats = new( _initDictSubtraction );
-		_operatorStore.Subtraction.TensStats = new( _initDictSubtraction );
-		_operatorStore.Subtraction.HundredsStats = new( _initDictSubtraction );
-		_operatorStore.Subtraction.ThousandsStats = new( _initDictSubtraction );
-		_operatorStore.Subtraction.DecimalDifficultySorted = new( _initListSubtraction );
+		_operatorStore.Addition.TensDifficultySorted = new( _initListZeroRemovedAddition );
+		_operatorStore.Addition.HundredsDifficultySorted = new( _initListZeroRemovedAddition );
+		_operatorStore.Addition.ThousandsDifficultySorted = new( _initListZeroRemovedAddition );
+
+		Dictionary<string, float> _initDictZeroRemovedSubtraction = RemoveZeroOperatorZero( _initDictSubtraction,"-" );
+		_operatorStore.Subtraction.DecimalStats = new( _initDictZeroRemovedSubtraction );
+		_operatorStore.Subtraction.OneStats = new(_initDictSubtraction );
+		_operatorStore.Subtraction.TensStats = new( _initDictZeroRemovedSubtraction );
+		_operatorStore.Subtraction.HundredsStats = new( _initDictZeroRemovedSubtraction );
+		_operatorStore.Subtraction.ThousandsStats = new( _initDictZeroRemovedSubtraction );
+
+		List<string> _initListZeroRemovedSubtraction = RemoveZeroOperatorZero( _initListSubtraction, "+" );
+		_operatorStore.Subtraction.DecimalDifficultySorted = new( _initListZeroRemovedSubtraction );
 		_operatorStore.Subtraction.OneDifficultySorted = new( _initListSubtraction );
-		_operatorStore.Subtraction.TensDifficultySorted = new( _initListSubtraction );
-		_operatorStore.Subtraction.HundredsDifficultySorted = new( _initListSubtraction );
-		_operatorStore.Subtraction.ThousandsDifficultySorted = new( _initListSubtraction );
-		_operatorStore.Division.DecimalStats = new( _initDictDivision );
+		_operatorStore.Subtraction.TensDifficultySorted = new( _initListZeroRemovedSubtraction );
+		_operatorStore.Subtraction.HundredsDifficultySorted = new( _initListZeroRemovedSubtraction );
+		_operatorStore.Subtraction.ThousandsDifficultySorted = new( _initListZeroRemovedSubtraction );
+
+		Dictionary<string, float> _initDictZeroRemovedDivision = RemoveZeroOperatorZero( _initDictDivision,"/" );
+		_operatorStore.Division.DecimalStats = new( _initDictZeroRemovedDivision );
 		_operatorStore.Division.OneStats = new( _initDictDivision );
-		_operatorStore.Division.TensStats = new( _initDictDivision );
-		_operatorStore.Division.HundredsStats = new( _initDictDivision );
-		_operatorStore.Division.ThousandsStats = new( _initDictDivision );
-		_operatorStore.Division.DecimalDifficultySorted = new( _initListDivision );
+		_operatorStore.Division.TensStats = new( _initDictZeroRemovedDivision );
+		_operatorStore.Division.HundredsStats = new( _initDictZeroRemovedDivision );
+		_operatorStore.Division.ThousandsStats = new( _initDictZeroRemovedDivision );
+
+		List<string> _initListZeroRemovedDivision = RemoveZeroOperatorZero( _initListDivision, "/" );
+		_operatorStore.Division.DecimalDifficultySorted = new( _initListZeroRemovedDivision );
 		_operatorStore.Division.OneDifficultySorted = new( _initListDivision );
-		_operatorStore.Division.TensDifficultySorted = new( _initListDivision );
-		_operatorStore.Division.HundredsDifficultySorted = new( _initListDivision );
-		_operatorStore.Division.ThousandsDifficultySorted = new( _initListDivision );
-		_operatorStore.Multiplication.DecimalStats = new( _initDictMultiplication );
+		_operatorStore.Division.TensDifficultySorted = new( _initListZeroRemovedDivision );
+		_operatorStore.Division.HundredsDifficultySorted = new( _initListZeroRemovedDivision );
+		_operatorStore.Division.ThousandsDifficultySorted = new( _initListZeroRemovedDivision );
+
+		Dictionary<string, float> _initDictZeroRemovedMultiplication = RemoveZeroOperatorZero( _initDictMultiplication,"*" );
+		_operatorStore.Multiplication.DecimalStats = new( _initDictZeroRemovedMultiplication );
 		_operatorStore.Multiplication.OneStats = new( _initDictMultiplication );
-		_operatorStore.Multiplication.TensStats = new( _initDictMultiplication );
-		_operatorStore.Multiplication.HundredsStats = new( _initDictMultiplication );
-		_operatorStore.Multiplication.ThousandsStats = new( _initDictMultiplication );
-		_operatorStore.Multiplication.DecimalDifficultySorted = new( _initListMultiplication );
+		_operatorStore.Multiplication.TensStats = new( _initDictZeroRemovedMultiplication );
+		_operatorStore.Multiplication.HundredsStats = new( _initDictZeroRemovedMultiplication );
+		_operatorStore.Multiplication.ThousandsStats = new( _initDictZeroRemovedMultiplication );
+
+		List<string> _initListZeroRemovedMultiplication = RemoveZeroOperatorZero( _initListMultiplication, "*" );
+		_operatorStore.Multiplication.DecimalDifficultySorted = new( _initListZeroRemovedMultiplication );
 		_operatorStore.Multiplication.OneDifficultySorted = new( _initListMultiplication );
-		_operatorStore.Multiplication.TensDifficultySorted = new( _initListMultiplication );
-		_operatorStore.Multiplication.HundredsDifficultySorted = new( _initListMultiplication );
-		_operatorStore.Multiplication.ThousandsDifficultySorted = new( _initListMultiplication );
+		_operatorStore.Multiplication.TensDifficultySorted = new( _initListZeroRemovedMultiplication );
+		_operatorStore.Multiplication.HundredsDifficultySorted = new( _initListZeroRemovedMultiplication );
+		_operatorStore.Multiplication.ThousandsDifficultySorted = new( _initListZeroRemovedMultiplication );
 		
 		initialized = true;
+	}
+	private static Dictionary<string, float> RemoveZeroOperatorZero ( Dictionary<string, float> keyValuePairs, string Operator) {
+		keyValuePairs = new( keyValuePairs );
+		keyValuePairs.Remove( $"0{Operator}0");
+		return keyValuePairs;
+	}
+
+	private static List<string> RemoveZeroOperatorZero ( List<string> sortedList, string Operator ) {
+		sortedList = new( sortedList );
+		sortedList.Remove($"0{Operator}0");
+		return sortedList;
 	}
 
 	/// <summary>
@@ -319,7 +345,7 @@ static public class StatManager {
 		ReorderByFloats( _operatorStore.Addition.OneDifficultySorted, onerPair, 1, mathTask );
 		
 		// If the tennerPair does not exist, return early.
-		if (tennerPair == null || thousandsPair == "0+0" && hundredPair == "0+0" && tennerPair == "0+0") {
+		if (tennerPair == null || tennerPair == "0+0") {
 			//UnityEngine.Debug.LogError( "TennerPair is null;" );
 			return;
 		}
@@ -328,7 +354,7 @@ static public class StatManager {
 		ReorderByFloats( _operatorStore.Addition.TensDifficultySorted, tennerPair, 2, mathTask );
 
 		// If the hundredPair does not exist, return early.
-		if (hundredPair == null || thousandsPair == "0+0" && hundredPair == "0+0") {
+		if (hundredPair == null || hundredPair == "0+0") {
 			return;
 		}
 
