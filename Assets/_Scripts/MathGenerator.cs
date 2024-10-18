@@ -25,9 +25,9 @@ public static class MathGenerator
 					task.Incorrect = new();
 					task.Components.Add(Random.Range(0, 10));
 					task.Components.Add(Random.Range(0, 10));
-                    task.difficultyLevelStringValue = "Easy";
+					task.difficultyLevelStringValue = "Easy";
 
-                    string op = "+";
+					string op = "+";
 					task.Operator = op;
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
@@ -35,64 +35,22 @@ public static class MathGenerator
 					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
 					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
 				}
-
-
 				break;
 			case "m"://   Medium difficulty question
 				{
 					task.Components = new();
 					task.Incorrect = new();
-					task.Components.Add(Random.Range(10, 31));
-					task.Components.Add(Random.Range(10, 31));
-                    task.difficultyLevelStringValue = "Medium";
-                    string op = "+";
+					task.Components.Add( Random.Range( 10, 31 ) );
+					task.Components.Add( Random.Range( 10, 31 ) );
+					task.difficultyLevelStringValue = "Medium";
+					string op = "+";
 					task.Operator = op;
-					float temp = task.Components[0] + task.Components[1];
+					float temp = task.Components[ 0 ] + task.Components[ 1 ];
 					task.Correct = temp;
-					int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
 
-
-					string tempString = "" +temp;
-					tempString = tempString[tempString.Length - 1].ToString();
-					lastDigitInAnwer = Int32.Parse(tempString);
-					Debug.Log("answLast: "+ lastDigitInAnwer + " Full ans: " + tempString);
-
-					tempString = "" + task.Components[0];
-					tempString = tempString[tempString.Length - 1].ToString();
-					lastDigitInOption1 = Int32.Parse(tempString);
-					Debug.Log("opt1: "+lastDigitInOption1);
-
-					tempString = "" + task.Components[1];
-					tempString = tempString[tempString.Length - 1].ToString();
-					lastDigitInOption2 = Int32.Parse(tempString);
-					Debug.Log("opt2: "+lastDigitInOption2);
-
-					if (lastDigitInOption1 + lastDigitInOption2 > 9)
-					{
-						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
-						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 3));
-					}
-					else
-					{
-						int tempOptions = Random.Range(0, 3);
-						switch (tempOptions)
-						{
-							case 0:
-								task.Incorrect.Add(temp + 10);
-								task.Incorrect.Add(temp - 10);
-								break;
-							case 1:
-								task.Incorrect.Add(temp + 10);
-								task.Incorrect.Add(temp + 20);
-								break;
-							case 2:
-								task.Incorrect.Add(temp - 10);
-								task.Incorrect.Add(temp - 20);
-								break;
-						}
-					}
+					task = AddIncorrectAnswers( task );
 				}
-				break;
+			break;
 			case "h"://   Hard difficulty question
 				{
 					task.Components = new();
@@ -105,48 +63,58 @@ public static class MathGenerator
 					float temp = task.Components[0] + task.Components[1];
 					task.Correct = temp;
 
-					int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
-
-
-					string tempString = "" + temp;
-					tempString = tempString[tempString.Length - 1].ToString();
-					lastDigitInAnwer = Int32.Parse(tempString);
-
-					tempString = "" + task.Components[0];
-					tempString = tempString[tempString.Length - 1].ToString();
-					lastDigitInOption1 = Int32.Parse(tempString);
-
-					tempString = "" + task.Components[1];
-					tempString = tempString[tempString.Length - 1].ToString();
-					lastDigitInOption2 = Int32.Parse(tempString);
-
-					if (lastDigitInOption1 + lastDigitInOption2 > 9)
-					{
-						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
-						task.Incorrect.Add(GetIncorrect(temp, task.Incorrect, 5));
-					}
-					else
-					{
-						int tempOptions = Random.Range(0, 3);
-						switch (tempOptions)
-						{
-							case 0:
-								task.Incorrect.Add(temp + 10);
-								task.Incorrect.Add(temp - 10);
-								break;
-							case 1:
-								task.Incorrect.Add(temp + 10);
-								task.Incorrect.Add(temp + 20);
-								break;
-							case 2:
-								task.Incorrect.Add(temp - 10);
-								task.Incorrect.Add(temp - 20);
-								break;
-						}
-					}
+					task = AddIncorrectAnswers( task );
 				}
 				break;
 		}		
+		return task;
+	}
+	/// <summary>
+	/// Accepts and Returns a MathTask, the returned mathTask should have task.Incorrect added to it twice.
+	/// </summary>
+	/// <param name="task"></param>
+	/// <param name="temp"></param>
+	/// <param name="lastDigitInOption1"></param>
+	/// <param name="lastDigitInOption2"></param>
+	/// <returns></returns>
+	private static MathTask AddIncorrectAnswers ( MathTask task ) {
+		float temp = task.Correct;
+
+		int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
+
+
+		string tempString = "" + temp;
+		tempString = tempString[ tempString.Length - 1 ].ToString();
+		lastDigitInAnwer = Int32.Parse( tempString );
+
+		tempString = "" + task.Components[ 0 ];
+		tempString = tempString[ tempString.Length - 1 ].ToString();
+		lastDigitInOption1 = Int32.Parse( tempString );
+
+		tempString = "" + task.Components[ 1 ];
+		tempString = tempString[ tempString.Length - 1 ].ToString();
+		lastDigitInOption2 = Int32.Parse( tempString );
+
+		if (lastDigitInOption1 + lastDigitInOption2 > 9) {
+			task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
+			task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
+		} else {
+			int tempOptions = Random.Range( 0, 3 );
+			switch (tempOptions) {
+				case 0:
+					task.Incorrect.Add( temp + 10 );
+					task.Incorrect.Add( temp - 10 );
+					break;
+				case 1:
+					task.Incorrect.Add( temp + 10 );
+					task.Incorrect.Add( temp + 20 );
+					break;
+				case 2:
+					task.Incorrect.Add( temp - 10 );
+					task.Incorrect.Add( temp - 20 );
+					break;
+			}
+		}
 		return task;
 	}
 
