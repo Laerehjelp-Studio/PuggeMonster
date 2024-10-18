@@ -117,12 +117,23 @@ static public class StatManager {
 		
 		initialized = true;
 	}
+	/// <summary>
+	/// Removes ZeroOperatorZero (0+0 etc) from dictionaries.
+	/// </summary>
+	/// <param name="keyValuePairs"></param>
+	/// <param name="Operator"></param>
+	/// <returns></returns>
 	private static Dictionary<string, float> RemoveZeroOperatorZero ( Dictionary<string, float> keyValuePairs, string Operator) {
 		keyValuePairs = new( keyValuePairs );
 		keyValuePairs.Remove( $"0{Operator}0");
 		return keyValuePairs;
 	}
-
+	/// <summary>
+	/// Removes ZeroOperatorZero (0+0 etc) from lists.
+	/// </summary>
+	/// <param name="sortedList"></param>
+	/// <param name="Operator"></param>
+	/// <returns></returns>
 	private static List<string> RemoveZeroOperatorZero ( List<string> sortedList, string Operator ) {
 		sortedList = new( sortedList );
 		sortedList.Remove($"0{Operator}0");
@@ -550,6 +561,16 @@ static public class StatManager {
 		return $"{first}{mathTaskOperator}{second}";
 	}
 	public static OperatorStore GetStore {  get { return _operatorStore; } }
+	public static List<string> GetDifficultyList (string Operator, string difficulty) {
+		DifficultyLists _difficultyLists = new ();
+		_difficultyLists.Decimal = new();
+		_difficultyLists.One = new();
+		_difficultyLists.Tens = new();
+		_difficultyLists.Hundreds = new();
+		_difficultyLists.Thousands = new();
+
+		
+	}
 }
 
 [Serializable]
@@ -571,5 +592,14 @@ public struct Operator {
 	public List<string> HundredsDifficultySorted;
 	public Dictionary<string, float> ThousandsStats;
 	public List<string> ThousandsDifficultySorted;
+}
+
+[Serializable]
+public struct DifficultyLists {
+	public List<string> Decimal;
+	public List<string> One;
+	public List<string> Tens;
+	public List<string> Hundreds;
+	public List<string> Thousands;
 }
 
