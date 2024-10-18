@@ -7,8 +7,12 @@ public static class MathGenerator
 {
 	// Fake numbers
 	static private int generalMastery = 0;
-	public static MathTask GenerateMathQuestion(string Difficulty)
-	{
+	/// <summary>
+	/// Generates questions based on Difficulty String.
+	/// </summary>
+	/// <param name="Difficulty"></param>
+	/// <returns></returns>
+	public static MathTask GenerateMathQuestion ( string Difficulty ) {
 		//public float<> Components; // Array with 2 numbers
 		//public string Operator; // + - * or /
 		//public float Correct; // The correct answer.
@@ -16,57 +20,57 @@ public static class MathGenerator
 
 		MathTask task = new();
 
-		switch (Difficulty)
-		{
-			case "e":
-				{
-					//   Easy difficulty question
-					task.Components = new();
-					task.Incorrect = new();
-					task.Components.Add(Random.Range(0, 10));
-					task.Components.Add(Random.Range(0, 10));
-					task.difficultyLevelStringValue = "Easy";
+		switch (Difficulty) {
+			case "e": {
+				//   Easy difficulty question
+				task.Components = new();
+				task.Incorrect = new();
+				task.Components.Add( Random.Range( 0, 10 ) );
+				task.Components.Add( Random.Range( 0, 10 ) );
+				task.difficultyLevelStringValue = "Easy";
 
-					string op = "+";
-					task.Operator = op;
-					float temp = task.Components[0] + task.Components[1];
-					task.Correct = temp;
+				string op = "+";
+				task.Operator = op;
+				float temp = task.Components[ 0 ] + task.Components[ 1 ];
+				task.Correct = temp;
 
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
-					task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
-				}
-				break;
+				task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
+				task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
+			}
+			break;
 			case "m"://   Medium difficulty question
 				{
-					task.Components = new();
-					task.Incorrect = new();
-					task.Components.Add( Random.Range( 10, 31 ) );
-					task.Components.Add( Random.Range( 10, 31 ) );
-					task.difficultyLevelStringValue = "Medium";
-					string op = "+";
-					task.Operator = op;
-					float temp = task.Components[ 0 ] + task.Components[ 1 ];
-					task.Correct = temp;
+				task.Components = new();
+				task.Incorrect = new();
+				task.Components.Add( Random.Range( 10, 31 ) );
+				task.Components.Add( Random.Range( 10, 31 ) );
+				task.difficultyLevelStringValue = "Medium";
+				string op = "+";
+				task.Operator = op;
+				float temp = task.Components[ 0 ] + task.Components[ 1 ];
+				task.Correct = temp;
 
-					task = AddIncorrectAnswers( task );
-				}
+				task = AddIncorrectAnswers( task );
+			}
 			break;
 			case "h"://   Hard difficulty question
 				{
-					task.Components = new();
-					task.Incorrect = new();
-					task.Components.Add(Random.Range(20, 101));
-					task.Components.Add(Random.Range(30, 101));
-					task.difficultyLevelStringValue = "Hard";
-					string op = "+";
-					task.Operator = op;
-					float temp = task.Components[0] + task.Components[1];
-					task.Correct = temp;
+				task.Components = new();
+				task.Incorrect = new();
+				task.Components.Add( Random.Range( 20, 101 ) );
+				task.Components.Add( Random.Range( 30, 101 ) );
+				task.difficultyLevelStringValue = "Hard";
+				string op = "+";
+				task.Operator = op;
+				float temp = task.Components[ 0 ] + task.Components[ 1 ];
+				task.Correct = temp;
 
-					task = AddIncorrectAnswers( task );
-				}
-				break;
-		}		
+				task = AddIncorrectAnswers( task );
+			}
+			break;
+		}
+		return task;
+	}
 		return task;
 	}
 	/// <summary>
@@ -80,12 +84,12 @@ public static class MathGenerator
 	private static MathTask AddIncorrectAnswers ( MathTask task ) {
 		float temp = task.Correct;
 
-		int lastDigitInAnwer, lastDigitInOption1, lastDigitInOption2;
+		int lastDigitInAnswer, lastDigitInOption1, lastDigitInOption2;
 
 
 		string tempString = "" + temp;
 		tempString = tempString[ tempString.Length - 1 ].ToString();
-		lastDigitInAnwer = Int32.Parse( tempString );
+		lastDigitInAnswer = Int32.Parse( tempString );
 
 		tempString = "" + task.Components[ 0 ];
 		tempString = tempString[ tempString.Length - 1 ].ToString();
