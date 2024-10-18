@@ -12,13 +12,15 @@ public static class MathGenerator
 	/// </summary>
 	/// <param name="Difficulty"></param>
 	/// <returns></returns>
-	public static MathTask GenerateMathQuestion ( string Difficulty ) {
+	public static MathTask GenerateMathQuestion ( string Difficulty, MathTask task = new()) {
 		//public float<> Components; // Array with 2 numbers
 		//public string Operator; // + - * or /
 		//public float Correct; // The correct answer.
 		//public float<> Incorrect; // Incorrect options.
 
-		MathTask task = new();
+		if (task.Operator == default) {
+			task.Operator = "+";
+		}
 
 		switch (Difficulty) {
 			case "e": {
@@ -29,13 +31,11 @@ public static class MathGenerator
 				task.Components.Add( Random.Range( 0, 10 ) );
 				task.difficultyLevelStringValue = "Easy";
 
-				string op = "+";
-				task.Operator = op;
-				float temp = task.Components[ 0 ] + task.Components[ 1 ];
-				task.Correct = temp;
 
-				task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
-				task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
+				task.Correct = GetMathResult( task );
+
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
 			}
 			break;
 			case "m"://   Medium difficulty question
@@ -45,10 +45,8 @@ public static class MathGenerator
 				task.Components.Add( Random.Range( 10, 31 ) );
 				task.Components.Add( Random.Range( 10, 31 ) );
 				task.difficultyLevelStringValue = "Medium";
-				string op = "+";
-				task.Operator = op;
-				float temp = task.Components[ 0 ] + task.Components[ 1 ];
-				task.Correct = temp;
+
+				task.Correct = GetMathResult( task );
 
 				task = AddIncorrectAnswers( task );
 			}
@@ -60,10 +58,9 @@ public static class MathGenerator
 				task.Components.Add( Random.Range( 20, 101 ) );
 				task.Components.Add( Random.Range( 30, 101 ) );
 				task.difficultyLevelStringValue = "Hard";
-				string op = "+";
-				task.Operator = op;
-				float temp = task.Components[ 0 ] + task.Components[ 1 ];
-				task.Correct = temp;
+
+				task.Correct = GetMathResult( task );
+				;
 
 				task = AddIncorrectAnswers( task );
 			}
@@ -71,8 +68,71 @@ public static class MathGenerator
 		}
 		return task;
 	}
+	/// <summary>
+	/// Generates math questions based on MathCode
+	/// </summary>
+	/// <param name="mathCode"></param>
+	/// <returns></returns>
+	public static MathTask GenerateMathQuestion ( MathCode mathCode ) {
+		MathTask task = new();
+
+		task.Components = new();
+		task.Incorrect = new();
+
+		task.Operator = mathCode.Operator;
+
+		if (mathCode.AppDecides) {
+			return GenerateMathQuestion( mathCode, task );
+		}
+
+		task.difficultyLevelStringValue = "Kode";
+
+		task.Components.Add( Random.Range( mathCode.Lower, mathCode.Upper ) );
+		task.Components.Add( Random.Range( mathCode.Lower, mathCode.Upper ) );
+
+		task.Correct = GetMathResult( task );
+
+		task = AddIncorrectAnswers( task );
+
 		return task;
 	}
+
+	private static float GetMathResult ( MathTask task ) {
+		float temp = null;
+
+		switch (task.Operator) {
+			case "+":
+				temp = task.Components[ 0 ] + task.Components[ 1 ];
+				break;
+			case "-":
+				temp = task.Components[ 0 ] - task.Components[ 1 ];
+				break;
+			case "*":
+				temp = task.Components[ 0 ] * task.Components[ 1 ];
+				break;
+			case "/":
+			case ":":
+				temp = task.Components[ 0 ] / task.Components[ 1 ];
+				break;
+		}
+
+		return temp;
+	}
+
+	/// <summary>
+	/// This generates questions based on the student's performance.
+	/// </summary>
+	/// <param name="mathCode"></param>
+	/// <param name="task"></param>
+	/// <returns></returns>
+	private static MathTask GenerateMathQuestion ( MathCode mathCode, MathTask task ) {
+		string difficulty = GameManager.TaskMaster.GetDifficultyLetter();
+
+		DifficultyLists difficultyLists = StatManager.GetDifficultyList(task.Operator, difficulty );
+
+		
+	}
+
 	/// <summary>
 	/// Accepts and Returns a MathTask, the returned mathTask should have task.Incorrect added to it twice.
 	/// </summary>
@@ -99,9 +159,9 @@ public static class MathGenerator
 		tempString = tempString[ tempString.Length - 1 ].ToString();
 		lastDigitInOption2 = Int32.Parse( tempString );
 
-		if (lastDigitInOption1 + lastDigitInOption2 > 9) {
-			task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
-			task.Incorrect.Add( GetIncorrect( temp, task.Incorrect, 3 ) );
+		if (lastDigitInOption1 + lastDigitInOption2 > 9 ) { // TODO: Should probably also trigger when going below zero
+			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
+			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
 		} else {
 			int tempOptions = Random.Range( 0, 3 );
 			switch (tempOptions) {
@@ -129,7 +189,7 @@ public static class MathGenerator
 	/// <param name="Incorrect"></param>
 	/// <param name="range"></param>
 	/// <returns></returns>
-	private static float GetIncorrect (float correct, List<float> Incorrect, int range = 5) {
+	private static float GetIncorrectWhenOutOfBounds (float correct, List<float> Incorrect, int range = 5) {
 		if (Incorrect == default) {
 			Incorrect = new();
 		}
@@ -141,7 +201,7 @@ public static class MathGenerator
 		float currentIncorrect = modifier + correct;
 
 		if (currentIncorrect == correct || Incorrect.Contains( currentIncorrect ) || currentIncorrect < 0) {
-			return GetIncorrect( correct, Incorrect, range );
+			return GetIncorrectWhenOutOfBounds( correct, Incorrect, range );
 		}
 
 		return modifier + correct;
@@ -155,5 +215,11 @@ public static class MathGenerator
 	{
 
 	}
+}
 
+public struct MathCode {
+	public string Operator;
+	public int Lower;
+	public int Upper;
+	public bool AppDecides;
 }
