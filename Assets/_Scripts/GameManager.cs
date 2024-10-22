@@ -215,9 +215,15 @@ public class GameManager : MonoBehaviour {
 	}
 	#endregion
 
-	public void GalleryLoader ( string sceneName ) {
-		SceneLoader( sceneName, true );
+	public void GalleryLoader(string sceneName)
+	{
+		SceneLoader(sceneName, true);
 	}
+
+	public void CodeScreenLoader(string sceneName)
+	{
+        SceneLoader(sceneName, true);
+    }
 
 	public void MenuLoader ( string sceneName ) {
 		SceneLoader( sceneName );
@@ -232,7 +238,19 @@ public class GameManager : MonoBehaviour {
 		UnloadScene( "GalleryScene" );
 	}
 
-	public static void SceneLoader ( string sceneName, bool additive = false ) {
+    public void UnloadCodeScene()
+    {
+        if (_mMGameObject == default)
+        {
+            Debug.LogWarning("_mainMenu is not defined! Unable to leave Gallery.");
+            return;
+        }
+
+        _mMGameObject.SetActive(true);
+        UnloadScene("CodeScene");
+    }
+
+    public static void SceneLoader ( string sceneName, bool additive = false ) {
 		LoadSceneMode loadSceneMode = additive ? LoadSceneMode.Additive: LoadSceneMode.Single;
 		SceneManager.LoadScene( sceneName, loadSceneMode );
 	}
