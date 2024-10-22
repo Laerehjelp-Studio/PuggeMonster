@@ -50,10 +50,16 @@ public class TaskMaster : MonoBehaviour {
 				_mathTasks.Clear();
 				char[] difficultySet = new char[ _maxTasks ];
 				difficultySet = GetDifficultySet(GameModeType.Math);
-				MathCode mathCode = new MathCode();
+				
+				// if there exists a mathCode, we're going to ship it.
+				MathCode mathCode = new();
+				mathCode.AppDecides = false;
+
+				// If MathCode is stored in the GameManager Instance, replace our defualt instance.
 				if (GameManager.Instance.MathCode.Operator != default) {
 					mathCode = GameManager.Instance.MathCode;
 				}
+
 				for (int i = 0; i < _maxTasks; i++) {
 					// first implementation, Will be replaced when a difficulty system has been created.
 					MathTask task = new MathTask();
@@ -62,9 +68,8 @@ public class TaskMaster : MonoBehaviour {
 					task.difficultyLetter = difficultySet[i];
 					task.difficultySet = difficultySet;
 
-					
 					//_mathTasks.Add( MathGenerator.GenerateMathQuestion( task.difficultyLetter.ToString() ) ); 
-					_mathTasks.Add( MathGenerator.GenerateMathQuestion( mathCode, task ) );
+					_mathTasks.Add( MathGenerator.GenerateMathQuestion( task, mathCode ) );
 				}
 				break;
 			case GameModeType.Words:

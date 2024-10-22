@@ -74,13 +74,16 @@ public static class MathGenerator
 	/// </summary>
 	/// <param name="mathCode"></param>
 	/// <returns></returns>
-	public static MathTask GenerateMathQuestion ( MathCode mathCode, MathTask task = new()) {
-		task.Components = new();
-		task.Incorrect = new();
+	public static MathTask GenerateMathQuestion ( MathTask task, MathCode mathCode) {
 
-		task.Operator = mathCode.Operator;
+		if (mathCode.Operator == default && task.Operator == default) {
+			task.Operator = GetGeneralMasteryBasedOperator();
+		} else if (mathCode.Operator != default) {
+			task.Operator = mathCode.Operator;
+		}
 
-		if (mathCode.AppDecides) {
+		// If Override-code AppDecides or mathCode.IsEmpty we get questions based on student performance.
+		if (mathCode.AppDecides || mathCode.IsEmpty ) {
 			return GenerateMathQuestionFromStudentPerformance( task, mathCode );
 		}
 
@@ -95,6 +98,16 @@ public static class MathGenerator
 
 		return task;
 	}
+
+	/// <summary>
+	/// Returns an operator based on which are unlocked by General Mastery Score
+	/// </summary>
+	/// <returns></returns>
+	private static string GetGeneralMasteryBasedOperator () {
+		// Figure out using GeneralMastery what operator to return
+		return "+";
+	}
+
 	/// <summary>
 	/// Returns float result of math question.
 	/// </summary>
@@ -296,4 +309,9 @@ public struct MathCode {
 	public int Lower;
 	public int Upper;
 	public bool AppDecides;
+	public bool IsEmpty { 
+		get {
+			return (Operator == default && Lower == default && Upper == default);
+		} 
+	}
 }

@@ -184,8 +184,9 @@ public class GameManager : MonoBehaviour {
 			if (_mMGameObject != default) {
 				_mMGameObject.SetActive( true );
 				_mMGameObject.GetComponent<Canvas>().worldCamera = Camera.main;
-				GameManager.Instance.MathCode = new();
 			}
+			Debug.Log($"[GameManager.NewSceneLoaded] This ran as expected.'{arg0.name}'");
+			GameManager.Instance.MathCode = new MathCode();
 		}
 		ResizeByScale(DeviceScaler);
 		OnSceneLoad?.Invoke( _gameMode );
