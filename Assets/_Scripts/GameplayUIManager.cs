@@ -31,6 +31,8 @@ public class GameplayUIManager : MonoBehaviour {
 			_buttonRegistry.Add( button, buttonText );
 		}
 		GameManager.Instance.RegisterManager( this );
+
+		// auto max size for 135
 	}
 
 	private void OnEnable () {
