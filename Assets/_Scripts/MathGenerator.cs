@@ -12,7 +12,8 @@ public static class MathGenerator
 	/// </summary>
 	/// <param name="Difficulty"></param>
 	/// <returns></returns>
-	public static MathTask GenerateMathQuestion ( string Difficulty, MathTask task = new()) {
+	
+	 public static MathTask GenerateMathQuestion ( string Difficulty, MathTask task = new()) {
 		//public float<> Components; // Array with 2 numbers
 		//public string Operator; // + - * or /
 		//public float Correct; // The correct answer.
@@ -82,7 +83,7 @@ public static class MathGenerator
 		task.Operator = mathCode.Operator;
 
 		if (mathCode.AppDecides) {
-			return GenerateMathQuestion( mathCode, task );
+			return GenerateMathQuestionFromStudentPerformance( task, mathCode );
 		}
 
 		task.difficultyLevelStringValue = "Kode";
@@ -120,17 +121,82 @@ public static class MathGenerator
 	}
 
 	/// <summary>
-	/// This generates questions based on the student's performance.
+	/// This generates questions based on the student's previous performance.
 	/// </summary>
-	/// <param name="mathCode"></param>
 	/// <param name="task"></param>
 	/// <returns></returns>
-	private static MathTask GenerateMathQuestion ( MathCode mathCode, MathTask task ) {
-		string difficulty = GameManager.TaskMaster.GetDifficultyLetter();
+	public static MathTask GenerateMathQuestionFromStudentPerformance (  MathTask task, MathCode mathCode  = new() ) {
+		if (task.Operator == default) {
+			task.Operator = "+";
+		}
+		if (task.difficultyLetter == default) {
+			task.difficultyLetter = 'e';
+		}
 
-		//DifficultyLists difficultyLists = StatManager.GetDifficultyList(task.Operator, difficulty );
+		DifficultyList difficultyLists = StatManager.GetDifficultyLists( task.Operator, task.difficultyLetter.ToString() );
 
-		return new MathTask();
+		// If GetDifficultyLists does not produce a properly formed list, run the oldest GenerateMathQuestion function.
+		if (difficultyLists.One == default ||
+			difficultyLists.Tens == default ||
+			difficultyLists.Hundreds == default ||
+			difficultyLists.Thousands == default) {
+
+			Debug.LogError( "difficultyLists not properly formed." );
+			return GenerateMathQuestion( task.difficultyLetter.ToString(), task );
+		}
+
+		// Get a difficulty adjusted pair of One's
+		string firstComponent = "", secondComponent = "";
+
+		switch (task.difficultyLetter) {
+			case 'e':
+				GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
+
+				task.Components.Add( float.Parse(firstComponent) );
+				task.Components.Add( float.Parse(secondComponent) );
+
+				task.Correct = GetMathResult( task );
+
+				task.difficultyLevelStringValue = "Easy";
+
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
+				break;
+			case 'm':
+				GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
+				GetComponentFromDifficultyList( task, difficultyLists.Tens, ref firstComponent, ref secondComponent );
+
+				task.Components.Add( float.Parse( firstComponent ) );
+				task.Components.Add( float.Parse( secondComponent ) );
+
+				task.Correct = GetMathResult( task );
+
+				task = AddIncorrectAnswers( task );
+				task.difficultyLevelStringValue = "Medium";
+				break;
+			case 'h':
+				GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
+				GetComponentFromDifficultyList( task, difficultyLists.Tens, ref firstComponent, ref secondComponent );
+				GetComponentFromDifficultyList( task, difficultyLists.Hundreds, ref firstComponent, ref secondComponent );
+
+				task.Components.Add( float.Parse( firstComponent ) );
+				task.Components.Add( float.Parse( secondComponent ) );
+
+				task.Correct = GetMathResult( task );
+
+				task = AddIncorrectAnswers( task );
+				task.difficultyLevelStringValue = "Hard";
+				break;
+		}
+
+		return task;
+	}
+
+	private static void GetComponentFromDifficultyList ( MathTask task, List<string> difficultyLists, ref string firstComponent, ref string secondComponent ) {
+		string[] tempPair = difficultyLists[ Random.Range( 0, difficultyLists.Count ) ].Split( task.Operator );
+
+		firstComponent = $"{tempPair[ 0 ]}{firstComponent}";
+		secondComponent = $"{tempPair[ 1 ]}{secondComponent}";
 	}
 
 	/// <summary>
@@ -159,7 +225,7 @@ public static class MathGenerator
 		tempString = tempString[ tempString.Length - 1 ].ToString();
 		lastDigitInOption2 = Int32.Parse( tempString );
 
-		if (lastDigitInOption1 + lastDigitInOption2 > 9 ) { // TODO: Should probably also trigger when going below zero
+		if (lastDigitInOption1 + lastDigitInOption2 > 9  || temp < 20) { // TODO: Should probably also trigger when going below zero
 			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
 			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
 		} else {
