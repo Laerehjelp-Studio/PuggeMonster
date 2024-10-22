@@ -50,7 +50,10 @@ public class TaskMaster : MonoBehaviour {
 				_mathTasks.Clear();
 				char[] difficultySet = new char[ _maxTasks ];
 				difficultySet = GetDifficultySet(GameModeType.Math);
-
+				MathCode mathCode = new MathCode();
+				if (GameManager.Instance.MathCode.Operator != default) {
+					mathCode = GameManager.Instance.MathCode;
+				}
 				for (int i = 0; i < _maxTasks; i++) {
 					// first implementation, Will be replaced when a difficulty system has been created.
 					MathTask task = new MathTask();
@@ -59,8 +62,9 @@ public class TaskMaster : MonoBehaviour {
 					task.difficultyLetter = difficultySet[i];
 					task.difficultySet = difficultySet;
 
+					
 					//_mathTasks.Add( MathGenerator.GenerateMathQuestion( task.difficultyLetter.ToString() ) ); 
-					_mathTasks.Add( MathGenerator.GenerateMathQuestionFromStudentPerformance( task ) );
+					_mathTasks.Add( MathGenerator.GenerateMathQuestion( mathCode, task ) );
 				}
 				break;
 			case GameModeType.Words:

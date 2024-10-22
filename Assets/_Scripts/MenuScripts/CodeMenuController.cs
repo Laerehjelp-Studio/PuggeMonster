@@ -9,8 +9,9 @@ public class CodeMenuController : MonoBehaviour
     private List<int> buttonInputs = new();
 
     private bool validCode = true;
+	private MathCode mathCode = new();
 
-    public void LoadSceneBasedOnCode()
+	public void LoadSceneBasedOnCode()
     {
         switch(buttonInputs[0])
         {
@@ -54,7 +55,7 @@ public class CodeMenuController : MonoBehaviour
 
     void MathCase()
     {
-        MathCode mathCode = new();
+        mathCode = new();
         switch(buttonInputs[1])
         {
             case 1: // + Addition operator
@@ -161,8 +162,9 @@ public class CodeMenuController : MonoBehaviour
             firstInput.color = new Color(0, 0, 0, 0);
             secondInput.color = new Color(0, 0, 0, 0);
             ThirdInput.color = new Color(0, 0, 0, 0);
-            
-            GameManager.Instance.MenuLoader("GamePlayScene");
+
+			GameManager.Instance.MathCode = mathCode;
+			GameManager.Instance.MenuLoader("GamePlayScene");
         }
     }
 

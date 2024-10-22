@@ -74,9 +74,7 @@ public static class MathGenerator
 	/// </summary>
 	/// <param name="mathCode"></param>
 	/// <returns></returns>
-	public static MathTask GenerateMathQuestion ( MathCode mathCode ) {
-		MathTask task = new();
-
+	public static MathTask GenerateMathQuestion ( MathCode mathCode, MathTask task = new()) {
 		task.Components = new();
 		task.Incorrect = new();
 

@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour {
 
 	private GameModeType _gameMode;
 
+	public MathCode MathCode { get; set; }
+
 	private void Awake () {
 		if (Instance == null) {
 			Instance = this;
@@ -179,12 +181,12 @@ public class GameManager : MonoBehaviour {
 				_mMGameObject.SetActive( false );
 			}
 		} else {
-			if (_mMGameObject != default) { 
+			if (_mMGameObject != default) {
 				_mMGameObject.SetActive( true );
 				_mMGameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+				GameManager.Instance.MathCode = new();
 			}
 		}
-
 		ResizeByScale(DeviceScaler);
 		OnSceneLoad?.Invoke( _gameMode );
 	}
@@ -290,6 +292,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public GameModeType GameMode { get { return _gameMode; } set { _gameMode = value; OnGameModeUpdate?.Invoke( _gameMode ); } }
+
 }
 
 
