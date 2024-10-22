@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour {
 			_mMGameObject = GameObject.Find( "Main Menu Master Canvas" );
 		}
 		//Debug.LogWarning( _mMGameObject );
-
+		
 		// Set reference Resolution, and Rect Transform size.
 		if (_mMGameObject != null ) {
 			if (_mMGameObject.TryGetComponent(out CanvasScaler canvasScaler)) {
