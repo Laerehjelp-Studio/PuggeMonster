@@ -97,7 +97,11 @@ public static class MathGenerator
 
 		return task;
 	}
-
+	/// <summary>
+	/// Returns float result of math question.
+	/// </summary>
+	/// <param name="task"></param>
+	/// <returns></returns>
 	private static float GetMathResult ( MathTask task ) {
 		float temp = default;
 
@@ -191,7 +195,13 @@ public static class MathGenerator
 
 		return task;
 	}
-
+	/// <summary>
+	/// Gets components from the difficulty list provided, and adds it to the front of the referred firstComponent, and secondComponent.
+	/// </summary>
+	/// <param name="task"></param>
+	/// <param name="difficultyLists"></param>
+	/// <param name="firstComponent"></param>
+	/// <param name="secondComponent"></param>
 	private static void GetComponentFromDifficultyList ( MathTask task, List<string> difficultyLists, ref string firstComponent, ref string secondComponent ) {
 		string[] tempPair = difficultyLists[ Random.Range( 0, difficultyLists.Count ) ].Split( task.Operator );
 
