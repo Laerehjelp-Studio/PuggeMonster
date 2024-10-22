@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour {
 				_mMGameObject.SetActive( true );
 				_mMGameObject.GetComponent<Canvas>().worldCamera = Camera.main;
 			}
-			Debug.Log($"[GameManager.NewSceneLoaded] This ran as expected.'{arg0.name}'");
+			// Reset MathCode when MainMenu is reloaded.
 			GameManager.Instance.MathCode = new MathCode();
 		}
 		ResizeByScale(DeviceScaler);
