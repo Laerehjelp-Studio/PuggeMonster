@@ -35,8 +35,8 @@ public static class MathGenerator
 
 				task.Correct = GetMathResult( task );
 
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3, task.Operator ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3, task.Operator ) );
 			}
 			break;
 			case "m"://   Medium difficulty question
@@ -174,8 +174,8 @@ public static class MathGenerator
 
 				task.difficultyLevelStringValue = "Easy";
 
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3 ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3, task.Operator ) );
+				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3, task.Operator ) );
 				break;
 			case 'm':
 				GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
@@ -247,8 +247,8 @@ public static class MathGenerator
 		lastDigitInOption2 = Int32.Parse( tempString );
 
 		if (lastDigitInOption1 + lastDigitInOption2 > 9  || temp < 20) { // TODO: Should probably also trigger when going below zero
-			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
-			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3 ) );
+			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3, task.Operator ) );
+			task.Incorrect.Add( GetIncorrectWhenOutOfBounds( temp, task.Incorrect, 3, task.Operator ) );
 		} else {
 			int tempOptions = Random.Range( 0, 3 );
 			switch (tempOptions) {
@@ -276,7 +276,7 @@ public static class MathGenerator
 	/// <param name="Incorrect"></param>
 	/// <param name="range"></param>
 	/// <returns></returns>
-	private static float GetIncorrectWhenOutOfBounds (float correct, List<float> Incorrect, int range = 5) {
+	private static float GetIncorrectWhenOutOfBounds (float correct, List<float> Incorrect, int range = 5, string Operator = "") {
 		if (Incorrect == default) {
 			Incorrect = new();
 		}
@@ -287,7 +287,7 @@ public static class MathGenerator
 
 		float currentIncorrect = modifier + correct;
 
-		if (currentIncorrect == correct || Incorrect.Contains( currentIncorrect ) || currentIncorrect < 0) {
+		if (currentIncorrect == correct || Incorrect.Contains( currentIncorrect ) || currentIncorrect < 0 && Operator == "+") {
 			return GetIncorrectWhenOutOfBounds( correct, Incorrect, range );
 		}
 
