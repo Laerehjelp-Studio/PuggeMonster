@@ -32,17 +32,17 @@ public class GameManager : MonoBehaviour {
 
 	public static float WhenIsMasteryAchieved { 
 		get {
-			return (GameManager.Instance._gameSettings.WhenIsMasteryAchieved != default) ? GameManager.Instance._gameSettings.WhenIsMasteryAchieved : 10;
+			return (GameManager.Instance != default && GameManager.Instance._gameSettings.WhenIsMasteryAchieved != default) ? GameManager.Instance._gameSettings.WhenIsMasteryAchieved: 10;
 		}
 	}
 	public static float RecievePuggemonsterLimit {
 		get {
-			return (GameManager.Instance._gameSettings.RecievePuggemonsterLimit != default) ? GameManager.Instance._gameSettings.RecievePuggemonsterLimit: 10;
+			return (GameManager.Instance != default && GameManager.Instance._gameSettings.RecievePuggemonsterLimit != default) ? GameManager.Instance._gameSettings.RecievePuggemonsterLimit: 10;
 		}
 	}
 	public static int QuestionSetSize {
 		get {
-			return (GameManager.Instance._gameSettings.QuestionSetSize != default) ? GameManager.Instance._gameSettings.QuestionSetSize : 4;
+			return (GameManager.Instance != default && GameManager.Instance._gameSettings.QuestionSetSize != default) ? GameManager.Instance._gameSettings.QuestionSetSize: 4;
 		}
 	}
 
