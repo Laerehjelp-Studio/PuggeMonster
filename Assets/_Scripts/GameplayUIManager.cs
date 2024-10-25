@@ -32,6 +32,8 @@ public class GameplayUIManager : MonoBehaviour {
 		}
 		GameManager.Instance.RegisterManager( this );
 
+		_expBar.maxValue = GameManager.RecievePuggemonsterLimit;
+
 		// auto max size for 135
 	}
 
@@ -97,7 +99,7 @@ public class GameplayUIManager : MonoBehaviour {
 		difficultyLevelText.text = "";
 
 
-        foreach (Button button in _answerButtons)
+		foreach (Button button in _answerButtons)
 		{
 			button.interactable = true;
 			button.onClick.RemoveAllListeners();

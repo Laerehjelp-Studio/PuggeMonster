@@ -5,8 +5,6 @@ using Random = UnityEngine.Random;
 
 public static class MathGenerator
 {
-	// Fake numbers
-	static private int generalMastery = 0;
 	/// <summary>
 	/// Generates questions based on Difficulty String.
 	/// </summary>
