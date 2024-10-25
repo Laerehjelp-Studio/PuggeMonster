@@ -15,12 +15,16 @@ public class TaskMaster : MonoBehaviour {
 	private List<WordTask> _wordTasks = new();
 
 	private StudentPerformance _currentStudentPerformance = new ( );
-	[SerializeField] private int _maxTasks = 4;
 	private int _currentTaskIndex = 0;
 	private int _numberOfAnswers = 0;
 	private float _currentScore = 0;
+	private int _maxTasks = 4;
+	private float _receivePuggemonScoreLimit;
 
 	private void Awake () {
+		_maxTasks = GameManager.QuestionSetSize;
+		_receivePuggemonScoreLimit = GameManager.RecievePuggemonsterLimit;
+
 		//_gameMode = GameManager.Instance.GameMode;
 		_currentStudentPerformance.Initialize( _maxTasks );
 		GameManager.Instance.RegisterManager( this );
@@ -113,7 +117,7 @@ public class TaskMaster : MonoBehaviour {
 			// If it is the first or last difficulty-letter, make let's check based on the _difficultyStudentPerformance.PerformanceAverage randomising between hard and medium
 			if (i == 0 || i == _maxTasks - 1) {
 				// if _difficultyStudentPerformance.PerformanceAverage is above the changing currentDifficulty let's do random between hard and medium
-				if (_currentStudentPerformance.Average > currentDifficultyModifier) { 
+				if (_currentStudentPerformance.Sum > currentDifficultyModifier) { 
 					difficultySet[i] = (Random.Range( 0, 3 ) == 0) ? 'h' : 'm';
 				} else { // If PerformanceAverage is not above currentDifficultyModifier then we will randomize 60/30 between easy and medium question.
 					difficultySet[ i] = (Random.Range( 0, 3 ) == 0) ? 'm' : 'e';
@@ -134,7 +138,7 @@ public class TaskMaster : MonoBehaviour {
 					break;
 			}
 		}
-		Debug.Log($"Average: {_currentStudentPerformance.Average} Sum: {_currentStudentPerformance.Sum}, {difficultySet[ 0 ]} {difficultySet[ 1 ]} {difficultySet[ 2 ]} {difficultySet[ 3 ]}, {currentDifficultyModifier}" );
+		//Debug.Log($"Average: {_currentStudentPerformance.Average} Sum: {_currentStudentPerformance.Sum}, {difficultySet[ 0 ]} {difficultySet[ 1 ]} {difficultySet[ 2 ]} {difficultySet[ 3 ]}, {currentDifficultyModifier}" );
 		return difficultySet;
 	}
 
@@ -175,7 +179,7 @@ public class TaskMaster : MonoBehaviour {
 			
 			_currentScore = _currentScore + points;
 			
-			if (_currentScore >= _maxTasks) {
+			if (_currentScore >= _receivePuggemonScoreLimit) {
 				_currentScore = 0;
 				int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
 				PlayerStats.Instance.AddPuggeMonster(temp);
@@ -275,7 +279,7 @@ public class TaskMaster : MonoBehaviour {
 /// </summary>
 public class StudentPerformance {
 	private List<float> _performanceRegister = new(); // the average score for the set of four generated questions
-	private int _maxSize = 2;
+	private int _maxSize = GameManager.QuestionSetSize;
 	public float Average { 
 		get {
 			return (Sum == 0 && Sum == _performanceRegister.Count) ? 0: Sum / _performanceRegister.Count; 
