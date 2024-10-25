@@ -311,8 +311,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public GameModeType GameMode { get { return _gameMode; } set { _gameMode = value; OnGameModeUpdate?.Invoke( _gameMode ); } }
-
-	public bool TaskMasteredLevel { get; internal set; }
 }
 
 
