@@ -97,7 +97,7 @@ public class GameplayUIManager : MonoBehaviour {
 		difficultyLevelText.text = "";
 
 
-        foreach (Button button in _answerButtons)
+		foreach (Button button in _answerButtons)
 		{
 			button.interactable = true;
 			button.onClick.RemoveAllListeners();

@@ -6,17 +6,19 @@ using Random = UnityEngine.Random;
 
 static public class StatManager {
 	[SerializeField] private static OperatorStore _operatorStore = new();
-
+	[SerializeField] private static List<string> _generalMasteryList = new();
 	public static Action OnDatabaseUpdate { get; set; } = delegate { };
 
 	private static bool initialized = false;
 
+
+	#region Initialization
 	/// <summary>
 	/// Initialize all dictionaries, and lists we are using for storage.
 	/// </summary>
-	public static void Initialize (float defaultMasteryScore = 0f) {
+	public static void Initialize ( float defaultMasteryScore = 0f ) {
 		if (initialized) { return; }
-		Debug.Log("Initializing StatManager");
+		Debug.Log( "Initializing StatManager" );
 		Dictionary<string, float> _initDictAddition = new();
 		List<string> _initListAddition = new();
 		Dictionary<string, float> _initDictSubtraction = new();
@@ -60,7 +62,7 @@ static public class StatManager {
 		}
 
 
-		Dictionary<string, float> _initDictZeroRemovedAddition = RemoveZeroOperatorZero( _initDictAddition, "+");
+		Dictionary<string, float> _initDictZeroRemovedAddition = RemoveZeroOperatorZero( _initDictAddition, "+" );
 		_operatorStore.Addition.DecimalStats = new( _initDictZeroRemovedAddition );
 		_operatorStore.Addition.OneStats = new( _initDictAddition );
 		_operatorStore.Addition.TensStats = new( _initDictZeroRemovedAddition );
@@ -68,27 +70,27 @@ static public class StatManager {
 		_operatorStore.Addition.ThousandsStats = new( _initDictZeroRemovedAddition );
 
 		List<string> _initListZeroRemovedAddition = RemoveZeroOperatorZero( _initListAddition, "+" );
-		_operatorStore.Addition.DecimalDifficultySorted = new(  ShuffleList( _initListZeroRemovedAddition ) );
-		_operatorStore.Addition.OneDifficultySorted = new(  ShuffleList( _initListAddition ) );
-		_operatorStore.Addition.TensDifficultySorted = new(  ShuffleList( _initListZeroRemovedAddition ) );
-		_operatorStore.Addition.HundredsDifficultySorted = new(  ShuffleList( _initListZeroRemovedAddition ) );
-		_operatorStore.Addition.ThousandsDifficultySorted = new(  ShuffleList( _initListZeroRemovedAddition ) );
+		_operatorStore.Addition.DecimalDifficultySorted = new( ShuffleList( _initListZeroRemovedAddition ) );
+		_operatorStore.Addition.OneDifficultySorted = new( ShuffleList( _initListAddition ) );
+		_operatorStore.Addition.TensDifficultySorted = new( ShuffleList( _initListZeroRemovedAddition ) );
+		_operatorStore.Addition.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedAddition ) );
+		_operatorStore.Addition.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedAddition ) );
 
-		Dictionary<string, float> _initDictZeroRemovedSubtraction = RemoveZeroOperatorZero( _initDictSubtraction,"-" );
+		Dictionary<string, float> _initDictZeroRemovedSubtraction = RemoveZeroOperatorZero( _initDictSubtraction, "-" );
 		_operatorStore.Subtraction.DecimalStats = new( _initDictZeroRemovedSubtraction );
-		_operatorStore.Subtraction.OneStats = new(_initDictSubtraction );
+		_operatorStore.Subtraction.OneStats = new( _initDictSubtraction );
 		_operatorStore.Subtraction.TensStats = new( _initDictZeroRemovedSubtraction );
 		_operatorStore.Subtraction.HundredsStats = new( _initDictZeroRemovedSubtraction );
 		_operatorStore.Subtraction.ThousandsStats = new( _initDictZeroRemovedSubtraction );
 
 		List<string> _initListZeroRemovedSubtraction = RemoveZeroOperatorZero( _initListSubtraction, "+" );
-		_operatorStore.Subtraction.DecimalDifficultySorted = new(  ShuffleList( _initListZeroRemovedSubtraction ) );
-		_operatorStore.Subtraction.OneDifficultySorted = new(  ShuffleList( _initListSubtraction ) );
-		_operatorStore.Subtraction.TensDifficultySorted = new(  ShuffleList( _initListZeroRemovedSubtraction ) );
-		_operatorStore.Subtraction.HundredsDifficultySorted = new(  ShuffleList( _initListZeroRemovedSubtraction ) );
-		_operatorStore.Subtraction.ThousandsDifficultySorted = new(  ShuffleList( _initListZeroRemovedSubtraction ) );
+		_operatorStore.Subtraction.DecimalDifficultySorted = new( ShuffleList( _initListZeroRemovedSubtraction ) );
+		_operatorStore.Subtraction.OneDifficultySorted = new( ShuffleList( _initListSubtraction ) );
+		_operatorStore.Subtraction.TensDifficultySorted = new( ShuffleList( _initListZeroRemovedSubtraction ) );
+		_operatorStore.Subtraction.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedSubtraction ) );
+		_operatorStore.Subtraction.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedSubtraction ) );
 
-		Dictionary<string, float> _initDictZeroRemovedDivision = RemoveZeroOperatorZero( _initDictDivision,"/" );
+		Dictionary<string, float> _initDictZeroRemovedDivision = RemoveZeroOperatorZero( _initDictDivision, "/" );
 		_operatorStore.Division.DecimalStats = new( _initDictZeroRemovedDivision );
 		_operatorStore.Division.OneStats = new( _initDictDivision );
 		_operatorStore.Division.TensStats = new( _initDictZeroRemovedDivision );
@@ -96,13 +98,13 @@ static public class StatManager {
 		_operatorStore.Division.ThousandsStats = new( _initDictZeroRemovedDivision );
 
 		List<string> _initListZeroRemovedDivision = RemoveZeroOperatorZero( _initListDivision, "/" );
-		_operatorStore.Division.DecimalDifficultySorted = new(  ShuffleList( _initListZeroRemovedDivision ) );
-		_operatorStore.Division.OneDifficultySorted = new(  ShuffleList( _initListDivision ) );
-		_operatorStore.Division.TensDifficultySorted = new(  ShuffleList( _initListZeroRemovedDivision ) );
-		_operatorStore.Division.HundredsDifficultySorted = new(  ShuffleList( _initListZeroRemovedDivision ) );
-		_operatorStore.Division.ThousandsDifficultySorted = new(  ShuffleList( _initListZeroRemovedDivision ) );
+		_operatorStore.Division.DecimalDifficultySorted = new( ShuffleList( _initListZeroRemovedDivision ) );
+		_operatorStore.Division.OneDifficultySorted = new( ShuffleList( _initListDivision ) );
+		_operatorStore.Division.TensDifficultySorted = new( ShuffleList( _initListZeroRemovedDivision ) );
+		_operatorStore.Division.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedDivision ) );
+		_operatorStore.Division.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedDivision ) );
 
-		Dictionary<string, float> _initDictZeroRemovedMultiplication = RemoveZeroOperatorZero( _initDictMultiplication,"*" );
+		Dictionary<string, float> _initDictZeroRemovedMultiplication = RemoveZeroOperatorZero( _initDictMultiplication, "*" );
 		_operatorStore.Multiplication.DecimalStats = new( _initDictZeroRemovedMultiplication );
 		_operatorStore.Multiplication.OneStats = new( _initDictMultiplication );
 		_operatorStore.Multiplication.TensStats = new( _initDictZeroRemovedMultiplication );
@@ -110,14 +112,15 @@ static public class StatManager {
 		_operatorStore.Multiplication.ThousandsStats = new( _initDictZeroRemovedMultiplication );
 
 		List<string> _initListZeroRemovedMultiplication = RemoveZeroOperatorZero( _initListMultiplication, "*" );
-		_operatorStore.Multiplication.DecimalDifficultySorted = new(  ShuffleList( _initListZeroRemovedMultiplication ) );
-		_operatorStore.Multiplication.OneDifficultySorted = new(  ShuffleList( _initListMultiplication ) );
-		_operatorStore.Multiplication.TensDifficultySorted = new(  ShuffleList( _initListZeroRemovedMultiplication ) );
-		_operatorStore.Multiplication.HundredsDifficultySorted = new(  ShuffleList( _initListZeroRemovedMultiplication ) );
-		_operatorStore.Multiplication.ThousandsDifficultySorted = new(  ShuffleList( _initListZeroRemovedMultiplication ) );
-		
+		_operatorStore.Multiplication.DecimalDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
+		_operatorStore.Multiplication.OneDifficultySorted = new( ShuffleList( _initListMultiplication ) );
+		_operatorStore.Multiplication.TensDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
+		_operatorStore.Multiplication.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
+		_operatorStore.Multiplication.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
+
 		initialized = true;
 	}
+
 	/// <summary>
 	/// Used to shuffle the sorted by difficulty-lists upon initialization.
 	/// </summary>
@@ -144,9 +147,9 @@ static public class StatManager {
 	/// <param name="keyValuePairs"></param>
 	/// <param name="Operator"></param>
 	/// <returns></returns>
-	private static Dictionary<string, float> RemoveZeroOperatorZero ( Dictionary<string, float> keyValuePairs, string Operator) {
+	private static Dictionary<string, float> RemoveZeroOperatorZero ( Dictionary<string, float> keyValuePairs, string Operator ) {
 		keyValuePairs = new( keyValuePairs );
-		keyValuePairs.Remove( $"0{Operator}0");
+		keyValuePairs.Remove( $"0{Operator}0" );
 		return keyValuePairs;
 	}
 	/// <summary>
@@ -157,9 +160,30 @@ static public class StatManager {
 	/// <returns></returns>
 	private static List<string> RemoveZeroOperatorZero ( List<string> sortedList, string Operator ) {
 		sortedList = new( sortedList );
-		sortedList.Remove($"0{Operator}0");
+		sortedList.Remove( $"0{Operator}0" );
 		return sortedList;
 	}
+
+
+
+	#endregion
+
+	#region GeneralMastery
+	public static int GeneralMastery {
+		get {
+			return _generalMasteryList.Count;
+		}
+	}
+
+	private static void AddGMIfMastered (string entry, float value) {
+		if (GameManager.Instance.TaskMasteredLevel && !_generalMasteryList.Contains(entry)) {
+			_generalMasteryList.Add( entry );
+		}
+	}
+
+	#endregion
+
+	#region Statistics Storage Management
 
 	/// <summary>
 	/// Registers mastery score for each of the component pairs.
@@ -203,6 +227,8 @@ static public class StatManager {
 		}
 	}
 
+
+	
 	/// <summary>
 	/// Updates one of four categories by: Registering points, sorting the difficulty lists connected to the registered points.
 	/// </summary>
@@ -409,6 +435,8 @@ static public class StatManager {
 	/// <param name="componentPair"></param>
 	/// <param name="decimalSpot"></param>
 	/// <param name="operatorString"></param>
+
+
 	private static void ReorderByFloats ( List<string> difficultySortedList, string componentPair, int decimalSpot, string operatorString ) {
 		string[] difficultySortedArray = difficultySortedList.ToArray();
 
@@ -658,6 +686,9 @@ static public class StatManager {
 
 		return _difficultyLists;
 	}
+
+	#endregion
+
 }
 
 [Serializable]
