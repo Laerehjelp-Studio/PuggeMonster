@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a000ce491bd04bd4287230e02077d84c, type: 3}
-  m_Name: PuggeMonster Game Settings
+  m_Script: {fileID: 11500000, guid: 18b4db33d675683418033bb67471ed4d, type: 3}
+  m_Name: G001 Math
   m_EditorClassIdentifier: 
-  WhenIsMasteryAchieved: 2
-  RecievePuggemonsterLimit: 10
-  QuestionSetSize: 4
-  grades:
-  - {fileID: 11400000, guid: 482bb1cb85b263b429e69f7ff56e7ff5, type: 2}
+  Name: Matte
+  CategoryStart: 0
+  CategoryEnd: 100
+  Result: 
+  GeneralMastery: 0
+  SubjectType: 1
+  unlockableCategories:
+  - {fileID: 11400000, guid: c0b35a260d9e7ca40b0fbfd23ae8290e, type: 2}
