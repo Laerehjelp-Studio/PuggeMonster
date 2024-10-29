@@ -16,7 +16,7 @@ public static class MathGenerator
 		//public string Operator; // + - * or /
 		//public float Correct; // The correct answer.
 		//public float<> Incorrect; // Incorrect options.
-
+		
 		if (task.Operator == default) {
 			task.Operator = "+";
 		}
@@ -286,20 +286,12 @@ public static class MathGenerator
 		float currentIncorrect = modifier + correct;
 
 		if (currentIncorrect == correct || Incorrect.Contains( currentIncorrect ) || currentIncorrect < 0 && Operator == "+") {
-			return GetIncorrectWhenOutOfBounds( correct, Incorrect, range );
+			return GetIncorrectWhenOutOfBounds( correct, Incorrect, range, Operator );
 		}
 
-		return modifier + correct;
+		return currentIncorrect;
 	}
 
-	/// <summary>
-	/// difficulty 1, 2 or 3. 1=easy 2=medium 3=hard
-	/// </summary>
-	/// <param name="diff"></param>
-	private static void FindDifficulty(int diff)
-	{
-
-	}
 }
 
 public struct MathCode {
