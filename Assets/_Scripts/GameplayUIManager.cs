@@ -32,10 +32,12 @@ public class GameplayUIManager : MonoBehaviour {
 		}
 		GameManager.Instance.RegisterManager( this );
 
-		_expBar.maxValue = GameManager.RecievePuggemonsterLimit;
+		// _expBar.maxValue = GameManager.RecievePuggemonsterLimit; // Changed this 
+		_expBar.maxValue = 1f; // to this
 
-		// auto max size for 135
-	}
+
+        // auto max size for 135
+    }
 
 	private void OnEnable () {
 		GameManager.Instance.RegisterManager( this );

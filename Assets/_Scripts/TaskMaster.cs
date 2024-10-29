@@ -30,7 +30,12 @@ public class TaskMaster : MonoBehaviour {
 		GameManager.Instance.RegisterManager( this );
 	}
 
-	private void OnEnable () {
+    private void Start()
+    {
+		Debug.Log("HEYO LOOK AT ME: " + _receivePuggemonScoreLimit + " is the score needed to collect rewards");
+    }
+
+    private void OnEnable () {
 		// Register TaskMaster enabling GameManager.TaskMaster-syntax.
 		GameManager.Instance.RegisterManager(this);
 		//GameManager.Instance.OnGameModeUpdate += UpdateGameMode;
@@ -187,7 +192,7 @@ public class TaskMaster : MonoBehaviour {
 				RefreshTasks(GameModeType.Math);
 			}
 
-			GameManager.UIManager.SetExpBar( _currentScore );
+			GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
 			NextQuestion( mathTask);
 		} else {
 			StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
@@ -213,7 +218,7 @@ public class TaskMaster : MonoBehaviour {
 		{
 			_currentScore = _currentScore + points;
 
-			if (_currentScore >= _maxTasks)
+			if (_currentScore >= _receivePuggemonScoreLimit) // Was comparing to _maxTasks, wich is the ammount of tasks to generate. Changed to score limit
 			{
 				_currentScore = 0;
 				int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
@@ -223,7 +228,7 @@ public class TaskMaster : MonoBehaviour {
 				RefreshTasks(GameModeType.Words);
 			}
 
-			GameManager.UIManager.SetExpBar(_currentScore);
+			GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
 			NextQuestion(wordTask);
 		}
 	}
