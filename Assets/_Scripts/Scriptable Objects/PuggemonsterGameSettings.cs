@@ -10,7 +10,7 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	public int QuestionSetSize = 4;
 	[Header( "Grades" )]
 	public Grade[] Grades;
-	private Grade _buildGrade;
+	[SerializeField]private Grade _buildGrade;
 	public Grade BuildGrade { get { return _buildGrade; } set { _buildGrade = value; } }
 
 }
