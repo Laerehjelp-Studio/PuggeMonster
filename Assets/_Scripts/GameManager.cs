@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour {
 			return (GameManager.Instance != default && GameManager.Instance._gameSettings.QuestionSetSize != default) ? GameManager.Instance._gameSettings.QuestionSetSize: 4;
 		}
 	}
+	public static Grade SelectedGrade {
+		get {
+			return (GameManager.Instance != default && GameManager.Instance._gameSettings.BuildGrade != default) ? GameManager.Instance._gameSettings.BuildGrade : default;
+		}
+	}
 
 	private void Awake () {
 		if (Instance == null) {

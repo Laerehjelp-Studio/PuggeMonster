@@ -75,7 +75,7 @@ public static class MathGenerator
 	public static MathTask GenerateMathQuestion ( MathTask task, MathCode mathCode) {
 
 		if (mathCode.Operator == default && task.Operator == default) {
-			task.Operator = GetGeneralMasteryBasedOperator();
+			task.Operator = GetGeneralMasteryBasedOperator( GameManager.SelectedGrade, StatManager.GeneralMathMastery );
 		} else if (mathCode.Operator != default) {
 			task.Operator = mathCode.Operator;
 		}
@@ -101,9 +101,25 @@ public static class MathGenerator
 	/// Returns an operator based on which are unlocked by General Mastery Score
 	/// </summary>
 	/// <returns></returns>
-	private static string GetGeneralMasteryBasedOperator () {
-		// Figure out using GeneralMastery what operator to return
-		return "+";
+	private static string GetGeneralMasteryBasedOperator ( Grade grade, int generalMathMastery ) {
+		if (grade == null) {
+			Debug.LogError( "No grade selected for build in Game Settings." );
+			return null;
+		}
+
+		Subject subject = SelectSubject( Subject.Subjects.Math, grade.Subjects );
+
+		if (subject == null) {
+			return null;
+		}
+
+		MathCategory category = subject.SelectCategoryByGMChance( generalMathMastery );
+
+		if (category == null) {
+			return null;
+		}
+
+		return category.Operator;
 	}
 
 	/// <summary>
@@ -139,71 +155,116 @@ public static class MathGenerator
 	/// <param name="task"></param>
 	/// <returns></returns>
 	public static MathTask GenerateMathQuestionFromStudentPerformance (  MathTask task, MathCode mathCode  = new() ) {
-		if (task.Operator == default) {
-			task.Operator = "+";
-		}
 		if (task.difficultyLetter == default) {
 			task.difficultyLetter = 'e';
 		}
 
-		DifficultyList difficultyLists = StatManager.GetDifficultyLists( task.Operator, task.difficultyLetter.ToString() );
-
-		// If GetDifficultyLists does not produce a properly formed list, run the oldest GenerateMathQuestion function.
-		if (difficultyLists.One == default ||
-			difficultyLists.Tens == default ||
-			difficultyLists.Hundreds == default ||
-			difficultyLists.Thousands == default) {
-
-			Debug.LogError( "difficultyLists not properly formed." );
-			return GenerateMathQuestion( task.difficultyLetter.ToString(), task );
-		}
-
-		// Get a difficulty adjusted pair of One's
-		string firstComponent = "", secondComponent = "";
+		UpdateTaskBasedOnGeneralMasteryUnlock(ref task, StatManager.GeneralMathMastery, GameManager.SelectedGrade );
 
 		switch (task.difficultyLetter) {
 			case 'e':
-				GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
-
-				task.Components.Add( float.Parse(firstComponent) );
-				task.Components.Add( float.Parse(secondComponent) );
-
-				task.Correct = GetMathResult( task );
-
 				task.difficultyLevelStringValue = "Easy";
-
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3, task.Operator ) );
-				task.Incorrect.Add( GetIncorrectWhenOutOfBounds( task.Correct, task.Incorrect, 3, task.Operator ) );
 				break;
 			case 'm':
-				GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
-				GetComponentFromDifficultyList( task, difficultyLists.Tens, ref firstComponent, ref secondComponent );
-
-				task.Components.Add( float.Parse( firstComponent ) );
-				task.Components.Add( float.Parse( secondComponent ) );
-
-				task.Correct = GetMathResult( task );
-
-				task = AddIncorrectAnswers( task );
 				task.difficultyLevelStringValue = "Medium";
 				break;
 			case 'h':
-				GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
-				GetComponentFromDifficultyList( task, difficultyLists.Tens, ref firstComponent, ref secondComponent );
-				GetComponentFromDifficultyList( task, difficultyLists.Hundreds, ref firstComponent, ref secondComponent );
-
-				task.Components.Add( float.Parse( firstComponent ) );
-				task.Components.Add( float.Parse( secondComponent ) );
-
-				task.Correct = GetMathResult( task );
-
-				task = AddIncorrectAnswers( task );
 				task.difficultyLevelStringValue = "Hard";
 				break;
 		}
 
 		return task;
 	}
+
+	private static void UpdateTaskBasedOnGeneralMasteryUnlock ( ref MathTask task, int generalMathMastery, Grade grade ) {
+		if (grade == null) {
+			Debug.LogError( "No grade selected for build in Game Settings." );
+			return;
+		}
+
+		Subject subject = SelectSubject( Subject.Subjects.Math, grade.Subjects );
+
+		if (subject == null) {
+			return;
+		}
+
+		MathCategory category = subject.SelectCategoryByGMChance( generalMathMastery );
+		Debug.LogWarning($"Subject: {subject.Name}, Category: {category.Name}, Mastered: {StatManager.GeneralMathMastery}");
+
+		if (category == null) {
+			return;
+		}
+
+		task.Operator = category.Operator;
+
+		int placementNumberInt = category.SelectGMChancePlacementNumber( generalMathMastery );
+
+		DifficultyList difficultyLists = StatManager.GetDifficultyLists( task.Operator, task.difficultyLetter.ToString() );
+
+		// If GetDifficultyLists does not produce a properly formed list, run the oldest (outdated) GenerateMathQuestion function.
+		if (difficultyLists.One == default ||
+			difficultyLists.Tens == default ||
+			difficultyLists.Hundreds == default ||
+			difficultyLists.Thousands == default) {
+
+			Debug.LogError( "difficultyLists not properly formed." );
+			GenerateMathQuestion( task.difficultyLetter.ToString(), task );
+			return;
+		}
+
+		string firstComponent = "", secondComponent = "";
+
+		// TODO: Implement decimals.
+
+		if (placementNumberInt >= 1) {
+			GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
+		}
+		if (placementNumberInt >= 2) {
+			GetComponentFromDifficultyList( task, difficultyLists.Tens, ref firstComponent, ref secondComponent );
+		}
+		if (placementNumberInt >= 3) {
+			GetComponentFromDifficultyList( task, difficultyLists.Hundreds, ref firstComponent, ref secondComponent );
+		}
+		if (placementNumberInt >= 4) {
+			GetComponentFromDifficultyList( task, difficultyLists.Thousands, ref firstComponent, ref secondComponent );
+		}
+
+		//Debug.Log($"[UpdateTaskBasedOnGMUnlock]: {firstComponent}, placementNumberInt: {placementNumberInt}");
+
+		task.Components.Add( float.Parse( firstComponent ) );
+		task.Components.Add( float.Parse( secondComponent ) );
+
+		task.Correct = GetMathResult( task );
+
+		task = AddIncorrectAnswers( task );
+	}
+
+
+	private static Subject SelectSubject ( Subject.Subjects subjectType, Subject[] subjects ) {
+		int subjectsLength = subjects.Length;
+		if (subjects == default || subjectsLength == 0) {
+			Debug.LogError("No subjects added to Grade, please add at least one subject to Grade.");
+			return null;
+		}
+
+		if (subjectsLength > 0) {
+			Subject tempSubject = ScriptableObject.CreateInstance<Subject>();
+			foreach (Subject subject in subjects) {
+				if (subject.SubjectType == subjectType) {
+					tempSubject = subject;
+					break;
+				}
+			}
+			if (tempSubject != default) {
+				return tempSubject;
+			}
+		}
+
+		Debug.LogError($"No valid match for subject type: {subjectType} was found.");
+		return null;
+		
+	}
+
 	/// <summary>
 	/// Gets components from the difficulty list provided, and adds it to the front of the referred firstComponent, and secondComponent.
 	/// </summary>

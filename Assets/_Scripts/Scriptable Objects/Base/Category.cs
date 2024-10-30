@@ -2,10 +2,10 @@ using UnityEngine;
 
 public abstract class Category : ScriptableObject {
 	public string Name = "";
-	public float CategoryStart = 0f;
-	public float CategoryEnd = 100f;
+	public int CategoryStart = 0;
+	public int CategoryEnd = 100;
 	public string Result = ""; 
-	public virtual bool SelectRandom (float progressChance) {
-		return ((CategoryEnd - Random.Range( CategoryStart, CategoryEnd )) < progressChance);
+	public virtual bool SelectRandom (float generalMasteryChance) {
+		return (Random.Range( CategoryStart, CategoryEnd ) < generalMasteryChance);
 	}
 }

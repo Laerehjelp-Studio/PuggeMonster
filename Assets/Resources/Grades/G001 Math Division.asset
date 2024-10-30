@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 470fce78b4a22cd4684710ef1d8fcc55, type: 3}
-  m_Name: G001 Math Addition
+  m_Name: G001 Math Division
   m_EditorClassIdentifier: 
-  Name: Addisjon
+  Name: Divisjon
   CategoryStart: 0
-  CategoryEnd: 400
-  Operator: +
+  CategoryEnd: 1984
+  Operator: /
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -28,21 +28,21 @@ MonoBehaviour:
     Result: -1
   OneMastery:
     Name: Enere
-    CategoryStart: 0
-    CategoryEnd: 100
+    CategoryStart: 1000
+    CategoryEnd: 1200
     Result: 1
   TensMastery:
     Name: Tiere
-    CategoryStart: 20
-    CategoryEnd: 200
+    CategoryStart: 1150
+    CategoryEnd: 1300
     Result: 2
   HundredMastery:
     Name: Hundretalls
-    CategoryStart: 150
-    CategoryEnd: 300
+    CategoryStart: 1250
+    CategoryEnd: 1500
     Result: 3
   ThousandsMastery:
     Name: Tusentalls
-    CategoryStart: 250
-    CategoryEnd: 400
+    CategoryStart: 1450
+    CategoryEnd: 1984
     Result: 4

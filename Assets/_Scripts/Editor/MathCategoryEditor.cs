@@ -98,34 +98,36 @@ public class MathCategoryEditor : Editor {
 	}
 
 	private void DrawMainCategoryBar ( Rect rect ) {
-		float min = Mathf.Min( decimalMastery.FindPropertyRelative( "CategoryStart" ).floatValue,
-							   oneMastery.FindPropertyRelative( "CategoryStart" ).floatValue,
-							   tensMastery.FindPropertyRelative( "CategoryStart" ).floatValue,
-							   hundredMastery.FindPropertyRelative( "CategoryStart" ).floatValue,
-							   thousandsMastery.FindPropertyRelative( "CategoryStart" ).floatValue );
-		float max = Mathf.Max( decimalMastery.FindPropertyRelative( "CategoryEnd" ).floatValue,
-							   oneMastery.FindPropertyRelative( "CategoryEnd" ).floatValue,
-							   tensMastery.FindPropertyRelative( "CategoryEnd" ).floatValue,
-							   hundredMastery.FindPropertyRelative( "CategoryEnd" ).floatValue,
-							   thousandsMastery.FindPropertyRelative( "CategoryEnd" ).floatValue );
+		int min = (int)Mathf.Clamp( Mathf.Min( decimalMastery.FindPropertyRelative( "CategoryStart" ).intValue,
+							   oneMastery.FindPropertyRelative( "CategoryStart" ).intValue,
+							   tensMastery.FindPropertyRelative( "CategoryStart" ).intValue,
+							   hundredMastery.FindPropertyRelative( "CategoryStart" ).intValue,
+							   thousandsMastery.FindPropertyRelative( "CategoryStart" ).intValue ),0,1984);
+		int max = (int)Mathf.Clamp( Mathf.Max( decimalMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
+							   oneMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
+							   tensMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
+							   hundredMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
+							   thousandsMastery.FindPropertyRelative( "CategoryEnd" ).intValue ),0,1984);
+		mathCategory.CategoryStart = min;
+		mathCategory.CategoryEnd = max;
 
-		float startX = Mathf.Lerp( rect.x, rect.xMax, (min - TimelineStart) / (TimelineEnd - TimelineStart) );
-		float endX = Mathf.Lerp( rect.x, rect.xMax, (max - TimelineStart) / (TimelineEnd - TimelineStart) );
+		float startX = Mathf.Lerp( rect.x, rect.xMax, ((float)min - TimelineStart) / (TimelineEnd - TimelineStart) );
+		float endX = Mathf.Lerp( rect.x, rect.xMax, ((float)max - TimelineStart) / (TimelineEnd - TimelineStart) );
 		Rect mathRect = new Rect( startX, rect.y + 10, endX - startX, 20 );
-		EditorGUI.DrawRect( mathRect, new Color( 0.6f, 0.6f, 1f, 0.5f ) );
+		EditorGUI.DrawRect( mathRect, new Color( 0.3f, 0.5f, 0.3f, 1f ) );
 		EditorGUI.LabelField( mathRect, mathCategory.Name, fontStyle );
 	}
 
 	private float DrawMasteryBar ( SerializedProperty masteryProperty, float yPos, Rect timelineRect, float barHeight ) {
-		float start = Mathf.Clamp( masteryProperty.FindPropertyRelative( "CategoryStart" ).floatValue, TimelineStart, TimelineEnd );
-		float end = Mathf.Clamp( masteryProperty.FindPropertyRelative( "CategoryEnd" ).floatValue, TimelineStart, TimelineEnd );
+		float start = Mathf.Clamp( masteryProperty.FindPropertyRelative( "CategoryStart" ).intValue, TimelineStart, TimelineEnd );
+		float end = Mathf.Clamp( masteryProperty.FindPropertyRelative( "CategoryEnd" ).intValue, TimelineStart, TimelineEnd );
 
 		float barStartX = Mathf.Lerp( timelineRect.x, timelineRect.xMax, (start - TimelineStart) / (TimelineEnd - TimelineStart) );
 		float barEndX = Mathf.Lerp( timelineRect.x, timelineRect.xMax, (end - TimelineStart) / (TimelineEnd - TimelineStart) );
 		Rect barRect = new Rect( barStartX, yPos, barEndX - barStartX, barHeight );
 
 		EditorGUI.DrawRect( barRect, new Color(0.3f,0.3f,0.3f,1f) );
-		EditorGUI.LabelField( barRect, masteryProperty.displayName, fontStyle );
+		EditorGUI.LabelField( barRect, masteryProperty.displayName.Split(" " )[0], fontStyle );
 
 		//HandleDragAndResize( barRect, masteryProperty.FindPropertyRelative( "CategoryStart" ), masteryProperty.FindPropertyRelative( "CategoryEnd" ), timelineRect );
 
@@ -152,12 +154,12 @@ public class MathCategoryEditor : Editor {
 
 			if (isDragging) {
 				float barWidth = endProperty.floatValue - startProperty.floatValue;
-				startProperty.floatValue = Mathf.Clamp( startProperty.floatValue + delta, TimelineStart, TimelineEnd - barWidth );
+				startProperty.floatValue = Mathf.Clamp( startProperty.intValue + delta, TimelineStart, TimelineEnd - barWidth );
 				endProperty.floatValue = startProperty.floatValue + barWidth;
 			} else if (isResizingStart) {
-				startProperty.floatValue = Mathf.Clamp( startProperty.floatValue + delta, TimelineStart, endProperty.floatValue );
+				startProperty.floatValue = Mathf.Clamp( startProperty.intValue + delta, TimelineStart, endProperty.intValue );
 			} else if (isResizingEnd) {
-				endProperty.floatValue = Mathf.Clamp( endProperty.floatValue + delta, startProperty.floatValue, TimelineEnd );
+				endProperty.floatValue = Mathf.Clamp( endProperty.intValue + delta, startProperty.intValue, TimelineEnd );
 			}
 
 			e.Use();
