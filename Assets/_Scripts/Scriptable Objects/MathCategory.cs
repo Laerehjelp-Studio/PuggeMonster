@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,7 +18,7 @@ public class MathCategory : ScriptableObject {
 		return (Random.value < probability);
 	}
 
-	[Header( "Display on Timeline" )]
+	[Header( "Enable Placements" )]
 	[SerializeField] bool Decimals;
 	[SerializeField] bool Ones;
 	[SerializeField] bool Tens;
