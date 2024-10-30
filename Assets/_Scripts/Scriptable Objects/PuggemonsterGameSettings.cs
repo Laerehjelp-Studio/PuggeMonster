@@ -8,5 +8,9 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	[Header("Task Limits")]
 	public float RecievePuggemonsterLimit = 10;
 	public int QuestionSetSize = 4;
+	[Header( "Grades" )]
+	public Grade[] Grades;
+	private Grade _buildGrade;
+	public Grade BuildGrade { get { return _buildGrade; } set { _buildGrade = value; } }
 
 }

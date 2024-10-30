@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a000ce491bd04bd4287230e02077d84c, type: 3}
-  m_Name: PuggeMonster Game Settings
+  m_Script: {fileID: 11500000, guid: 4677e292946d2ea4494437316210b664, type: 3}
+  m_Name: Grade 001
   m_EditorClassIdentifier: 
-  WhenIsMasteryAchieved: 2
-  RecievePuggemonsterLimit: 10
-  QuestionSetSize: 4
-  Grades:
-  - {fileID: 11400000, guid: 482bb1cb85b263b429e69f7ff56e7ff5, type: 2}
+  Name: "F\xF8rste Klasse"
+  Subjects:
+  - {fileID: 11400000, guid: bb503ec6e22cfed46ad4af3fef2b2506, type: 2}
