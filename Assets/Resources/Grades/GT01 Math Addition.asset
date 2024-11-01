@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 470fce78b4a22cd4684710ef1d8fcc55, type: 3}
-  m_Name: G001 Math Addition
+  m_Name: GT01 Math Addition
   m_EditorClassIdentifier: 
   Name: Addisjon
   CategoryStart: 0
-  CategoryEnd: 400
+  CategoryEnd: 502
   Operator: +
   Decimals: 0
   Ones: 1
@@ -29,20 +29,20 @@ MonoBehaviour:
   OneMastery:
     Name: Enere
     CategoryStart: 0
-    CategoryEnd: 100
+    CategoryEnd: 30
     Result: 1
   TensMastery:
     Name: Tiere
     CategoryStart: 20
-    CategoryEnd: 200
+    CategoryEnd: 100
     Result: 2
   HundredMastery:
     Name: Hundretalls
-    CategoryStart: 150
-    CategoryEnd: 300
+    CategoryStart: 40
+    CategoryEnd: 200
     Result: 3
   ThousandsMastery:
     Name: Tusentalls
-    CategoryStart: 155
+    CategoryStart: 60
     CategoryEnd: 502
     Result: 4

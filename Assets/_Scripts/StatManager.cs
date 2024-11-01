@@ -5,12 +5,12 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 static public class StatManager {
-	[SerializeField] private static OperatorStore _operatorStore = new();
-	[SerializeField] private static List<string> _generalMathMasteryList = new();
+	private static OperatorStore _operatorStore;
+	private static List<string> _generalMathMasteryList = new();
 	public static Action OnDatabaseUpdate { get; set; } = delegate { };
 	public static Action OnMathGeneralMastery { get; set; } = delegate { };
 
-	private static bool initialized = false;
+	private static bool initialized;
 
 	#region Initialization
 	/// <summary>
@@ -32,30 +32,26 @@ static public class StatManager {
 		for (int first = 0; first < 10; first++) {
 			for (int second = 0; second < 10; second++) {
 				string _mathAddition = $"{first}+{second}";
-				if (!_initDictAddition.ContainsKey( _mathAddition )) {
-					_initDictAddition.Add( _mathAddition, 0f );
-				}
+				_initDictAddition.TryAdd(_mathAddition, 0f);
+				
 				if (!_initListAddition.Contains( _mathAddition )) {
 					_initListAddition.Add( _mathAddition );
 				}
 				string _mathSubtraction = $"{first}-{second}";
-				if (!_initDictSubtraction.ContainsKey( _mathSubtraction )) {
-					_initDictSubtraction.Add( _mathSubtraction, 0f );
-				}
+				_initDictSubtraction.TryAdd(_mathSubtraction, 0f);
+				
 				if (!_initListSubtraction.Contains( _mathSubtraction )) {
 					_initListSubtraction.Add( _mathSubtraction );
 				}
 				string _mathMultiplication = $"{first}*{second}";
-				if (!_initDictMultiplication.ContainsKey( _mathMultiplication )) {
-					_initDictMultiplication.Add( _mathMultiplication, 0f );
-				}
+				_initDictMultiplication.TryAdd(_mathMultiplication, 0f);
+				
 				if (!_initListMultiplication.Contains( _mathMultiplication )) {
 					_initListMultiplication.Add( _mathMultiplication );
 				}
 				string _mathDivision = $"{first}/{second}";
-				if (!_initDictDivision.ContainsKey( _mathDivision )) {
-					_initDictDivision.Add( _mathDivision, 0f );
-				}
+				_initDictDivision.TryAdd(_mathDivision, 0f);
+				
 				if (!_initListDivision.Contains( _mathDivision )) {
 					_initListDivision.Add( _mathDivision );
 				}
@@ -128,15 +124,13 @@ static public class StatManager {
 	/// <typeparam name="T"></typeparam>
 	/// <param name="list"></param>
 	/// <returns></returns>
-	public static List<T> ShuffleList<T> ( List<T> list ) {
+	private static List<T> ShuffleList<T> ( List<T> list ) {
 		// Fisher-Yates shuffle algorithm using Unity's Random.Range()
 		for (int i = list.Count - 1; i > 0; i--) {
 			int j = Random.Range( 0, i + 1 );
 
 			// Swap elements
-			T temp = list[ i ];
-			list[ i ] = list[ j ];
-			list[ j ] = temp;
+			(list[ i ], list[ j ]) = (list[ j ], list[ i ]);
 		}
 
 		return list;
@@ -207,8 +201,6 @@ static public class StatManager {
 
 		string decimalPair = GetDecimalPair( mathTask, firstComponent, secondComponent );
 
-		string mathPiece = $"{mathTask.Components[ 0 ]}{mathTask.Operator}{mathTask.Components[ 1 ]}";
-
 		switch (mathTask.Operator) {
 			case "+":
 				UpdateAdditiveDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair );
@@ -249,7 +241,7 @@ static public class StatManager {
 
 		// If the onerPair does not exist, return early.
 		if (onerPair == null) {
-			UnityEngine.Debug.LogError( "OnerPair is null;" );
+			Debug.LogError( "OnerPair is null;" );
 			return;
 		}
 
@@ -461,6 +453,7 @@ static public class StatManager {
 	/// </summary>
 	/// <param name="numberPair"></param>
 	/// <param name="numeric"></param>
+	/// <param name="taskOperator"></param>
 	/// <returns></returns>
 	private static string PairZeroFill ( string numberPair, int numeric, string taskOperator ) {
 		string before = "";
@@ -614,18 +607,21 @@ static public class StatManager {
 	/// <param name="secondComponent"></param>
 	/// <returns></returns>
 	private static string GetDecimalPair ( MathTask mathTask, string firstComponent, string secondComponent ) {
-		if (firstComponent.IndexOf(",") != -1 || firstComponent.IndexOf( "." ) != -1 || secondComponent.IndexOf( "," ) != -1 || secondComponent.IndexOf( "." ) != -1) {
+		if (firstComponent.IndexOf(",", StringComparison.Ordinal) != -1 || 
+			firstComponent.IndexOf( ".", StringComparison.Ordinal) != -1 || 
+			secondComponent.IndexOf( ",", StringComparison.Ordinal) != -1 || 
+			secondComponent.IndexOf( ".", StringComparison.Ordinal) != -1) {
 			string first = "0";
 			string second = "0";
-			if (firstComponent.IndexOf( "," ) != -1) {
+			if (firstComponent.IndexOf( ",", StringComparison.Ordinal) != -1) {
 				first = firstComponent.Split( "," )[ 1 ];
-			} else if (firstComponent.IndexOf( "." ) != -1) {
+			} else if (firstComponent.IndexOf( ".", StringComparison.Ordinal) != -1) {
 				first = firstComponent.Split( "." )[ 1 ];
 			}
 
-			if (secondComponent.IndexOf( "," ) != -1) {
+			if (secondComponent.IndexOf( ",", StringComparison.Ordinal) != -1) {
 				second = secondComponent.Split( "," )[ 1 ];
-			} else if (secondComponent.IndexOf( "." ) != -1) {
+			} else if (secondComponent.IndexOf( ".", StringComparison.Ordinal) != -1) {
 				second = secondComponent.Split( "." )[ 1 ];
 			}
 
@@ -637,7 +633,7 @@ static public class StatManager {
 	/// <summary>
 	/// This function cets a pair of "x+y" dependant on 
 	/// </summary>
-	/// <param name="mathTask"></param>
+	/// <param name="mathTaskOperator"></param>
 	/// <param name="length"></param>
 	/// <param name="firstComponent"></param>
 	/// <param name="secondComponent"></param>
@@ -673,7 +669,7 @@ static public class StatManager {
 	/// <returns></returns>
 	public static DifficultyList GetDifficultyLists (string Operator, string difficulty) {
 		if (Operator == default) {
-			Debug.LogError($"Operator is: '{Operator}'");
+			Debug.LogError($"Operator is: 'null'");
 		}
 		DifficultyList _difficultyLists = new() {
 			//Decimal = new(),

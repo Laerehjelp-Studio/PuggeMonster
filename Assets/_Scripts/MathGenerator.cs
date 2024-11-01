@@ -9,6 +9,7 @@ public static class MathGenerator
 	/// Generates questions based on Difficulty String.
 	/// </summary>
 	/// <param name="Difficulty"></param>
+	/// <param name="task"></param>
 	/// <returns></returns>
 	
 	 public static MathTask GenerateMathQuestion ( string Difficulty, MathTask task = new()) {
@@ -59,7 +60,6 @@ public static class MathGenerator
 				task.difficultyLevelStringValue = "Hard";
 
 				task.Correct = GetMathResult( task );
-				;
 
 				task = AddIncorrectAnswers( task );
 			}
@@ -67,9 +67,11 @@ public static class MathGenerator
 		}
 		return task;
 	}
+	
 	/// <summary>
 	/// Generates math questions based on MathCode
 	/// </summary>
+	/// <param name="task"></param>
 	/// <param name="mathCode"></param>
 	/// <returns></returns>
 	public static MathTask GenerateMathQuestion ( MathTask task, MathCode mathCode) {
@@ -153,6 +155,7 @@ public static class MathGenerator
 	/// This generates questions based on the student's previous performance.
 	/// </summary>
 	/// <param name="task"></param>
+	/// <param name="mathCode"></param>
 	/// <returns></returns>
 	public static MathTask GenerateMathQuestionFromStudentPerformance (  MathTask task, MathCode mathCode  = new() ) {
 		if (task.difficultyLetter == default) {
@@ -239,25 +242,31 @@ public static class MathGenerator
 		task = AddIncorrectAnswers( task );
 	}
 
-
+	/// <summary>
+	/// Selects a subject
+	/// </summary>
+	/// <param name="subjectType"></param>
+	/// <param name="subjects"></param>
+	/// <returns></returns>
 	private static Subject SelectSubject ( Subject.Subjects subjectType, Subject[] subjects ) {
 		int subjectsLength = subjects.Length;
-		if (subjects == default || subjectsLength == 0) {
+		if (subjects == Array.Empty<Subject>() || subjectsLength == 0) {
 			Debug.LogError("No subjects added to Grade, please add at least one subject to Grade.");
 			return null;
 		}
 
-		if (subjectsLength > 0) {
-			Subject tempSubject = ScriptableObject.CreateInstance<Subject>();
-			foreach (Subject subject in subjects) {
-				if (subject.SubjectType == subjectType) {
-					tempSubject = subject;
-					break;
-				}
+		
+		Subject tempSubject = ScriptableObject.CreateInstance<Subject>();
+		
+		foreach (Subject subject in subjects) {
+			if (subject.SubjectType == subjectType) {
+				tempSubject = subject;
+				break;
 			}
-			if (tempSubject != default) {
-				return tempSubject;
-			}
+		}
+		
+		if (tempSubject != default) {
+			return tempSubject;
 		}
 
 		Debug.LogError($"No valid match for subject type: {subjectType} was found.");
@@ -283,9 +292,6 @@ public static class MathGenerator
 	/// Accepts and Returns a MathTask, the returned mathTask should have task.Incorrect added to it twice.
 	/// </summary>
 	/// <param name="task"></param>
-	/// <param name="temp"></param>
-	/// <param name="lastDigitInOption1"></param>
-	/// <param name="lastDigitInOption2"></param>
 	/// <returns></returns>
 	private static MathTask AddIncorrectAnswers ( MathTask task ) {
 		float temp = task.Correct;
@@ -294,8 +300,8 @@ public static class MathGenerator
 
 
 		string tempString = "" + temp;
-		tempString = tempString[ tempString.Length - 1 ].ToString();
-		lastDigitInAnswer = Int32.Parse( tempString );
+		//tempString = tempString[ tempString.Length - 1 ].ToString();
+		//lastDigitInAnswer = Int32.Parse( tempString );
 
 		tempString = "" + task.Components[ 0 ];
 		tempString = tempString[ tempString.Length - 1 ].ToString();
@@ -334,6 +340,7 @@ public static class MathGenerator
 	/// <param name="correct"></param>
 	/// <param name="Incorrect"></param>
 	/// <param name="range"></param>
+	/// <param name="Operator"></param>
 	/// <returns></returns>
 	private static float GetIncorrectWhenOutOfBounds (float correct, List<float> Incorrect, int range = 5, string Operator = "") {
 		if (Incorrect == default) {
@@ -346,7 +353,7 @@ public static class MathGenerator
 
 		float currentIncorrect = modifier + correct;
 
-		if (currentIncorrect == correct || Incorrect.Contains( currentIncorrect ) || currentIncorrect < 0 && Operator == "+") {
+		if (Mathf.Approximately(currentIncorrect, correct) || Incorrect.Contains( currentIncorrect ) || currentIncorrect < 0 && Operator == "+") {
 			return GetIncorrectWhenOutOfBounds( correct, Incorrect, range, Operator );
 		}
 

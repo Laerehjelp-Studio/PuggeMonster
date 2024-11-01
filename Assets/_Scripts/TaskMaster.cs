@@ -15,9 +15,9 @@ public class TaskMaster : MonoBehaviour {
 	private List<WordTask> _wordTasks = new();
 
 	private StudentPerformance _currentStudentPerformance = new ( );
-	private int _currentTaskIndex = 0;
-	private int _numberOfAnswers = 0;
-	private float _currentScore = 0;
+	private int _currentTaskIndex;
+	private int _numberOfAnswers;
+	private float _currentScore;
 	private int _maxTasks = 4;
 	private float _receivePuggemonScoreLimit;
 
@@ -119,17 +119,24 @@ public class TaskMaster : MonoBehaviour {
 		float currentDifficultyModifier = 0f;
 		
 		for (int i = 0; i < _maxTasks; i++) {
-			// If it is the first or last difficulty-letter, make let's check based on the _difficultyStudentPerformance.PerformanceAverage randomising between hard and medium
-			if (i == 0 || i == _maxTasks - 1) {
-				// if _difficultyStudentPerformance.PerformanceAverage is above the changing currentDifficulty let's do random between hard and medium
-				if (_currentStudentPerformance.Sum > currentDifficultyModifier) { 
-					difficultySet[i] = (Random.Range( 0, 3 ) == 0) ? 'h' : 'm';
-				} else { // If PerformanceAverage is not above currentDifficultyModifier then we will randomize 60/30 between easy and medium question.
-					difficultySet[ i] = (Random.Range( 0, 3 ) == 0) ? 'm' : 'e';
-				}
-			} else {
-				difficultySet[ i ] = 'e';
+			if (_currentStudentPerformance.Sum > currentDifficultyModifier) { 
+				difficultySet[i] = (Random.Range( 0, 3 ) == 0) ? 'h' : 'm';
+			} else { // If PerformanceAverage is not above currentDifficultyModifier then we will randomize 60/30 between easy and medium question.
+				difficultySet[ i] = (Random.Range( 0, 3 ) == 0) ? 'm' : 'e';
 			}
+			// Old algorithm forces a [m/h|m/e],[e],[e],[m/h|m/e] structure.
+			// If it is the first or last difficulty-letter, make let's check based on the _difficultyStudentPerformance.PerformanceAverage randomising between hard and medium
+			// if (i == 0 || i == _maxTasks - 1) {
+			// 	// if _difficultyStudentPerformance.PerformanceAverage is above the changing currentDifficulty let's do random between hard and medium
+			// 	if (_currentStudentPerformance.Sum > currentDifficultyModifier) { 
+			// 		difficultySet[i] = (Random.Range( 0, 3 ) == 0) ? 'h' : 'm';
+			// 	} else { // If PerformanceAverage is not above currentDifficultyModifier then we will randomize 60/30 between easy and medium question.
+			// 		difficultySet[ i] = (Random.Range( 0, 3 ) == 0) ? 'm' : 'e';
+			// 	}
+			// } else {
+			// 	difficultySet[ i ] = 'e';
+			// }
+			
 			// Change currentDifficultyModifier depending on the newly added difficulty letter.
 			switch (difficultySet[ i ]) {
 				case 'h':
@@ -178,8 +185,9 @@ public class TaskMaster : MonoBehaviour {
 
 		//Debug.Log($"Selected answer = {mathValue}, Corrrect Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 		_currentStudentPerformance.Push( points );
-
-		if (mathTask.Correct == mathValue) {
+		
+		// Floating point comparison should use Mathf.Approximately
+		if (Mathf.Approximately(mathTask.Correct, mathValue)) {
 			StatManager.RegisterAnswer(mathTask, mathValue, points );
 			
 			_currentScore = _currentScore + points;
@@ -199,23 +207,21 @@ public class TaskMaster : MonoBehaviour {
 		}
 	}
 
-	public void RegisterAnswer(WordTask wordTask, string buttonInputValue)
-	{
+	public void RegisterAnswer(WordTask wordTask, string buttonInputValue) {
 		_numberOfAnswers++;
 
 		float points = 1f * (1f / _numberOfAnswers);
 
-		if (points < 0.4)
-		{
+		if (points < 0.4) {
 			points = 0;
 		}
+
 		Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 		//_currentDifficulty.AverageDifficulty.Push(points);
 
 		//StatManager.RegisterAnswer(mathTask, points);
 
-		if (wordTask.Correct == buttonInputValue)
-		{
+		if (wordTask.Correct == buttonInputValue) {
 			_currentScore = _currentScore + points;
 
 			if (_currentScore >= _receivePuggemonScoreLimit) // Was comparing to _maxTasks, wich is the ammount of tasks to generate. Changed to score limit
@@ -234,7 +240,7 @@ public class TaskMaster : MonoBehaviour {
 	}
 
 	private void NextQuestion (MathTask mathTask) {
-		_currentTaskIndex = _mathTasks.IndexOf(mathTask );
+		_currentTaskIndex = _mathTasks.IndexOf( mathTask );
 		_numberOfAnswers = 0;
 
 		if (_currentTaskIndex + 1 < _mathTasks.Count) {
@@ -285,31 +291,28 @@ public class TaskMaster : MonoBehaviour {
 public class StudentPerformance {
 	private List<float> _performanceRegister = new(); // the average score for the set of four generated questions
 	private int _maxSize = GameManager.QuestionSetSize;
-	public float Average { 
-		get {
-			return (Sum == 0 && Sum == _performanceRegister.Count) ? 0: Sum / _performanceRegister.Count; 
-		} 
-	}
+	public float Average => (Sum == 0 && Mathf.Approximately(Sum, _performanceRegister.Count)) ? 0 : Sum / _performanceRegister.Count;
+
 	public float Sum {
 		get {
 			float _sum = 0;
 			foreach (float i in _performanceRegister) {
 				_sum += i;
 			}
+
 			return _sum;
-		} 
-	}
-
-	public void Push (float item) {
-		_performanceRegister.Add(item);
-
-		if (_performanceRegister.Count > _maxSize) {
-			_performanceRegister.Remove( _performanceRegister[0] );
-			return; 
 		}
 	}
 
-	public void Initialize ( int maxSize ) {
+	public void Push(float item) {
+		_performanceRegister.Add(item);
+
+		if (_performanceRegister.Count > _maxSize) {
+			_performanceRegister.Remove(_performanceRegister[0]);
+		}
+	}
+
+	public void Initialize(int maxSize) {
 		_maxSize = maxSize;
 	}
 }
@@ -329,8 +332,9 @@ public struct LetterTask {
 	public string Correct;
 	public string[] Incorrect;
 }
+
 public struct WordTask {
 	public Sprite WordSprite;
 	public string Correct;
-	public List<string> Incorrect ;
+	public List<string> Incorrect;
 }
