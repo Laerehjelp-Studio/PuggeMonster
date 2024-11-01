@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -51,6 +52,10 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public static Action OnGameSave { get; set; } = delegate { };
+	public static Action OnGameLoad { get; set; } = delegate { };
+	public static Action OnClearSaveGame { get; set; } = delegate { };
+	
 	private void Awake () {
 		if (Instance == null) {
 			Instance = this;
@@ -59,7 +64,8 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		StatManager.Initialize();
+		StatManager.AttachEvents();
+		LoadGame();
 
 		SceneManager.sceneLoaded += NewSceneLoaded;
 
@@ -70,7 +76,20 @@ public class GameManager : MonoBehaviour {
 		ResizeByScale( DeviceScaler );
 	}
 
+	private void Start() {
+		StatManager.Initialize();
+	}
 
+	public static void SaveGame() {
+		OnGameSave?.Invoke();
+	}
+	public static void LoadGame() {
+		OnGameSave?.Invoke();
+	}
+
+	public static void ClearSaveGame() {
+		OnClearSaveGame?.Invoke();
+	}
 
 	public float[] GetDeviceBasedRectSizeAndScale() {
 		float[] result = new float[ 4 ];

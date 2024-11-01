@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 using Random = UnityEngine.Random;
 
 static public class StatManager {
@@ -114,10 +115,44 @@ static public class StatManager {
 		_operatorStore.Multiplication.TensDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		_operatorStore.Multiplication.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		_operatorStore.Multiplication.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
-
+		
 		initialized = true;
 	}
+	/// <summary>
+	/// Attach StatManager Events.
+	/// </summary>
+	public static void AttachEvents() {
+		GameManager.OnGameSave += SaveGame;
+		GameManager.OnGameLoad += LoadGame;
+		GameManager.OnClearSaveGame += ClearSaveGame;
+	}
 
+	// Save the _operatorStore to PlayerPrefs
+	private static void SaveGame() {
+		string json = JsonConvert.SerializeObject(_operatorStore);
+		PlayerPrefs.SetString("OperatorStore", json);
+		PlayerPrefs.Save();
+		Debug.Log("Game saved successfully.");
+	}
+
+	// Load the _operatorStore from PlayerPrefs
+	private static void LoadGame() {
+		if (PlayerPrefs.HasKey("OperatorStore")) {
+			initialized = true;
+			string json = PlayerPrefs.GetString("OperatorStore");
+			_operatorStore = JsonConvert.DeserializeObject<OperatorStore>(json);
+			Debug.Log("Game loaded successfully.");
+		} else {
+			Debug.LogWarning("No saved game data found.");
+		}
+	}
+
+	private static void ClearSaveGame() {
+		if (PlayerPrefs.HasKey("OperatorStore")) {
+			PlayerPrefs.DeleteKey("OperatorStore");
+		}
+	}
+	
 	/// <summary>
 	/// Used to shuffle the sorted by difficulty-lists upon initialization.
 	/// </summary>
