@@ -660,9 +660,10 @@ static public class StatManager {
 	/// <summary>
 	/// Returns the complete OperatorStore.
 	/// </summary>
-	public static OperatorStore GetStore {  get { return _operatorStore; } }
+	public static OperatorStore GetStore => _operatorStore;
+
 	/// <summary>
-	/// Produces difficulty lists dependant on the Operator and Difficulty provided.
+	/// Produces difficulty lists dependent on the Operator and Difficulty provided.
 	/// </summary>
 	/// <param name="Operator"></param>
 	/// <param name="difficulty"></param>

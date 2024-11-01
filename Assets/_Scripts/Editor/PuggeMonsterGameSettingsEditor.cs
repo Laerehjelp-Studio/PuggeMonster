@@ -1,39 +1,57 @@
-using UnityEngine;
 using UnityEditor;
 
-[CustomEditor( typeof( PuggeMonsterGameSettings ),true )]
-public class PuggeMonsterGameSettingsEditor : Editor {
-	private int selectedGradeIndex = 0;
-	private string[] gradeNames;
-	PuggeMonsterGameSettings settings;
-	private void OnEnable () {
-		// Get the target object
-		settings = (PuggeMonsterGameSettings)target;
+[CustomEditor(typeof(PuggeMonsterGameSettings), true)]
+public class PuggeMonsterGameSettingsEditor : Editor
+{
+    private int selectedGradeIndex = 0;
+    private string[] gradeNames;
+    PuggeMonsterGameSettings settings;
+    private SerializedProperty buildGradeProp;
 
-		// Initialize grade names if grades are available
-		if (settings.Grades != null && settings.Grades.Length > 0) {
-			gradeNames = new string[ settings.Grades.Length ];
-			for (int i = 0; i < settings.Grades.Length; i++) {
-				gradeNames[ i ] = settings.Grades[ i ].name; // Assumes Grade class has a 'name' property
-			}
-		} else {
-			gradeNames = new string[] { "No Grades Available" };
-		}
-	}
+    private void OnEnable()
+    {
+        // Get the target object
+        settings = (PuggeMonsterGameSettings)target;
 
-	public override void OnInspectorGUI () {
-		// Draw the default inspector
-		DrawDefaultInspector();
+        // Reference the SerializedProperty for BuildGrade
+        buildGradeProp = serializedObject.FindProperty("_buildGrade");
 
-		// Dropdown for grades
-		EditorGUILayout.LabelField( "Select Grade used in Build", EditorStyles.boldLabel );
-		selectedGradeIndex = EditorGUILayout.Popup( selectedGradeIndex, gradeNames );
+        // Initialize grade names if grades are available
+        if (settings.Grades != null && settings.Grades.Length > 0)
+        {
+            gradeNames = new string[settings.Grades.Length];
+            for (int i = 0; i < settings.Grades.Length; i++)
+            {
+                gradeNames[i] = settings.Grades[i].name; // Assumes Grade class has a 'name' property
+            }
 
-		// Optionally, add any additional logic here if you want to do something with the selected grade
-		if (selectedGradeIndex < settings.Grades.Length) {  
-			settings.BuildGrade = settings.Grades[ selectedGradeIndex ];
-			serializedObject.ApplyModifiedProperties();
-		}
-		
-	}
+            // Set selectedGradeIndex based on the current BuildGrade
+            selectedGradeIndex = System.Array.IndexOf(settings.Grades, settings.BuildGrade);
+            if (selectedGradeIndex < 0) selectedGradeIndex = 0; // Default to the first grade if not found
+        }
+        else
+        {
+            gradeNames = new string[] { "No Grades Available" };
+        }
+    }
+
+    public override void OnInspectorGUI()
+    {
+        // Draw the default inspector
+        DrawDefaultInspector();
+
+        // Dropdown for grades
+        EditorGUILayout.LabelField("Select Grade used in Build", EditorStyles.boldLabel);
+        int newSelectedGradeIndex = EditorGUILayout.Popup(selectedGradeIndex, gradeNames);
+
+        // Update the BuildGrade if a new selection is made
+        if (newSelectedGradeIndex != selectedGradeIndex)
+        {
+            selectedGradeIndex = newSelectedGradeIndex;
+            buildGradeProp.objectReferenceValue = settings.Grades[selectedGradeIndex];
+            
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(settings); // Mark the ScriptableObject as dirty to save the change
+        }
+    }
 }

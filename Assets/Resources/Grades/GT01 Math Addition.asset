@@ -33,7 +33,7 @@ MonoBehaviour:
     Result: 1
   TensMastery:
     Name: Tiere
-    CategoryStart: 20
+    CategoryStart: 10
     CategoryEnd: 100
     Result: 2
   HundredMastery:

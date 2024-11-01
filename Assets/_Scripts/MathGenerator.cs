@@ -296,10 +296,11 @@ public static class MathGenerator
 	private static MathTask AddIncorrectAnswers ( MathTask task ) {
 		float temp = task.Correct;
 
-		int lastDigitInAnswer, lastDigitInOption1, lastDigitInOption2;
+		//int lastDigitInAnswer; 
+		int lastDigitInOption1, lastDigitInOption2;
 
-
-		string tempString = "" + temp;
+		string tempString;
+		//tempString = "" + temp;
 		//tempString = tempString[ tempString.Length - 1 ].ToString();
 		//lastDigitInAnswer = Int32.Parse( tempString );
 
@@ -343,14 +344,14 @@ public static class MathGenerator
 	/// <param name="Operator"></param>
 	/// <returns></returns>
 	private static float GetIncorrectWhenOutOfBounds (float correct, List<float> Incorrect, int range = 5, string Operator = "") {
-		if (Incorrect == default) {
-			Incorrect = new();
-		}
+		Incorrect ??= new();
 
 		int modifier =  Random.Range( -1 * range, range );
-		
-		modifier = (modifier == 0) ? modifier + 1 : modifier;
 
+		if (modifier == 0) {
+			modifier += 1;
+		}
+		
 		float currentIncorrect = modifier + correct;
 
 		if (Mathf.Approximately(currentIncorrect, correct) || Incorrect.Contains( currentIncorrect ) || currentIncorrect < 0 && Operator == "+") {
@@ -359,7 +360,6 @@ public static class MathGenerator
 
 		return currentIncorrect;
 	}
-
 }
 
 public struct MathCode {
