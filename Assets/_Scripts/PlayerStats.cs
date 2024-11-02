@@ -19,5 +19,6 @@ public class PlayerStats : MonoBehaviour
 
 	public void AddPuggeMonster(int monsterIndex) {
 		PuggemonArray[monsterIndex]++;
+		GameManager.SaveGame();
 	}
 }

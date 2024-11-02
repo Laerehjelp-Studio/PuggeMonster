@@ -1,51 +1,65 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor( typeof( MathCategory ) )]
-public class MathCategoryEditor : Editor {
-	private SerializedProperty decimals, ones, tens, hundreds, thousands;
-	private SerializedProperty decimalMastery, oneMastery, tensMastery, hundredMastery, thousandsMastery;
+public static class MathCategoryGraphDrawer
+{
 	private const int TimelineStart = 0;
 	private const int TimelineEnd = 1984;
-	private MathCategory mathCategory;
-	private bool isDragging;
-	private bool isResizingStart;
-	private bool isResizingEnd;
-	private GUIStyle fontStyle;
-	private void OnEnable () {
-		mathCategory = (MathCategory)target;
+	private static bool _initialized;
 
-		decimals = serializedObject.FindProperty( "Decimals" );
-		ones = serializedObject.FindProperty( "Ones" );
-		tens = serializedObject.FindProperty( "Tens" );
-		hundreds = serializedObject.FindProperty( "Hundreds" );
-		thousands = serializedObject.FindProperty( "Thousands" );
+	private static SerializedProperty decimals, ones, tens, hundreds, thousands;
+	private static SerializedProperty decimalMastery, oneMastery, tensMastery, hundredMastery, thousandsMastery;
+	private static MathCategory mathCategory;
+	private static bool isDragging;
+	private static bool isResizingStart;
+	private static bool isResizingEnd;
+	private static GUIStyle fontStyle;
+	private static SerializedObject _serializedObject;
+	private static MathCategory _mathCategory;
+	
+	public static void Initialise(MathCategory target, SerializedObject serializedObject) {
+		if (_initialized) {
+			return;
+		}
+		_serializedObject = serializedObject;
+		_mathCategory = target;
 
-		decimalMastery = serializedObject.FindProperty( "DecimalMastery" );
-		oneMastery = serializedObject.FindProperty( "OneMastery" );
-		tensMastery = serializedObject.FindProperty( "TensMastery" );
-		hundredMastery = serializedObject.FindProperty( "HundredMastery" );
-		thousandsMastery = serializedObject.FindProperty( "ThousandsMastery" );
+		decimals = _serializedObject.FindProperty( "Decimals" );
+		ones = _serializedObject.FindProperty( "Ones" );
+		tens = _serializedObject.FindProperty( "Tens" );
+		hundreds = _serializedObject.FindProperty( "Hundreds" );
+		thousands = _serializedObject.FindProperty( "Thousands" );
+
+		decimalMastery = _serializedObject.FindProperty( "DecimalMastery" );
+		oneMastery = _serializedObject.FindProperty( "OneMastery" );
+		tensMastery = _serializedObject.FindProperty( "TensMastery" );
+		hundredMastery = _serializedObject.FindProperty( "HundredMastery" );
+		thousandsMastery = _serializedObject.FindProperty( "ThousandsMastery" );
+		_initialized = true;
 	}
-
-	public override void OnInspectorGUI () {
-		serializedObject.Update(); 
+	
+	public static void DrawGraph (SerializedObject serializedObject) {
+		if (_serializedObject == null && serializedObject != null) {
+			_serializedObject = serializedObject;
+		}
+		
+		if (_serializedObject == default) {
+			Debug.LogError("Missing _serializedObject: Please run 'MathCategoryGraphDrawer.Initialise' before using 'MathGraphDrawer.DrawGraph'.");
+			return;
+		}
+		
+		_serializedObject.Update();
 		fontStyle = new GUIStyle( GUI.skin.label ) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, wordWrap = true };
 		DrawCheckBoxes();
 
 		// Increase the height of the timeline window to fit all bars
 		Rect timelineRect = GUILayoutUtility.GetRect( 0, 6 * (30 + 20), GUILayout.ExpandWidth( true ) );
 		DrawTimeline( timelineRect );
-		
-		// Attempt at updating to propagate the settings graph up the chain of command.
-		//MathCategoryGraphDrawer.Initialise( mathCategory, serializedObject );
-		//MathCategoryGraphDrawer.DrawGraph( serializedObject);
-		
-		DrawDefaultInspector();
-		serializedObject.ApplyModifiedProperties();
-	}
 
-	private void DrawCheckBoxes () {
+		_serializedObject.ApplyModifiedProperties();
+	}
+	
+	private static void DrawCheckBoxes () {
 		EditorGUILayout.BeginHorizontal( GUILayout.ExpandWidth( true ) );
 		float width = ((EditorGUIUtility.currentViewWidth - 20) / 5);
 		DrawWideEmptySpace( 10f );
@@ -58,20 +72,19 @@ public class MathCategoryEditor : Editor {
 		EditorGUILayout.EndHorizontal();
 	}
 
-	private void DrawWideEmptySpace ( float width ) {
+	private static void DrawWideEmptySpace ( float width ) {
 		EditorGUILayout.BeginVertical( GUILayout.Width( width ) );
 
 		EditorGUILayout.EndVertical();
 	}
 
-	private void DisplayCheckbox ( string label, SerializedProperty property, float width ) {
+	private static void DisplayCheckbox ( string label, SerializedProperty property, float width ) {
 		EditorGUILayout.BeginVertical( GUILayout.Width( width ) );
 		EditorGUILayout.LabelField( label, EditorStyles.boldLabel, GUILayout.Width( width ) );
 		property.boolValue = EditorGUILayout.Toggle( property.boolValue, GUILayout.Width( width ), GUILayout.Height( width / 2 ));
 		EditorGUILayout.EndVertical();
 	}
-
-	private void DrawTimeline ( Rect rect ) {
+	private static void DrawTimeline ( Rect rect ) {
 		EditorGUI.DrawRect( rect, Color.gray );
 
 		for (int i = 0; i <= TimelineEnd; i += 496) {
@@ -93,39 +106,40 @@ public class MathCategoryEditor : Editor {
 			yPos = DrawMasteryBar( oneMastery, yPos + spacing, rect, barHeight );
 		}
 		if (tens.boolValue){
-			yPos = DrawMasteryBar( tensMastery, yPos + spacing, rect, barHeight );
+			yPos = DrawMasteryBar(tensMastery, yPos + spacing, rect, barHeight );
 		}
 		if (hundreds.boolValue) {
-			yPos = DrawMasteryBar( hundredMastery, yPos + spacing, rect, barHeight );
+			yPos = DrawMasteryBar(hundredMastery, yPos + spacing, rect, barHeight );
 		}
 		if (thousands.boolValue) {
-			yPos = DrawMasteryBar( thousandsMastery, yPos + spacing, rect, barHeight );
+			yPos = DrawMasteryBar(thousandsMastery, yPos + spacing, rect, barHeight );
 		}
 	}
-
-	private void DrawMainCategoryBar ( Rect rect ) {
+	
+	private static void DrawMainCategoryBar ( Rect rect ) {
 		int min = Mathf.Clamp( Mathf.Min( decimalMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   oneMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   tensMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   hundredMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   thousandsMastery.FindPropertyRelative( "CategoryStart" ).intValue ),0,1984);
+			oneMastery.FindPropertyRelative( "CategoryStart" ).intValue,
+			tensMastery.FindPropertyRelative( "CategoryStart" ).intValue,
+			hundredMastery.FindPropertyRelative( "CategoryStart" ).intValue,
+			thousandsMastery.FindPropertyRelative( "CategoryStart" ).intValue ),0,1984);
 		int max = Mathf.Clamp( Mathf.Max( decimalMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   oneMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   tensMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   hundredMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   thousandsMastery.FindPropertyRelative( "CategoryEnd" ).intValue ),0,1984);
+			oneMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
+			tensMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
+			hundredMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
+			thousandsMastery.FindPropertyRelative( "CategoryEnd" ).intValue ),0,1984);
 		
-		mathCategory.CategoryStart = min;
-		mathCategory.CategoryEnd = max;
+		_mathCategory.CategoryStart = min;
+		_mathCategory.CategoryEnd = max;
 
 		float startX = Mathf.Lerp( rect.x, rect.xMax, ((float)min - TimelineStart) / (TimelineEnd - TimelineStart) );
 		float endX = Mathf.Lerp( rect.x, rect.xMax, ((float)max - TimelineStart) / (TimelineEnd - TimelineStart) );
 		Rect mathRect = new Rect( startX, rect.y + 10, endX - startX, 20 );
 		EditorGUI.DrawRect( mathRect, new Color( 0.3f, 0.5f, 0.3f, 1f ) );
-		EditorGUI.LabelField( mathRect, mathCategory.Name, fontStyle );
+		EditorGUI.LabelField( mathRect, _mathCategory.Name, fontStyle );
 	}
-
-	private float DrawMasteryBar ( SerializedProperty masteryProperty, float yPos, Rect timelineRect, float barHeight ) {
+	
+	private static float DrawMasteryBar(SerializedProperty masteryProperty, float yPos, Rect timelineRect, float barHeight)
+	{
 		float start = Mathf.Clamp( masteryProperty.FindPropertyRelative( "CategoryStart" ).intValue, TimelineStart, TimelineEnd );
 		float end = Mathf.Clamp( masteryProperty.FindPropertyRelative( "CategoryEnd" ).intValue, TimelineStart, TimelineEnd );
 
@@ -137,11 +151,9 @@ public class MathCategoryEditor : Editor {
 		EditorGUI.LabelField( barRect, masteryProperty.displayName.Split(" " )[0], fontStyle );
 
 		HandleDragAndResize( barRect, masteryProperty.FindPropertyRelative( "CategoryStart" ), masteryProperty.FindPropertyRelative( "CategoryEnd" ), timelineRect );
-
 		return yPos + barHeight + 5;
 	}
-
-	private void HandleDragAndResize(Rect barRect, SerializedProperty startProperty, SerializedProperty endProperty, Rect timelineRect) {
+	private static void HandleDragAndResize(Rect barRect, SerializedProperty startProperty, SerializedProperty endProperty, Rect timelineRect) {
 	    Event e = Event.current;
 	    int controlID = GUIUtility.GetControlID(FocusType.Passive);
 	    int edgeOffset = 10;
