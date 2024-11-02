@@ -131,8 +131,11 @@ static public class StatManager {
 	private static void SaveGame() {
 		string json = JsonConvert.SerializeObject(_operatorStore);
 		PlayerPrefs.SetString("OperatorStore", json);
+		json = JsonConvert.SerializeObject(_generalMathMasteryList);
+		PlayerPrefs.SetString("GeneralMathMasteryList",json);
 		PlayerPrefs.Save();
 		Debug.Log("Game saved successfully.");
+		
 	}
 
 	// Load the _operatorStore from PlayerPrefs
@@ -141,9 +144,16 @@ static public class StatManager {
 			initialized = true;
 			string json = PlayerPrefs.GetString("OperatorStore");
 			_operatorStore = JsonConvert.DeserializeObject<OperatorStore>(json);
-			Debug.Log("Game loaded successfully.");
+			Debug.Log("OperatorStore loaded successfully.");
+			
 		} else {
 			Debug.LogWarning("No saved game data found.");
+		}
+
+		if (PlayerPrefs.HasKey("GeneralMathMasteryList")) {
+			string json = PlayerPrefs.GetString("GeneralMathMasteryList");
+			_generalMathMasteryList = JsonConvert.DeserializeObject<List<string>>(json);
+			Debug.Log("MathMastery loaded successfully.");
 		}
 	}
 

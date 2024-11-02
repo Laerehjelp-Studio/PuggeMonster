@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour {
 		OnGameSave?.Invoke();
 	}
 	public static void LoadGame() {
-		OnGameSave?.Invoke();
+		OnGameLoad?.Invoke();
 	}
 
 	public static void ClearSaveGame() {
