@@ -342,7 +342,7 @@ static public class StatManager {
 	/// <param name="hundredPair"></param>
 	/// <param name="thousandsPair"></param>
 	private static void UpdateSubtractionDatabase ( string taskOperator, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair ) {
-		if (decimalPair != null && decimalPair != $"0{taskOperator}0") {
+		if (decimalPair != null && decimalPair != "0-0") {
 			_operatorStore.Subtraction.DecimalStats[ decimalPair ] += points;
 			AddMathGMIfMastered( PairZeroFill(decimalPair,-1, taskOperator), _operatorStore.Subtraction.DecimalStats[ decimalPair ] );
 			ReorderByFloats( _operatorStore.Subtraction.DecimalDifficultySorted, decimalPair, 0, taskOperator );
@@ -396,7 +396,7 @@ static public class StatManager {
 	/// <param name="hundredPair"></param>
 	/// <param name="thousandsPair"></param>
 	private static void UpdateMultiplicationDatabase ( string taskOperator, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair ) {
-		if (decimalPair != null) {
+		if (decimalPair != null && decimalPair != "0*0") {
 			_operatorStore.Multiplication.DecimalStats[ decimalPair ] += points;
 			AddMathGMIfMastered( PairZeroFill(decimalPair,-1, taskOperator), _operatorStore.Multiplication.DecimalStats[ decimalPair ] );
 			ReorderByFloats( _operatorStore.Multiplication.DecimalDifficultySorted, decimalPair, 0, taskOperator );
