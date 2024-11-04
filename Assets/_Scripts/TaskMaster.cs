@@ -120,22 +120,12 @@ public class TaskMaster : MonoBehaviour {
 		
 		for (int i = 0; i < _maxTasks; i++) {
 			if (_currentStudentPerformance.Sum > currentDifficultyModifier) { 
+				// Chance distribution range: h m m 
 				difficultySet[i] = (Random.Range( 0, 3 ) == 0) ? 'h' : 'm';
 			} else { // If PerformanceAverage is not above currentDifficultyModifier then we will randomize 60/30 between easy and medium question.
+				// Chance distribution range: m e e
 				difficultySet[ i] = (Random.Range( 0, 3 ) == 0) ? 'm' : 'e';
 			}
-			// Old algorithm forces a [m/h|m/e],[e],[e],[m/h|m/e] structure.
-			// If it is the first or last difficulty-letter, make let's check based on the _difficultyStudentPerformance.PerformanceAverage randomising between hard and medium
-			// if (i == 0 || i == _maxTasks - 1) {
-			// 	// if _difficultyStudentPerformance.PerformanceAverage is above the changing currentDifficulty let's do random between hard and medium
-			// 	if (_currentStudentPerformance.Sum > currentDifficultyModifier) { 
-			// 		difficultySet[i] = (Random.Range( 0, 3 ) == 0) ? 'h' : 'm';
-			// 	} else { // If PerformanceAverage is not above currentDifficultyModifier then we will randomize 60/30 between easy and medium question.
-			// 		difficultySet[ i] = (Random.Range( 0, 3 ) == 0) ? 'm' : 'e';
-			// 	}
-			// } else {
-			// 	difficultySet[ i ] = 'e';
-			// }
 			
 			// Change currentDifficultyModifier depending on the newly added difficulty letter.
 			switch (difficultySet[ i ]) {
@@ -152,26 +142,6 @@ public class TaskMaster : MonoBehaviour {
 		}
 		//Debug.Log($"Average: {_currentStudentPerformance.Average} Sum: {_currentStudentPerformance.Sum}, {difficultySet[ 0 ]} {difficultySet[ 1 ]} {difficultySet[ 2 ]} {difficultySet[ 3 ]}, {currentDifficultyModifier}" );
 		return difficultySet;
-	}
-
-	public string GetDifficultyLetter () {
-		int _difficulty = Random.Range( 0, 3 );
-		string _difficultyString = "";
-		//return "h";
-
-		switch (_difficulty) {
-			case 0:
-				_difficultyString = "h";
-				break;
-			case 1:
-				_difficultyString = "m";
-				break;
-			case 2:
-				_difficultyString = "e";
-				break;
-		}
-
-		return _difficultyString;
 	}
 
 	public void RegisterAnswer ( MathTask mathTask, float mathValue ) {
