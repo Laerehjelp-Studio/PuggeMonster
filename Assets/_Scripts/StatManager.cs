@@ -248,18 +248,18 @@ static public class StatManager {
 
 		switch (mathTask.Operator) {
 			case "+":
-				UpdateAdditiveDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair );
+				UpdateGeneralizedDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair, _operatorStore.Addition );
 				OnDatabaseUpdate?.Invoke();
 				break;
 			case "-":
-				UpdateSubtractionDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair );
+				UpdateGeneralizedDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair, _operatorStore.Subtraction  );
 				break;
 			case "*":
-				UpdateMultiplicationDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair );
+				UpdateGeneralizedDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair, _operatorStore.Multiplication  );
 				break;
 			case "/":
 			case ":":
-				UpdateDivisionDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair );
+				UpdateGeneralizedDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair, _operatorStore.Division  );
 				break;
 		}
 	}
@@ -274,14 +274,15 @@ static public class StatManager {
 	/// <param name="tennerPair"></param>
 	/// <param name="hundredPair"></param>
 	/// <param name="thousandsPair"></param>
-	private static void UpdateAdditiveDatabase ( string taskOperator, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair ) {
+	/// <param name="currentOperator"></param>
+	private static void UpdateGeneralizedDatabase ( string taskOperator, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair,  Operator currentOperator ) {
+			
+		if (decimalPair != null && taskOperator != null && decimalPair != $"0{taskOperator}0") {
+			currentOperator.DecimalStats[ decimalPair ] += points;
 
-		if (decimalPair != null && decimalPair != "0+0") {
-			_operatorStore.Addition.DecimalStats[ decimalPair ] += points;
+			AddMathGMIfMastered( PairZeroFill( decimalPair,-1, taskOperator), currentOperator.DecimalStats[ decimalPair ] );
 
-			AddMathGMIfMastered( PairZeroFill( decimalPair,-1, taskOperator), _operatorStore.Addition.DecimalStats[ decimalPair ] );
-
-			ReorderByFloats( _operatorStore.Addition.DecimalDifficultySorted, decimalPair, 0, taskOperator );
+			ReorderByFloats( currentOperator.DecimalDifficultySorted, decimalPair, 0, taskOperator );
 		}
 
 		// If the onerPair does not exist, return early.
@@ -290,207 +291,45 @@ static public class StatManager {
 			return;
 		}
 
-		_operatorStore.Addition.OneStats[ onerPair ] += points;
+		currentOperator.OneStats[ onerPair ] += points;
 
-		AddMathGMIfMastered( PairZeroFill(onerPair,0, taskOperator), _operatorStore.Addition.OneStats[ onerPair ] );
+		AddMathGMIfMastered( PairZeroFill(onerPair,0, taskOperator), currentOperator.OneStats[ onerPair ] );
 
-		ReorderByFloats( _operatorStore.Addition.OneDifficultySorted, onerPair, 1, taskOperator );
+		ReorderByFloats( currentOperator.OneDifficultySorted, onerPair, 1, taskOperator );
 
 		// If the tennerPair does not exist, return early.
-		if (tennerPair is null or "0+0") {
+		if (tennerPair == null || taskOperator != null && tennerPair == $"0{taskOperator}0") {
 			//UnityEngine.Debug.LogError( "TennerPair is null;" );
 			return;
 		}
 
-		_operatorStore.Addition.TensStats[ tennerPair ] += points;
+		currentOperator.TensStats[ tennerPair ] += points;
 
-		AddMathGMIfMastered( PairZeroFill(tennerPair,1, taskOperator), _operatorStore.Addition.TensStats[ tennerPair ] );
+		AddMathGMIfMastered( PairZeroFill(tennerPair,1, taskOperator), currentOperator.TensStats[ tennerPair ] );
 
-		ReorderByFloats( _operatorStore.Addition.TensDifficultySorted, tennerPair, 2, taskOperator );
-
-		// If the hundredPair does not exist, return early.
-		if (hundredPair is null or "0+0") {
-			return;
-		}
-
-		_operatorStore.Addition.HundredsStats[ hundredPair ] += points;
-
-		AddMathGMIfMastered( PairZeroFill(hundredPair,2, taskOperator), _operatorStore.Addition.HundredsStats[ hundredPair ] );
-
-		ReorderByFloats( _operatorStore.Addition.HundredsDifficultySorted, hundredPair, 3, taskOperator );
-
-		// If the thousandsPair does not exist, return early.
-		if (thousandsPair is null or "0+0") {
-			return;
-		}
-
-		_operatorStore.Addition.ThousandsStats[ thousandsPair ] += points;
-
-		AddMathGMIfMastered( PairZeroFill(thousandsPair,3, taskOperator), _operatorStore.Addition.ThousandsStats[ thousandsPair ] );
-
-		ReorderByFloats( _operatorStore.Addition.ThousandsDifficultySorted, thousandsPair, 4, taskOperator );
-	}
-
-	/// <summary>
-	/// Updates one of four categories by: Registering points, sorting the difficulty lists connected to the registered points.
-	/// </summary>
-	/// <param name="taskOperator"></param>
-	/// <param name="points"></param>
-	/// <param name="decimalPair"></param>
-	/// <param name="onerPair"></param>
-	/// <param name="tennerPair"></param>
-	/// <param name="hundredPair"></param>
-	/// <param name="thousandsPair"></param>
-	private static void UpdateSubtractionDatabase ( string taskOperator, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair ) {
-		if (decimalPair != null && decimalPair != "0-0") {
-			_operatorStore.Subtraction.DecimalStats[ decimalPair ] += points;
-			AddMathGMIfMastered( PairZeroFill(decimalPair,-1, taskOperator), _operatorStore.Subtraction.DecimalStats[ decimalPair ] );
-			ReorderByFloats( _operatorStore.Subtraction.DecimalDifficultySorted, decimalPair, 0, taskOperator );
-		}
-
-		// If the onerPair does not exist, return early.
-		if (onerPair == null) {
-			return;
-		}
-
-		_operatorStore.Subtraction.OneStats[ onerPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(onerPair,0, taskOperator), _operatorStore.Subtraction.OneStats[ onerPair ] );
-		ReorderByFloats( _operatorStore.Subtraction.OneDifficultySorted, onerPair, 1, taskOperator );
-
-		// If the tennerPair does not exist, return early.
-		if (tennerPair is null or "0-0") {
-			return;
-		}
-
-		_operatorStore.Subtraction.TensStats[ tennerPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(tennerPair,1, taskOperator), _operatorStore.Subtraction.TensStats[ tennerPair ] );
-		ReorderByFloats( _operatorStore.Subtraction.TensDifficultySorted, tennerPair, 2, taskOperator );
+		ReorderByFloats( currentOperator.TensDifficultySorted, tennerPair, 2, taskOperator );
 
 		// If the hundredPair does not exist, return early.
-		if (hundredPair is null or "0-0") {
+		if (hundredPair == null || taskOperator != null && hundredPair == $"0{taskOperator}0") {
 			return;
 		}
 
-		_operatorStore.Subtraction.HundredsStats[ hundredPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(hundredPair,2, taskOperator), _operatorStore.Subtraction.HundredsStats[ hundredPair ] );
-		ReorderByFloats( _operatorStore.Subtraction.HundredsDifficultySorted, hundredPair, 3, taskOperator );
+		currentOperator.HundredsStats[ hundredPair ] += points;
+
+		AddMathGMIfMastered( PairZeroFill(hundredPair,2, taskOperator), currentOperator.HundredsStats[ hundredPair ] );
+
+		ReorderByFloats( currentOperator.HundredsDifficultySorted, hundredPair, 3, taskOperator );
 
 		// If the thousandsPair does not exist, return early.
-		if (thousandsPair is null or "0-0") {
+		if ( thousandsPair == null || taskOperator != null && thousandsPair == $"0{taskOperator}0") {
 			return;
 		}
 
-		_operatorStore.Subtraction.ThousandsStats[ thousandsPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(thousandsPair,3, taskOperator), _operatorStore.Subtraction.ThousandsStats[ thousandsPair ] );
-		ReorderByFloats( _operatorStore.Subtraction.ThousandsDifficultySorted, thousandsPair, 4, taskOperator );
-	}
+		currentOperator.ThousandsStats[ thousandsPair ] += points;
 
-	/// <summary>
-	/// Updates one of four categories by: Registering points, sorting the difficulty lists connected to the registered points.
-	/// </summary>
-	/// <param name="taskOperator"></param>
-	/// <param name="points"></param>
-	/// <param name="decimalPair"></param>
-	/// <param name="onerPair"></param>
-	/// <param name="tennerPair"></param>
-	/// <param name="hundredPair"></param>
-	/// <param name="thousandsPair"></param>
-	private static void UpdateMultiplicationDatabase ( string taskOperator, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair ) {
-		if (decimalPair != null && decimalPair != "0*0") {
-			_operatorStore.Multiplication.DecimalStats[ decimalPair ] += points;
-			AddMathGMIfMastered( PairZeroFill(decimalPair,-1, taskOperator), _operatorStore.Multiplication.DecimalStats[ decimalPair ] );
-			ReorderByFloats( _operatorStore.Multiplication.DecimalDifficultySorted, decimalPair, 0, taskOperator );
-		}
+		AddMathGMIfMastered( PairZeroFill(thousandsPair,3, taskOperator), currentOperator.ThousandsStats[ thousandsPair ] );
 
-		// If the onerPair does not exist, return early.
-		if (onerPair == null) {
-			return;
-		}
-		
-		_operatorStore.Multiplication.OneStats[ onerPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(onerPair,0, taskOperator), _operatorStore.Multiplication.OneStats[ onerPair ] );
-		ReorderByFloats( _operatorStore.Multiplication.OneDifficultySorted, onerPair, 1, taskOperator );
-
-		// If the tennerPair does not exist, return early.
-		if (tennerPair is null or "0*0") {
-			return;
-		}
-		
-		_operatorStore.Multiplication.TensStats[ tennerPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(tennerPair,1, taskOperator), _operatorStore.Multiplication.TensStats[ tennerPair ] );
-		ReorderByFloats( _operatorStore.Multiplication.TensDifficultySorted, tennerPair, 2, taskOperator );
-
-		// If the hundredPair does not exist, return early.
-		if (hundredPair is null or "0*0") {
-			return;
-		}
-		
-		_operatorStore.Multiplication.HundredsStats[ hundredPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(hundredPair,2, taskOperator), _operatorStore.Multiplication.HundredsStats[ hundredPair ] );
-		ReorderByFloats( _operatorStore.Multiplication.HundredsDifficultySorted, hundredPair, 3, taskOperator );
-
-		// If the thousandsPair does not exist, return early.
-		if (thousandsPair is null or "0*0") {
-			return;
-		}
-
-		_operatorStore.Multiplication.ThousandsStats[ thousandsPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(thousandsPair,3, taskOperator), _operatorStore.Multiplication.ThousandsStats[ thousandsPair ] );
-		ReorderByFloats( _operatorStore.Multiplication.ThousandsDifficultySorted, thousandsPair, 4, taskOperator );
-	}
-
-	/// <summary>
-	/// Updates one of four categories by: Registering points, sorting the difficulty lists connected to the registered points.
-	/// </summary>
-	/// <param name="taskOperator"></param>
-	/// <param name="points"></param>
-	/// <param name="decimalPair"></param>
-	/// <param name="onerPair"></param>
-	/// <param name="tennerPair"></param>
-	/// <param name="hundredPair"></param>
-	/// <param name="thousandsPair"></param>
-	private static void UpdateDivisionDatabase ( string taskOperator, float points, string decimalPair, string onerPair, string tennerPair, string hundredPair, string thousandsPair ) {
-		if (decimalPair != null && decimalPair != "0/0") {
-			_operatorStore.Division.DecimalStats[ decimalPair ] += points;
-			AddMathGMIfMastered( PairZeroFill(decimalPair,-1, taskOperator), _operatorStore.Division.DecimalStats[ decimalPair ] );
-			ReorderByFloats( _operatorStore.Division.DecimalDifficultySorted, decimalPair, 0, taskOperator );
-		}
-
-		// If the onerPair does not exist, return early.
-		if (onerPair == null) {
-			return;
-		}
-
-		_operatorStore.Division.OneStats[ onerPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(onerPair,0, taskOperator), _operatorStore.Division.OneStats[ onerPair ] );
-		ReorderByFloats( _operatorStore.Division.OneDifficultySorted, onerPair, 1, taskOperator );
-
-		// If the tennerPair does not exist, return early.
-		if (tennerPair is null or "0/0") {
-			return;
-		}
-
-		_operatorStore.Division.TensStats[ tennerPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(tennerPair,1, taskOperator), _operatorStore.Division.TensStats[ tennerPair ] );
-		ReorderByFloats( _operatorStore.Division.TensDifficultySorted, tennerPair, 2, taskOperator );
-
-		// If the hundredPair does not exist, return early.
-		if (hundredPair is null or "0/0") {
-			return;
-		}
-
-		_operatorStore.Division.HundredsStats[ hundredPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(hundredPair,2, taskOperator), _operatorStore.Division.HundredsStats[ hundredPair ] );
-		ReorderByFloats( _operatorStore.Division.HundredsDifficultySorted, hundredPair, 3, taskOperator );
-
-		// If the thousandsPair does not exist, return early.
-		if (thousandsPair is null or "0/0") {
-			return;
-		}
-
-		_operatorStore.Division.ThousandsStats[ thousandsPair ] += points;
-		AddMathGMIfMastered( PairZeroFill(thousandsPair,3, taskOperator), _operatorStore.Division.ThousandsStats[ thousandsPair ] );
-		ReorderByFloats( _operatorStore.Division.ThousandsDifficultySorted, thousandsPair, 4, taskOperator );
+		ReorderByFloats( currentOperator.ThousandsDifficultySorted, thousandsPair, 4, taskOperator );
 	}
 
 	/// <summary>
