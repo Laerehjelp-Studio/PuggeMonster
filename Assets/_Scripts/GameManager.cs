@@ -215,6 +215,7 @@ public class GameManager : MonoBehaviour {
 
 	private void OnDisable () {
 		SceneManager.sceneLoaded -= NewSceneLoaded;
+		StatManager.DetachEvents();
 	}
 
 	private void NewSceneLoaded ( Scene arg0, LoadSceneMode arg1 ) {

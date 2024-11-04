@@ -127,6 +127,12 @@ static public class StatManager {
 		GameManager.OnClearSaveGame += ClearSaveGame;
 	}
 
+	public static void DetachEvents() {
+		GameManager.OnGameSave -= SaveGame;
+		GameManager.OnGameLoad -= LoadGame;
+		GameManager.OnClearSaveGame -= ClearSaveGame;
+	}
+
 	// Save the _operatorStore to PlayerPrefs
 	private static void SaveGame() {
 		string json = JsonConvert.SerializeObject(_operatorStore);
