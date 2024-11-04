@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class MathCategoryGraphDrawer
 {
+	/*
 	private const int TimelineStart = 0;
 	private const int TimelineEnd = 1984;
 	private static bool _initialized;
@@ -202,4 +203,5 @@ public static class MathCategoryGraphDrawer
 	    // Debugging: log to check positions and actions
 	    //Debug.Log($"Updated startProperty: {startProperty.intValue}, endProperty: {endProperty.intValue}");
 	}
+*/
 }
