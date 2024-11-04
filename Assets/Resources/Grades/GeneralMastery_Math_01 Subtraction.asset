@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 470fce78b4a22cd4684710ef1d8fcc55, type: 3}
-  m_Name: G001 Math Subtraction
+  m_Name: GeneralMastery_Math_01 Subtraction
   m_EditorClassIdentifier: 
   Name: Subtraksjon
   CategoryStart: 0

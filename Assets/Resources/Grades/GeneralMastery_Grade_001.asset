@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4677e292946d2ea4494437316210b664, type: 3}
-  m_Name: Grade 001
+  m_Name: GeneralMastery_Grade_001
   m_EditorClassIdentifier: 
   Name: "F\xF8rste Klasse"
   Subjects:
