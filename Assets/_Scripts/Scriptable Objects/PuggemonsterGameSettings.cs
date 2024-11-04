@@ -9,8 +9,5 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	public float RecievePuggemonsterLimit = 10;
 	public int QuestionSetSize = 4;
 	[Header( "Grades" )]
-	public Grade[] Grades;
-	[SerializeField]private Grade _buildGrade;
-	public Grade BuildGrade { get { return _buildGrade; } set { _buildGrade = value; } }
-
+	public Grade BuildGrade;
 }

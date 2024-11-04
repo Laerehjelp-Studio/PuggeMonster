@@ -15,7 +15,4 @@ MonoBehaviour:
   WhenIsMasteryAchieved: 2
   RecievePuggemonsterLimit: 10
   QuestionSetSize: 4
-  Grades:
-  - {fileID: 11400000, guid: 482bb1cb85b263b429e69f7ff56e7ff5, type: 2}
-  - {fileID: 11400000, guid: 8abb565bfe47b844ea7b60afdd3cf93b, type: 2}
-  _buildGrade: {fileID: 11400000, guid: 8abb565bfe47b844ea7b60afdd3cf93b, type: 2}
+  BuildGrade: {fileID: 11400000, guid: 8abb565bfe47b844ea7b60afdd3cf93b, type: 2}
