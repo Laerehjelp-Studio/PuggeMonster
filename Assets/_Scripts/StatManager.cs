@@ -259,13 +259,16 @@ static public class StatManager {
 				break;
 			case "-":
 				UpdateGeneralizedDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair, _operatorStore.Subtraction  );
+				OnDatabaseUpdate?.Invoke();
 				break;
 			case "*":
 				UpdateGeneralizedDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair, _operatorStore.Multiplication  );
+				OnDatabaseUpdate?.Invoke();
 				break;
 			case "/":
 			case ":":
 				UpdateGeneralizedDatabase( mathTask.Operator, points, decimalPair, onerPair, tennerPair, hundredPair, thousandsPair, _operatorStore.Division  );
+				OnDatabaseUpdate?.Invoke();
 				break;
 		}
 	}
@@ -288,7 +291,7 @@ static public class StatManager {
 
 			AddMathGMIfMastered( PairZeroFill( decimalPair,-1, taskOperator), currentOperator.DecimalStats[ decimalPair ] );
 
-			ReorderByFloats( currentOperator.DecimalDifficultySorted, decimalPair, 0, taskOperator );
+			currentOperator.DecimalDifficultySorted = ReorderByFloats( currentOperator.DecimalDifficultySorted, decimalPair, 0, taskOperator );
 		}
 
 		// If the onerPair does not exist, return early.
@@ -301,7 +304,7 @@ static public class StatManager {
 
 		AddMathGMIfMastered( PairZeroFill(onerPair,0, taskOperator), currentOperator.OneStats[ onerPair ] );
 
-		ReorderByFloats( currentOperator.OneDifficultySorted, onerPair, 1, taskOperator );
+		currentOperator.OneDifficultySorted = ReorderByFloats( currentOperator.OneDifficultySorted, onerPair, 1, taskOperator );
 
 		// If the tennerPair does not exist, return early.
 		if (tennerPair == null || taskOperator != null && tennerPair == $"0{taskOperator}0") {
@@ -313,7 +316,7 @@ static public class StatManager {
 
 		AddMathGMIfMastered( PairZeroFill(tennerPair,1, taskOperator), currentOperator.TensStats[ tennerPair ] );
 
-		ReorderByFloats( currentOperator.TensDifficultySorted, tennerPair, 2, taskOperator );
+		currentOperator.TensDifficultySorted = ReorderByFloats( currentOperator.TensDifficultySorted, tennerPair, 2, taskOperator );
 
 		// If the hundredPair does not exist, return early.
 		if (hundredPair == null || taskOperator != null && hundredPair == $"0{taskOperator}0") {
@@ -324,7 +327,7 @@ static public class StatManager {
 
 		AddMathGMIfMastered( PairZeroFill(hundredPair,2, taskOperator), currentOperator.HundredsStats[ hundredPair ] );
 
-		ReorderByFloats( currentOperator.HundredsDifficultySorted, hundredPair, 3, taskOperator );
+		currentOperator.HundredsDifficultySorted = ReorderByFloats( currentOperator.HundredsDifficultySorted, hundredPair, 3, taskOperator );
 
 		// If the thousandsPair does not exist, return early.
 		if ( thousandsPair == null || taskOperator != null && thousandsPair == $"0{taskOperator}0") {
@@ -335,7 +338,7 @@ static public class StatManager {
 
 		AddMathGMIfMastered( PairZeroFill(thousandsPair,3, taskOperator), currentOperator.ThousandsStats[ thousandsPair ] );
 
-		ReorderByFloats( currentOperator.ThousandsDifficultySorted, thousandsPair, 4, taskOperator );
+		currentOperator.ThousandsDifficultySorted = ReorderByFloats( currentOperator.ThousandsDifficultySorted, thousandsPair, 4, taskOperator );
 	}
 
 	/// <summary>
@@ -370,53 +373,49 @@ static public class StatManager {
 	/// <param name="componentPair"></param>
 	/// <param name="decimalSpot"></param>
 	/// <param name="operatorString"></param>
-
-
-	private static void ReorderByFloats ( List<string> difficultySortedList, string componentPair, int decimalSpot, string operatorString ) {
+	private static List<string> ReorderByFloats ( List<string> difficultySortedList, string componentPair, int decimalSpot, string operatorString ) {
 		string[] difficultySortedArray = difficultySortedList.ToArray();
 
 		int currentIndex = Array.IndexOf( difficultySortedArray, componentPair );
-		float currentPairValue = GetFloat( componentPair, decimalSpot, operatorString );
+		float currentMathPairScore = GetMathPairScore( componentPair, decimalSpot, operatorString );
 		int lowerEntryIndex = (currentIndex - 1 >= 0) ? currentIndex - 1 : 0;
-		int higherEntryIndex = (currentIndex + 1 < difficultySortedArray.Length) ? currentIndex - 1 : 0;
-		float lowerEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
-		float higherEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
-
-		if (lowerEntryFloat < currentPairValue) {
-			while (lowerEntryFloat < currentPairValue) {
+		int higherEntryIndex = (currentIndex + 1 < difficultySortedArray.Length) ? currentIndex + 1 : 0;
+		float lowerEntryMathPairScore = GetMathPairScore( difficultySortedArray[lowerEntryIndex], decimalSpot, operatorString );
+		float higherEntryMathPairScore = GetMathPairScore( difficultySortedArray[higherEntryIndex], decimalSpot, operatorString );
+		
+		if (lowerEntryMathPairScore < currentMathPairScore) {
+			while (lowerEntryMathPairScore < currentMathPairScore) {
 				
-				string oldValue = difficultySortedArray[ lowerEntryIndex ];
+				string tempKey = difficultySortedArray[ lowerEntryIndex ];
 				difficultySortedArray[ lowerEntryIndex ] = componentPair;
-				difficultySortedArray[ currentIndex ] = oldValue;
+				difficultySortedArray[ currentIndex ] = tempKey;
 				currentIndex = lowerEntryIndex;
 
 				if (currentIndex == 0) { break; } // We've moved the item to the top of the list.
 
-				currentPairValue = GetFloat( componentPair, decimalSpot, operatorString );
 				lowerEntryIndex = (currentIndex - 1 >= 0) ? currentIndex - 1 : 0;
-				lowerEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
-
+				lowerEntryMathPairScore = GetMathPairScore( difficultySortedArray[lowerEntryIndex], decimalSpot, operatorString );
 			}
-		} else if (higherEntryFloat > currentPairValue) {
-			while (higherEntryFloat > currentPairValue) {
+		} else if (higherEntryMathPairScore > currentMathPairScore) {
+			while (higherEntryMathPairScore > currentMathPairScore) {
 
-				string oldValue = difficultySortedArray[ higherEntryIndex ];
+				string tempKey = difficultySortedArray[ higherEntryIndex ];
 				difficultySortedArray[ higherEntryIndex ] = componentPair;
-				difficultySortedArray[ currentIndex ] = oldValue;
+				difficultySortedArray[ currentIndex ] = tempKey;
 				currentIndex = higherEntryIndex;
 
 				if (currentIndex == difficultySortedArray.Length - 1) { break; } // We've moved the item to the top of the list.
 
-				currentPairValue = GetFloat( componentPair, decimalSpot, operatorString );
-				higherEntryIndex = (currentIndex + 1 < difficultySortedArray.Length) ? currentIndex - 1 : 0;
-				higherEntryFloat = GetFloat( componentPair, decimalSpot, operatorString );
+				higherEntryIndex = (currentIndex + 1 < difficultySortedArray.Length) ? currentIndex + 1 : 0;
+				higherEntryMathPairScore = GetMathPairScore( difficultySortedArray[higherEntryIndex], decimalSpot, operatorString );
 			}
 		}
 		difficultySortedList.Clear();
 
-		foreach ( string pairValue in difficultySortedArray ) {
-			difficultySortedList.Add( pairValue );
+		foreach (string key in difficultySortedArray) {
+			difficultySortedList.Add(key);
 		}
+		return difficultySortedList;
 	}
 	
 	/// <summary>
@@ -426,7 +425,7 @@ static public class StatManager {
 	/// <param name="decimalSpot"></param>
 	/// <param name="operatorString"></param>
 	/// <returns></returns>
-	private static float GetFloat ( string componentPair, int decimalSpot, string operatorString ) {
+	private static float GetMathPairScore ( string componentPair, int decimalSpot, string operatorString ) {
 		switch (operatorString) {
 			case "+":
 				switch (decimalSpot) {
