@@ -160,14 +160,13 @@ public class TaskMaster : MonoBehaviour {
 		if (Mathf.Approximately(mathTask.Correct, mathValue)) {
 			StatManager.RegisterAnswer(mathTask, mathValue, points );
 			
-			_currentScore = _currentScore + points;
+			_currentScore +=  points;
 			
 			if (_currentScore >= _receivePuggemonScoreLimit) {
 				_currentScore = 0;
 				int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
 				PlayerStats.Instance.AddPuggeMonster(temp);
 				rewardAnimationScript.PlayRewardAnimation(temp);
-				RefreshTasks(GameModeType.Math);
 			}
 
 			GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
@@ -217,7 +216,7 @@ public class TaskMaster : MonoBehaviour {
 			_currentTaskIndex = _currentTaskIndex + 1;
 		} else {
 			_currentTaskIndex = 0;
-			RefreshTasks(_gameMode);
+			RefreshTasks(GameModeType.Math);
 			return;
 		}
 		MathTask newMathTask = _mathTasks[ _currentTaskIndex ];
