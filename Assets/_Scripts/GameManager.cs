@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour {
 
 	public static void SaveGame() {
 		OnGameSave?.Invoke();
+		PlayerPrefs.Save();
 	}
 	public static void LoadGame() {
 		OnGameLoad?.Invoke();

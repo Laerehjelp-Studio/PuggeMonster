@@ -139,7 +139,6 @@ static public class StatManager {
 		PlayerPrefs.SetString("OperatorStore", json);
 		json = JsonConvert.SerializeObject(_generalMathMasteryList);
 		PlayerPrefs.SetString("GeneralMathMasteryList",json);
-		PlayerPrefs.Save();
 		Debug.Log("Game saved successfully.");
 		
 	}
@@ -166,6 +165,9 @@ static public class StatManager {
 	private static void ClearSaveGame() {
 		if (PlayerPrefs.HasKey("OperatorStore")) {
 			PlayerPrefs.DeleteKey("OperatorStore");
+		}
+		if (PlayerPrefs.HasKey("GeneralMathMasteryList")) {
+			PlayerPrefs.DeleteKey("GeneralMathMasteryList");
 		}
 	}
 	
