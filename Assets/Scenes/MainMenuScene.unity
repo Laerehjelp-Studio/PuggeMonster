@@ -435,31 +435,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 3846347950710398275, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846347950710398275, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Colors.m_DisabledColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846347950710398275, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Colors.m_DisabledColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846347950710398275, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Colors.m_DisabledColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846347950710398275, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Colors.m_DisabledColor.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4606666487107120046, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: m_Name
