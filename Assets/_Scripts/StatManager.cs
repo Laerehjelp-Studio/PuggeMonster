@@ -25,7 +25,10 @@ static public class StatManager {
 	/// Initialize all dictionaries, and lists we are using for storage.
 	/// </summary>
 	public static void Initialize ( float defaultMasteryScore = 0f ) {
-		if (initialized) { return; }
+		if (initialized) {
+			CountMaxGeneralMasteryValue(_operatorStore.Addition.OneStats, _operatorStore.Addition.TensStats);
+			return;
+		}
 
 		Debug.Log( "Initializing StatManager" );
 		Dictionary<string, float> _initDictAddition = new();
@@ -122,11 +125,16 @@ static public class StatManager {
 		_operatorStore.Multiplication.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		_operatorStore.Multiplication.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		
+		CountMaxGeneralMasteryValue(_initDictAddition, _initDictZeroRemovedAddition);
 		
-		_generalMasteryMaxValue += (_initDictAddition.Count * 4);
-		_generalMasteryMaxValue += (_initDictZeroRemovedAddition.Count * 4 * 5);
 		initialized = true;
 	}
+
+	private static void CountMaxGeneralMasteryValue(Dictionary<string, float> initDictAddition, Dictionary<string, float> initDictZeroRemovedAddition) {
+		_generalMasteryMaxValue += (initDictAddition.Count * 4);
+		_generalMasteryMaxValue += (initDictZeroRemovedAddition.Count * 4 * 4);
+	}
+
 	/// <summary>
 	/// Attach StatManager Events.
 	/// </summary>
