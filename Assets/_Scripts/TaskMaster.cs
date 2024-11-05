@@ -20,9 +20,13 @@ public class TaskMaster : MonoBehaviour {
 	private float _currentScore;
 	private int _maxTasks = 4;
 	private float _receivePuggemonScoreLimit;
+	private float _lastGenerationTime;
+	private float _lastAnswerTime;
+	private float _spamTimeLimit;
 
 	private void Awake () {
 		_maxTasks = GameManager.QuestionSetSize;
+		_spamTimeLimit = GameManager.QuestionSpamTimeLimitInMS;
 		_receivePuggemonScoreLimit = GameManager.RecievePuggemonsterLimit;
 
 		//_gameMode = GameManager.Instance.GameMode;
@@ -75,6 +79,8 @@ public class TaskMaster : MonoBehaviour {
 					//_mathTasks.Add( MathGenerator.GenerateMathQuestion( task.difficultyLetter.ToString() ) ); 
 					_mathTasks.Add( MathGenerator.GenerateMathQuestion( task, mathCode ) );
 				}
+				
+				_lastGenerationTime = Time.realtimeSinceStartup * 1000;
 				break;
 			case GameModeType.Words:
 				_wordTasks.Clear();
@@ -147,29 +153,37 @@ public class TaskMaster : MonoBehaviour {
 		if (points < 0.4) {
 			points = 0;
 		}
-
-		//Debug.Log($"Selected answer = {mathValue}, Corrrect Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
+		float currentAnswerTime = (Time.realtimeSinceStartup * 1000) - _lastAnswerTime;
+		bool cheatDetected = currentAnswerTime < _spamTimeLimit;
+		
+		//Debug.Log($"Selected answer = {mathValue}, Correct Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
+		Debug.Log($"timeSinceLastResponse: {(Time.realtimeSinceStartup * 1000) - _lastAnswerTime }, IsCheating: {cheatDetected}");
 		
 		// Floating point comparison should use Mathf.Approximately
 		if (Mathf.Approximately(mathTask.Correct, mathValue)) {
-			StatManager.RegisterAnswer(mathTask, mathValue, points );
-			
-			_currentScore +=  points;
-			_currentStudentPerformance.Push( points );
-			
-			if (_currentScore >= _receivePuggemonScoreLimit) {
-				_currentScore = 0;
-				int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
-				PlayerStats.Instance.AddPuggeMonster(temp);
-				rewardAnimationScript.PlayRewardAnimation(temp);
-			}
+			if (!cheatDetected) {
+				StatManager.RegisterAnswer(mathTask, mathValue, points );
+				_currentScore +=  points;
+				_currentStudentPerformance.Push( points );
+				
+				if (_currentScore >= _receivePuggemonScoreLimit) {
+					_currentScore = 0;
+					int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
+					PlayerStats.Instance.AddPuggeMonster(temp);
+					rewardAnimationScript.PlayRewardAnimation(temp);
+				}
 
-			GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
+				GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
+			}
+			
 			NextQuestion( mathTask);
 		} else {
-			StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
-			_currentStudentPerformance.Push( points * -1 );
+			if (!cheatDetected) {
+				StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
+				_currentStudentPerformance.Push( points * -1 );
+			}
 		}
+		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
 	}
 
 	public void RegisterAnswer(WordTask wordTask, string buttonInputValue) {
