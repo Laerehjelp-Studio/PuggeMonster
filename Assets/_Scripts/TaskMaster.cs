@@ -14,7 +14,7 @@ public class TaskMaster : MonoBehaviour {
 	private List<LetterTask> _letterTasks = new();
 	private List<WordTask> _wordTasks = new();
 
-	private StudentPerformance _currentStudentPerformance = new ( );
+	public StudentPerformance CurrentStudentPerformance = new ( );
 	private int _currentTaskIndex;
 	private int _numberOfAnswers;
 	private float _currentScore;
@@ -30,7 +30,7 @@ public class TaskMaster : MonoBehaviour {
 		_receivePuggemonScoreLimit = GameManager.RecievePuggemonsterLimit;
 
 		//_gameMode = GameManager.Instance.GameMode;
-		_currentStudentPerformance.Initialize( _maxTasks );
+		CurrentStudentPerformance.Initialize( _maxTasks );
 		GameManager.Instance.RegisterManager( this );
 	}
 
@@ -120,7 +120,7 @@ public class TaskMaster : MonoBehaviour {
 		float currentDifficultyModifier = 0f;
 		
 		for (int i = 0; i < _maxTasks; i++) {
-			if (_currentStudentPerformance.Sum > currentDifficultyModifier) { 
+			if (CurrentStudentPerformance.Sum > currentDifficultyModifier) { 
 				// Chance distribution range: h m m 
 				difficultySet[i] = (Random.Range( 0, 3 ) == 0) ? 'h' : 'm';
 			} else { // If PerformanceAverage is not above currentDifficultyModifier then we will randomize 60/30 between easy and medium question.
