@@ -39,7 +39,7 @@ public class PlayerStats : MonoBehaviour
 		if (PlayerPrefs.HasKey("PuggemonArray")) {
 			string json = PlayerPrefs.GetString("PuggemonArray");
 			PuggemonArray = JsonConvert.DeserializeObject<int[]>(json);
-			Debug.Log("MathMastery loaded successfully.");
+			Debug.Log("Saved PuggeMonsters loaded successfully.");
 		}
 	}
 

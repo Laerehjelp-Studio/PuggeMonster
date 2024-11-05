@@ -59,7 +59,7 @@ public class TaskMaster : MonoBehaviour {
 				MathCode mathCode = new();
 				mathCode.AppDecides = false;
 
-				// If MathCode is stored in the GameManager Instance, replace our defualt instance.
+				// If MathCode is stored in the GameManager Instance, replace our default instance.
 				if (GameManager.Instance.MathCode.Operator != default) {
 					mathCode = GameManager.Instance.MathCode;
 				}
@@ -149,13 +149,13 @@ public class TaskMaster : MonoBehaviour {
 		}
 
 		//Debug.Log($"Selected answer = {mathValue}, Corrrect Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-		_currentStudentPerformance.Push( points );
 		
 		// Floating point comparison should use Mathf.Approximately
 		if (Mathf.Approximately(mathTask.Correct, mathValue)) {
 			StatManager.RegisterAnswer(mathTask, mathValue, points );
 			
 			_currentScore +=  points;
+			_currentStudentPerformance.Push( points );
 			
 			if (_currentScore >= _receivePuggemonScoreLimit) {
 				_currentScore = 0;
@@ -168,6 +168,7 @@ public class TaskMaster : MonoBehaviour {
 			NextQuestion( mathTask);
 		} else {
 			StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
+			_currentStudentPerformance.Push( points * -1 );
 		}
 	}
 
