@@ -90,13 +90,26 @@ public static class MathGenerator
 		task.difficultyLevelStringValue = "Kode";
 
 		task.Components.Add( Random.Range( mathCode.Lower, mathCode.Upper ) );
-		task.Components.Add( Random.Range( mathCode.Lower, mathCode.Upper ) );
-
+		if (task.Operator == "/") {
+			task.Components.Add( GetRandomRangeNotZero(mathCode.Lower, mathCode.Upper) );
+		} else {
+			task.Components.Add( Random.Range( mathCode.Lower, mathCode.Upper ) );
+		}
 		task.Correct = GetMathResult( task );
 
 		task = AddIncorrectAnswers( task );
 
 		return task;
+	}
+
+	private static float GetRandomRangeNotZero(int mathCodeLower, int mathCodeUpper) {
+		int component = Random.Range(mathCodeLower, mathCodeUpper);
+		
+		if (component == 0) {
+			return (float)GetRandomRangeNotZero(mathCodeLower, mathCodeUpper);
+		}
+		
+		return (float)component;
 	}
 
 	/// <summary>
@@ -219,6 +232,19 @@ public static class MathGenerator
 
 		// TODO: Implement decimals.
 
+		GetComponentsFromGeneralMastery(task, placementNumberInt, difficultyLists, ref firstComponent, ref secondComponent);
+
+		//Debug.Log($"[UpdateTaskBasedOnGMUnlock]: {firstComponent}, placementNumberInt: {placementNumberInt}");
+
+		task.Components.Add( float.Parse( firstComponent ) );
+		task.Components.Add( float.Parse( secondComponent ) );
+
+		task.Correct = GetMathResult( task );
+
+		task = AddIncorrectAnswers( task );
+	}
+
+	private static void GetComponentsFromGeneralMastery(MathTask task, int placementNumberInt, DifficultyList difficultyLists, ref string firstComponent, ref string secondComponent) {
 		if (placementNumberInt >= 1) {
 			GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
 		}
@@ -232,14 +258,11 @@ public static class MathGenerator
 			GetComponentFromDifficultyList( task, difficultyLists.Thousands, ref firstComponent, ref secondComponent );
 		}
 
-		//Debug.Log($"[UpdateTaskBasedOnGMUnlock]: {firstComponent}, placementNumberInt: {placementNumberInt}");
-
-		task.Components.Add( float.Parse( firstComponent ) );
-		task.Components.Add( float.Parse( secondComponent ) );
-
-		task.Correct = GetMathResult( task );
-
-		task = AddIncorrectAnswers( task );
+		if (task.Operator == "/" && int.TryParse(secondComponent, out int result) && result == 0) {
+			firstComponent = "";
+			secondComponent = "";
+			GetComponentsFromGeneralMastery(task, placementNumberInt, difficultyLists, ref firstComponent, ref secondComponent);
+		}
 	}
 
 	/// <summary>
@@ -254,7 +277,6 @@ public static class MathGenerator
 			Debug.LogError("No subjects added to Grade, please add at least one subject to Grade.");
 			return null;
 		}
-
 		
 		Subject tempSubject = ScriptableObject.CreateInstance<Subject>();
 		
@@ -271,7 +293,6 @@ public static class MathGenerator
 
 		Debug.LogError($"No valid match for subject type: {subjectType} was found.");
 		return null;
-		
 	}
 
 	/// <summary>
