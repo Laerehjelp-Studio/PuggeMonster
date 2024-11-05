@@ -16,7 +16,7 @@ MonoBehaviour:
   Rarity: 0
   ImageIndex: 0
   Images:
-  - {fileID: 21300000, guid: 66093a5ac4a22df4f962734ec2943568, type: 3}
-  - {fileID: 21300000, guid: 2fa31a6e45d6b7b44b482b10a071355a, type: 3}
+  - {fileID: 21300000, guid: c87fdcc5d86e36e4eb2227e24a6a53cd, type: 3}
+  - {fileID: 21300000, guid: 25711ed955d58c64ca392c64e523da10, type: 3}
   Name: Khait
   Lore: 

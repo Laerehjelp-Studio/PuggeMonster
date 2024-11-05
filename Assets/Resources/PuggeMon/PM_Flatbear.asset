@@ -16,7 +16,7 @@ MonoBehaviour:
   Rarity: 0
   ImageIndex: 0
   Images:
-  - {fileID: 21300000, guid: 209b0977e5a38df4a8859bd8979e3573, type: 3}
-  - {fileID: 21300000, guid: e8f88d8c2f95fbb44b7ed81d225970a3, type: 3}
+  - {fileID: 21300000, guid: ae1e8cd28127e4b45a1007683411f575, type: 3}
+  - {fileID: 21300000, guid: 175dfb07d74bb51489603928b4b257c8, type: 3}
   Name: "Flatbj\xF8rn"
   Lore: 

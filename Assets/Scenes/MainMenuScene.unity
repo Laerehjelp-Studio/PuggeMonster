@@ -430,6 +430,82 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[0].Key
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[1].Key
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[2].Key
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[3].Key
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[4].Key
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[5].Key
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[6].Key
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[1].Value
+      value: 
+      objectReference: {fileID: 11400000, guid: eeea416bde10f2e43a797c7bc35d96aa,
+        type: 2}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[2].Value
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f1f6cfa1bdb43842b129f17d48badd3,
+        type: 2}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[3].Value
+      value: 
+      objectReference: {fileID: 11400000, guid: fd990e4e88b9c0e43b91e61fd2870cc6,
+        type: 2}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[4].Value
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e7710008e132db46b98d6741447ef94,
+        type: 2}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[5].Value
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c428c23727b8e540a218ef05f359423,
+        type: 2}
+    - target: {fileID: 3118631845475903235, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: monsterDictionary._serializedList.Array.data[6].Value
+      value: 
+      objectReference: {fileID: 11400000, guid: 16d2aefe7eb4d0b42ba6a34323421e1b,
+        type: 2}
     - target: {fileID: 3632522357139704308, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: m_Camera

@@ -16,7 +16,7 @@ MonoBehaviour:
   Rarity: 0
   ImageIndex: 0
   Images:
-  - {fileID: 21300000, guid: 49899af479db30c41ab03e31ba008593, type: 3}
-  - {fileID: 21300000, guid: 90152ecf48bd35d4f947e844901aee3c, type: 3}
+  - {fileID: 21300000, guid: 25d2bf19acd0ae24f873846cf8f16b3c, type: 3}
+  - {fileID: 21300000, guid: 4a61851e3124e4d42bb43a5b8316a5ec, type: 3}
   Name: Flammingo
   Lore: 

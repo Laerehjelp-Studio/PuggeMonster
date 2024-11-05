@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8dee5aec16316684cbd304883e36d936, type: 3}
-  m_Name: PM_Khait_Shiny
+  m_Name: PM_SeaLion
   m_EditorClassIdentifier: 
-  Shiny: 1
+  Shiny: 0
   Rarity: 0
   ImageIndex: 0
   Images:
-  - {fileID: 21300000, guid: 89ce9feae81612a4fb3f01c7303a94ff, type: 3}
-  - {fileID: 21300000, guid: 25711ed955d58c64ca392c64e523da10, type: 3}
-  Name: Shiny Khait
-  Lore: 
+  - {fileID: 21300000, guid: 00228a142b0b5ec479151f1a4d84b8f1, type: 3}
+  - {fileID: 21300000, guid: dd8456f0c6eb67e47a34e5c25616e930, type: 3}
+  Name: "Sj\xF8l\xF8ve"
+  Lore: rawr
