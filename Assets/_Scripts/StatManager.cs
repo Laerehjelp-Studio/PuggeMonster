@@ -14,6 +14,9 @@ static public class StatManager {
 
 	public static int GeneralMasteryMaxValue {
 		get {
+			if (_generalMasteryMaxValue == 0) {
+				CountMaxGeneralMasteryValue(_operatorStore.Addition.OneStats, _operatorStore.Addition.TensStats);
+			}
 			return _generalMasteryMaxValue;
 		}
 	}
@@ -26,7 +29,6 @@ static public class StatManager {
 	/// </summary>
 	public static void Initialize ( float defaultMasteryScore = 0f ) {
 		if (initialized) {
-			CountMaxGeneralMasteryValue(_operatorStore.Addition.OneStats, _operatorStore.Addition.TensStats);
 			return;
 		}
 
@@ -131,7 +133,7 @@ static public class StatManager {
 	}
 
 	private static void CountMaxGeneralMasteryValue(Dictionary<string, float> initDictAddition, Dictionary<string, float> initDictZeroRemovedAddition) {
-		_generalMasteryMaxValue += (initDictAddition.Count * 4);
+		_generalMasteryMaxValue = (initDictAddition.Count * 4);
 		_generalMasteryMaxValue += (initDictZeroRemovedAddition.Count * 4 * 4);
 	}
 
@@ -157,7 +159,6 @@ static public class StatManager {
 		json = JsonConvert.SerializeObject(_generalMathMasteryList);
 		PlayerPrefs.SetString("GeneralMathMasteryList",json);
 		Debug.Log("Game saved successfully.");
-		
 	}
 
 	// Load the _operatorStore from PlayerPrefs

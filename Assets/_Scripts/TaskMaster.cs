@@ -30,11 +30,6 @@ public class TaskMaster : MonoBehaviour {
 		GameManager.Instance.RegisterManager( this );
 	}
 
-    private void Start()
-    {
-		Debug.Log("HEYO LOOK AT ME: " + _receivePuggemonScoreLimit + " is the score needed to collect rewards");
-    }
-
     private void OnEnable () {
 		// Register TaskMaster enabling GameManager.TaskMaster-syntax.
 		GameManager.Instance.RegisterManager(this);
