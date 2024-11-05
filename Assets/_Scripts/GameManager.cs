@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 			DontDestroyOnLoad( Instance );
 		} else {
 			Destroy(gameObject);
+			return;
 		}
 
 		StatManager.AttachEvents();
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour {
 		
 		_menuRaycasters = _panningTransform.GetComponentsInChildren<GraphicRaycaster>();
 	}
+
 
 	private void Start() {
 		StatManager.Initialize();

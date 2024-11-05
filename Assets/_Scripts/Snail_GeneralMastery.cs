@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Snail_GeneralMastery : MonoBehaviour
@@ -9,19 +7,23 @@ public class Snail_GeneralMastery : MonoBehaviour
     [SerializeField]
     private Slider slider;
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+
+    private void Start() {
+        GameManager.Instance.OnSceneLoad += OnSceneLoaded;
+        SetMaxValueAndValue();
+    }
+
+    private void SetMaxValueAndValue() {
         slider.maxValue = StatManager.GeneralMasteryMaxValue; // the total ammount of mastery value
+        slider.value = StatManager.GeneralMathMastery;
+    }
+
+    private void OnSceneLoaded(GameModeType gamemode) {
+        SetMaxValueAndValue();
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        slider.value = StatManager.GeneralMathMastery;
+        GameManager.Instance.OnSceneLoad -= OnSceneLoaded;
     }
 }
