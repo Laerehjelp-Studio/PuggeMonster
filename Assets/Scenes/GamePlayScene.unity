@@ -666,20 +666,15 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 435444970}
+    - target: {fileID: 4605946147058009288, guid: e74c2e3244cef2743aff431806e4c667,
+        type: 3}
+      propertyPath: m_Name
+      value: AppleScribble
+      objectReference: {fileID: 0}
     - target: {fileID: 5888537333755747185, guid: e74c2e3244cef2743aff431806e4c667,
         type: 3}
       propertyPath: m_Name
       value: GamePlayCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7019974235779852495, guid: e74c2e3244cef2743aff431806e4c667,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1024
-      objectReference: {fileID: 0}
-    - target: {fileID: 7019974235779852495, guid: e74c2e3244cef2743aff431806e4c667,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 457
       objectReference: {fileID: 0}
     - target: {fileID: 8032559379341767038, guid: e74c2e3244cef2743aff431806e4c667,
         type: 3}
@@ -714,8 +709,46 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4605946147058009288, guid: e74c2e3244cef2743aff431806e4c667,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2798696117798439225}
   m_SourcePrefab: {fileID: 100100000, guid: e74c2e3244cef2743aff431806e4c667, type: 3}
+--- !u!1 &2798696117798439224 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4605946147058009288, guid: e74c2e3244cef2743aff431806e4c667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2798696117798439223}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2798696117798439225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798696117798439224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 842828be076e6d346ada5d2c283b37e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Doing_Well_Color: {r: 0.12873164, g: 0.7264151, b: 0.07195621, a: 0.49019608}
+  Doing_Default_Color: {r: 0.23949803, g: 0.302238, b: 0.735849, a: 0.49411765}
+  Doing_Poorly_Color: {r: 0.735849, g: 0.2256141, b: 0.2256141, a: 0.49019608}
+  appleColorImage: {fileID: 2798696117798439226}
+--- !u!114 &2798696117798439226 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 876535278496988375, guid: e74c2e3244cef2743aff431806e4c667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2798696117798439223}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798696117798439224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
