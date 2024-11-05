@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 470fce78b4a22cd4684710ef1d8fcc55, type: 3}
+  m_Name: GeneralMastery_Math_01 Addition
+  m_EditorClassIdentifier: 
+  Name: Addisjon
+  CategoryStart: 0
+  CategoryEnd: 400
+  Operator: +
+  Decimals: 0
+  Ones: 1
+  Tens: 1
+  Hundreds: 1
+  Thousands: 1
+  DecimalMastery:
+    Name: Desimaler
+    CategoryStart: 0
+    CategoryEnd: 100
+    Result: -1
+  OneMastery:
+    Name: Enere
+    CategoryStart: 0
+    CategoryEnd: 100
+    Result: 1
+  TensMastery:
+    Name: Tiere
+    CategoryStart: 20
+    CategoryEnd: 200
+    Result: 2
+  HundredMastery:
+    Name: Hundretalls
+    CategoryStart: 150
+    CategoryEnd: 300
+    Result: 3
+  ThousandsMastery:
+    Name: Tusentalls
+    CategoryStart: 155
+    CategoryEnd: 502
+    Result: 4

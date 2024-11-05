@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -32,12 +33,12 @@ public class GameManager : MonoBehaviour {
 
 	public static float WhenIsMasteryAchieved { 
 		get {
-			return (GameManager.Instance != default && GameManager.Instance._gameSettings.WhenIsMasteryAchieved != default) ? GameManager.Instance._gameSettings.WhenIsMasteryAchieved: 10;
+			return (GameManager.Instance != default && !Mathf.Approximately(GameManager.Instance._gameSettings.WhenIsMasteryAchieved, default)) ? GameManager.Instance._gameSettings.WhenIsMasteryAchieved: 10;
 		}
 	}
 	public static float RecievePuggemonsterLimit {
 		get {
-			return (GameManager.Instance != default && GameManager.Instance._gameSettings.RecievePuggemonsterLimit != default) ? GameManager.Instance._gameSettings.RecievePuggemonsterLimit: 10;
+			return (GameManager.Instance != default && !Mathf.Approximately(GameManager.Instance._gameSettings.RecievePuggemonsterLimit, default)) ? GameManager.Instance._gameSettings.RecievePuggemonsterLimit: 10;
 		}
 	}
 	public static int QuestionSetSize {
@@ -45,7 +46,16 @@ public class GameManager : MonoBehaviour {
 			return (GameManager.Instance != default && GameManager.Instance._gameSettings.QuestionSetSize != default) ? GameManager.Instance._gameSettings.QuestionSetSize: 4;
 		}
 	}
+	public static Grade SelectedGrade {
+		get {
+			return (GameManager.Instance != default && GameManager.Instance._gameSettings.BuildGrade != default) ? GameManager.Instance._gameSettings.BuildGrade : default;
+		}
+	}
 
+	public static Action OnGameSave { get; set; } = delegate { };
+	public static Action OnGameLoad { get; set; } = delegate { };
+	public static Action OnClearSaveGame { get; set; } = delegate { };
+	
 	private void Awake () {
 		if (Instance == null) {
 			Instance = this;
@@ -54,7 +64,8 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		StatManager.Initialize();
+		StatManager.AttachEvents();
+		LoadGame();
 
 		SceneManager.sceneLoaded += NewSceneLoaded;
 
@@ -65,7 +76,20 @@ public class GameManager : MonoBehaviour {
 		ResizeByScale( DeviceScaler );
 	}
 
+	private void Start() {
+		StatManager.Initialize();
+	}
 
+	public static void SaveGame() {
+		OnGameSave?.Invoke();
+	}
+	public static void LoadGame() {
+		OnGameLoad?.Invoke();
+	}
+
+	public static void ClearSaveGame() {
+		OnClearSaveGame?.Invoke();
+	}
 
 	public float[] GetDeviceBasedRectSizeAndScale() {
 		float[] result = new float[ 4 ];
@@ -154,6 +178,7 @@ public class GameManager : MonoBehaviour {
 	/// <param name="resizableCanvas"></param>
 	/// <param name="pos"></param>
 	/// <param name="size"></param>
+	/// <param name="scale"></param>
 	private void SetRectTransform ( RectTransform resizableCanvas, float[] pos, float[] size, float[] scale ) {
 		// Debug.Log( $"Canvas: {resizableCanvas.name}, Scaler: {DeviceScaler}, X: {pos[0]}, Y: {pos[ 1 ]}, Width:{size[0]}, Height: {size[ 1 ]}" );
 
@@ -190,6 +215,7 @@ public class GameManager : MonoBehaviour {
 
 	private void OnDisable () {
 		SceneManager.sceneLoaded -= NewSceneLoaded;
+		StatManager.DetachEvents();
 	}
 
 	private void NewSceneLoaded ( Scene arg0, LoadSceneMode arg1 ) {
