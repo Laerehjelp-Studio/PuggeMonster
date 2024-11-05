@@ -16,7 +16,7 @@ MonoBehaviour:
   Rarity: 0
   ImageIndex: 0
   Images:
-  - {fileID: 21300000, guid: 4ca654d1c63fb174b83a863280056e0b, type: 3}
-  - {fileID: 21300000, guid: 302e77960796bcd4b9ab8036ae396959, type: 3}
+  - {fileID: 21300000, guid: 4d87405a90f85c541931face850d1666, type: 3}
+  - {fileID: 21300000, guid: 2fa31a6e45d6b7b44b482b10a071355a, type: 3}
   Name: Shiny Khait
   Lore: 
