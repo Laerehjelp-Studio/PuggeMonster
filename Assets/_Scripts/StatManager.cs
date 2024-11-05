@@ -6,11 +6,18 @@ using Newtonsoft.Json;
 using Random = UnityEngine.Random;
 
 static public class StatManager {
+	private static int _generalMasteryMaxValue;
 	private static OperatorStore _operatorStore;
 	private static List<string> _generalMathMasteryList = new();
 	public static Action OnDatabaseUpdate { get; set; } = delegate { };
 	public static Action OnMathGeneralMastery { get; set; } = delegate { };
 
+	public static int GeneralMasteryMaxValue {
+		get {
+			return _generalMasteryMaxValue;
+		}
+	}
+	
 	private static bool initialized;
 
 	#region Initialization
@@ -58,7 +65,6 @@ static public class StatManager {
 				}
 			}
 		}
-
 
 		Dictionary<string, float> _initDictZeroRemovedAddition = RemoveZeroOperatorZero( _initDictAddition, "+" );
 		_operatorStore.Addition.DecimalStats = new( _initDictZeroRemovedAddition );
@@ -116,6 +122,11 @@ static public class StatManager {
 		_operatorStore.Multiplication.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		_operatorStore.Multiplication.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		
+		
+		_generalMasteryMaxValue += (_initDictAddition.Count * 4);
+		_generalMasteryMaxValue += (_initDictZeroRemovedAddition.Count * 4 * 5);
+		_generalMasteryMaxValue += (_initListAddition.Count * 4);
+		_generalMasteryMaxValue += (_initListZeroRemovedAddition.Count * 4 * 5);
 		initialized = true;
 	}
 	/// <summary>
