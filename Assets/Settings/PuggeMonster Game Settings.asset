@@ -15,4 +15,5 @@ MonoBehaviour:
   WhenIsMasteryAchieved: 2
   RecievePuggemonsterLimit: 10
   QuestionSetSize: 4
+  QuestionSpamTimeLimitInMS: 800
   BuildGrade: {fileID: 11400000, guid: 8abb565bfe47b844ea7b60afdd3cf93b, type: 2}

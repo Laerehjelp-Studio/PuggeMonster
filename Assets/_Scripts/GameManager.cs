@@ -354,6 +354,12 @@ public class GameManager : MonoBehaviour {
 			OnGameModeUpdate?.Invoke( _gameMode );
 		}
 	}
+
+	public static float QuestionSpamTimeLimitInMS {
+		get {
+			return Instance._gameSettings.QuestionSpamTimeLimitInMS;
+		}
+	}
 }
 
 

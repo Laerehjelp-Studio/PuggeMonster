@@ -8,6 +8,8 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	[Header("Task Limits")]
 	public float RecievePuggemonsterLimit = 10;
 	public int QuestionSetSize = 4;
+	public float QuestionSpamTimeLimitInMS = 800f;
 	[Header( "Grades" )]
 	public Grade BuildGrade;
+
 }
