@@ -125,8 +125,6 @@ static public class StatManager {
 		
 		_generalMasteryMaxValue += (_initDictAddition.Count * 4);
 		_generalMasteryMaxValue += (_initDictZeroRemovedAddition.Count * 4 * 5);
-		_generalMasteryMaxValue += (_initListAddition.Count * 4);
-		_generalMasteryMaxValue += (_initListZeroRemovedAddition.Count * 4 * 5);
 		initialized = true;
 	}
 	/// <summary>
