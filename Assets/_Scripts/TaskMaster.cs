@@ -164,7 +164,7 @@ public class TaskMaster : MonoBehaviour {
 			if (!cheatDetected) {
 				StatManager.RegisterAnswer(mathTask, mathValue, points );
 				_currentScore +=  points;
-				_currentStudentPerformance.Push( points );
+				CurrentStudentPerformance.Push( points );
 				
 				if (_currentScore >= _receivePuggemonScoreLimit) {
 					_currentScore = 0;
@@ -180,7 +180,7 @@ public class TaskMaster : MonoBehaviour {
 		} else {
 			if (!cheatDetected) {
 				StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
-				_currentStudentPerformance.Push( points * -1 );
+				CurrentStudentPerformance.Push( points * -1 );
 			}
 		}
 		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
