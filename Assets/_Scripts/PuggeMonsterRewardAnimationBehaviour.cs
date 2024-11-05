@@ -30,6 +30,7 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
 
         changeAnimationCoolDown = 3f;
         Go = Instantiate(monsterPrefab);
+        Go.transform.localScale = new Vector3(0.4f, 0.4f, 1);
         Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
         Go.GetComponentInChildren<Canvas>().worldCamera = Camera.main;
         Go.transform.position = startPos.transform.position;
