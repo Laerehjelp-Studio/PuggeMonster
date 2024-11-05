@@ -7,11 +7,9 @@ public class Snail_GeneralMastery : MonoBehaviour
     [SerializeField]
     private Slider slider;
 
-    private void Awake() {
-        GameManager.OnSceneLoad += OnSceneLoaded;
-    }
 
     private void Start() {
+        GameManager.Instance.OnSceneLoad += OnSceneLoaded;
         SetMaxValueAndValue();
     }
 
@@ -26,6 +24,6 @@ public class Snail_GeneralMastery : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.OnSceneLoad -= OnSceneLoaded;
+        GameManager.Instance.OnSceneLoad -= OnSceneLoaded;
     }
 }
