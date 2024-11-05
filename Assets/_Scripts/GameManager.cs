@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour {
 	public static Action OnGameLoad { get; set; } = delegate { };
 	public static Action OnClearSaveGame { get; set; } = delegate { };
 	
+	private GraphicRaycaster[] _menuRaycasters;
+	
 	private void Awake () {
 		if (Instance == null) {
 			Instance = this;
@@ -74,6 +76,8 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		ResizeByScale( DeviceScaler );
+		
+		_menuRaycasters = _panningTransform.GetComponentsInChildren<GraphicRaycaster>();
 	}
 
 	private void Start() {
@@ -332,12 +336,22 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void EnablePannedMainMenuClickability ( bool gameObjectEnabled ) {
-		if (_pannedMenuTransform.TryGetComponent(out GraphicRaycaster graphicRaycaster)) {
-			graphicRaycaster.enabled = gameObjectEnabled;
+		if (_menuRaycasters.Length > 0) {
+			foreach (GraphicRaycaster item in _menuRaycasters) {
+				item.enabled = gameObjectEnabled;
+			}
 		}
 	}
 
-	public GameModeType GameMode { get { return _gameMode; } set { _gameMode = value; OnGameModeUpdate?.Invoke( _gameMode ); } }
+	public GameModeType GameMode {
+		get {
+			return _gameMode;
+		}
+		set {
+			_gameMode = value; 
+			OnGameModeUpdate?.Invoke( _gameMode );
+		}
+	}
 }
 
 
