@@ -79,11 +79,11 @@ public class GameManager : MonoBehaviour {
 		ResizeByScale( DeviceScaler );
 		
 		_menuRaycasters = _panningTransform.GetComponentsInChildren<GraphicRaycaster>();
+		StatManager.Initialize();
 	}
 
 
 	private void Start() {
-		StatManager.Initialize();
 	}
 
 	public static void SaveGame() {

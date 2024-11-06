@@ -127,12 +127,15 @@ static public class StatManager {
 		_operatorStore.Multiplication.HundredsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		_operatorStore.Multiplication.ThousandsDifficultySorted = new( ShuffleList( _initListZeroRemovedMultiplication ) );
 		
-		CountMaxGeneralMasteryValue(_initDictAddition, _initDictZeroRemovedAddition);
-		
 		initialized = true;
+		
+		CountMaxGeneralMasteryValue(_initDictAddition, _initDictZeroRemovedAddition);
 	}
 
 	private static void CountMaxGeneralMasteryValue(Dictionary<string, float> initDictAddition, Dictionary<string, float> initDictZeroRemovedAddition) {
+		if (!initialized) {
+			return;
+		}
 		_generalMasteryMaxValue = (initDictAddition.Count * 4);
 		_generalMasteryMaxValue += (initDictZeroRemovedAddition.Count * 4 * 4);
 	}
