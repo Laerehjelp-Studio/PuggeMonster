@@ -14,7 +14,7 @@ public class Snail_GeneralMastery : MonoBehaviour
     }
 
     private void SetMaxValueAndValue() {
-        slider.maxValue = StatManager.GeneralMasteryMaxValue; // the total ammount of mastery value
+        slider.maxValue = StatManager.GeneralMathMathMasteryMaxValue; // the total ammount of mastery value
         slider.value = StatManager.GeneralMathMastery;
     }
 
