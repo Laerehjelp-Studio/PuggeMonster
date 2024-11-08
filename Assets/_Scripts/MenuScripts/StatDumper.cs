@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -34,6 +35,13 @@ public class StatDumper : MonoBehaviour
 		if (_divisionGameObject.TryGetComponent( out ContentDumpOperator divisionDumpOperator )) {
 			divisionDumpOperator.OperatorDump( operatorStore.Division, "Division" );
 		}
+		
+		// Words Mastery
+		//Dictionary<string, float> _wordMasteryScores = StatManager.GetWordMasteryScore;
+		//GameObject _wordMasteryPrefab = Instantiate( _contentPrefab, _targetTransform );
+		//if (_wordMasteryPrefab.TryGetComponent( out ContentDumpWord divisionDumpOperator )) {
+		//	_wordMasteryPrefab.OperatorDump( operatorStore.Division, "Division" );
+		//}
 	}
 
 	private void RemoveChildren () {

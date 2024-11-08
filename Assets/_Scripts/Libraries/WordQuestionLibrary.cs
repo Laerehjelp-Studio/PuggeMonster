@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class WordQuestionLibrary : MonoBehaviour
 {
@@ -8,9 +9,18 @@ public class WordQuestionLibrary : MonoBehaviour
     private Dictionary<Sprite, string> wordTaskLibrary = new();
     [SerializeField] private List<Sprite> spriteList = new();
 
-    private List<string> incorrectWordList = new();
+	public static int GetMaxWordCount => WordQuestionLibrary.Instance.wordTaskLibrary.Count;
+	public static List<string> GetWordList {
+		get {
+			List<string> tempWordList = new();
+			foreach (string var in Instance.wordTaskLibrary.Values) {
+				tempWordList.Add(var);
+			}
+			return tempWordList;
+		}
+	}
 
-    private void Awake()
+	private void Awake()
     {
         if (Instance == default) {
 			Instance = this;
@@ -21,7 +31,6 @@ public class WordQuestionLibrary : MonoBehaviour
 				string temp = spriteList[i].name;
 				temp = temp.Replace("WD_", "");
 				wordTaskLibrary.Add(spriteList[i], temp);
-				incorrectWordList.Add(temp);
 			}
 		}
     }

@@ -23,6 +23,7 @@ public class TaskMaster : MonoBehaviour {
 	private float _lastGenerationTime;
 	private float _lastAnswerTime;
 	private float _spamTimeLimit;
+	private int _lastPuggeMonsterAwarded;
 
 	private void Awake () {
 		_maxTasks = GameManager.QuestionSetSize;
@@ -168,8 +169,9 @@ public class TaskMaster : MonoBehaviour {
 				
 				if (_currentScore >= _receivePuggemonScoreLimit) {
 					_currentScore = 0;
-					int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
+					int temp = GetPuggeMonsterIndex(_lastPuggeMonsterAwarded);
 					PlayerStats.Instance.AddPuggeMonster(temp);
+					_lastPuggeMonsterAwarded = temp;
 					rewardAnimationScript.PlayRewardAnimation(temp);
 				}
 
@@ -186,6 +188,16 @@ public class TaskMaster : MonoBehaviour {
 		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
 	}
 
+	private int GetPuggeMonsterIndex(int notThisPuggeMonster) {
+		int newPuggeMonsterIndex = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
+		
+		if (notThisPuggeMonster == newPuggeMonsterIndex) {
+			GetPuggeMonsterIndex(notThisPuggeMonster);
+		}
+		
+		return newPuggeMonsterIndex;
+	}
+	
 	public void RegisterAnswer(WordTask wordTask, string buttonInputValue) {
 		_numberOfAnswers++;
 
@@ -196,9 +208,7 @@ public class TaskMaster : MonoBehaviour {
 		}
 
 		Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-		//_currentDifficulty.AverageDifficulty.Push(points);
 
-		//StatManager.RegisterAnswer(mathTask, points);
 
 		if (wordTask.Correct == buttonInputValue) {
 			_currentScore = _currentScore + points;
@@ -213,8 +223,14 @@ public class TaskMaster : MonoBehaviour {
 				RefreshTasks(GameModeType.Words);
 			}
 
+			CurrentStudentPerformance.Push(points);
+			StatManager.RegisterAnswer(wordTask, buttonInputValue, points);
+			
 			GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
 			NextQuestion(wordTask);
+		} else {
+			CurrentStudentPerformance.Push(-1 * points);
+			StatManager.RegisterAnswer(wordTask, buttonInputValue,-1 * points);
 		}
 	}
 
