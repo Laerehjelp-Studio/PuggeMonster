@@ -453,42 +453,78 @@ static public class StatManager {
 			case "+":
 				switch (decimalSpot) {
 					case 0:
+						if (componentPair == "0+0") {
+							return 0f;
+						}
 						return _operatorStore.Addition.DecimalStats[ componentPair ];
 					case 1:
 						return _operatorStore.Addition.OneStats[ componentPair ];
 					case 2:
+						if (componentPair == "0+0") {
+							return 0f;
+						}
 						return _operatorStore.Addition.TensStats[ componentPair ];
 					case 3:
+						if (componentPair == "0+0") {
+							return 0f;
+						}
 						return _operatorStore.Addition.HundredsStats[ componentPair ];
 					case 4:
+						if (componentPair == "0+0") {
+							return 0f;
+						}
 						return _operatorStore.Addition.ThousandsStats[ componentPair ];
 				}
 				break;
 			case "-":
 				switch (decimalSpot) {
 					case 0:
+						if (componentPair == "0-0") {
+							return 0f;
+						}
 						return _operatorStore.Subtraction.DecimalStats[ componentPair ];
 					case 1:
 						return _operatorStore.Subtraction.OneStats[ componentPair ];
 					case 2:
+						if (componentPair == "0-0") {
+							return 0f;
+						}
 						return _operatorStore.Subtraction.TensStats[ componentPair ];
 					case 3:
+						if (componentPair == "0-0") {
+							return 0f;
+						}
 						return _operatorStore.Subtraction.HundredsStats[ componentPair ];
 					case 4:
+						if (componentPair == "0-0") {
+							return 0f;
+						}
 						return _operatorStore.Subtraction.ThousandsStats[ componentPair ];
 				}
 				break;
 			case "*":
 				switch (decimalSpot) {
 					case 0:
+						if (componentPair == "0*0") {
+							return 0f;
+						}
 						return _operatorStore.Multiplication.DecimalStats[ componentPair ];
 					case 1:
 						return _operatorStore.Multiplication.OneStats[ componentPair ];
 					case 2:
+						if (componentPair == "0*0") {
+							return 0f;
+						}
 						return _operatorStore.Multiplication.TensStats[ componentPair ];
 					case 3:
+						if (componentPair == "0*0") {
+							return 0f;
+						}
 						return _operatorStore.Multiplication.HundredsStats[ componentPair ];
 					case 4:
+						if (componentPair == "0*0") {
+							return 0f;
+						}
 						return _operatorStore.Multiplication.ThousandsStats[ componentPair ];
 				}
 				break;
@@ -496,14 +532,26 @@ static public class StatManager {
 			case ":":
 				switch (decimalSpot) {
 					case 0:
+						if (componentPair == "0/0") {
+							return 0f;
+						}
 						return _operatorStore.Division.DecimalStats[ componentPair ];
 					case 1:
 						return _operatorStore.Division.OneStats[ componentPair ];
 					case 2:
+						if (componentPair == "0/0") {
+							return 0f;
+						}
 						return _operatorStore.Division.TensStats[ componentPair ];
 					case 3:
+						if (componentPair == "0/0") {
+							return 0f;
+						}
 						return _operatorStore.Division.HundredsStats[ componentPair ];
 					case 4:
+						if (componentPair == "0/0") {
+							return 0f;
+						}
 						return _operatorStore.Division.ThousandsStats[ componentPair ];
 				}
 				break;
@@ -647,7 +695,6 @@ static public class StatManager {
 
 		return _difficultyLists;
 	}
-
 	#endregion
 
 }
