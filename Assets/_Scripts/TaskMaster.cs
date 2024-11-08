@@ -196,9 +196,7 @@ public class TaskMaster : MonoBehaviour {
 		}
 
 		Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-		//_currentDifficulty.AverageDifficulty.Push(points);
 
-		//StatManager.RegisterAnswer(mathTask, points);
 
 		if (wordTask.Correct == buttonInputValue) {
 			_currentScore = _currentScore + points;
@@ -213,8 +211,14 @@ public class TaskMaster : MonoBehaviour {
 				RefreshTasks(GameModeType.Words);
 			}
 
+			CurrentStudentPerformance.Push(points);
+			StatManager.RegisterAnswer(wordTask, buttonInputValue, points);
+			
 			GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
 			NextQuestion(wordTask);
+		} else {
+			CurrentStudentPerformance.Push(-1 * points);
+			StatManager.RegisterAnswer(wordTask, buttonInputValue,-1 * points);
 		}
 	}
 
