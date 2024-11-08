@@ -200,7 +200,7 @@ static public class StatManager {
 		// Word mastery
 		json = JsonConvert.SerializeObject(_generalWordMasteryScores);
 		PlayerPrefs.SetString("GeneralWordMasteryScores", json);
-		json = JsonConvert.SerializeObject(_generalMathMasteryMaxValue);
+		json = JsonConvert.SerializeObject(_generalWordMasteredList);
 		PlayerPrefs.SetString("GeneralWordMasteryList", json);
 
 		Debug.Log("Game saved successfully.");
