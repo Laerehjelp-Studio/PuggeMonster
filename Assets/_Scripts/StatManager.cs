@@ -282,8 +282,7 @@ static public class StatManager {
 
 				SortDirectionByFloatValue(dict, ref tempArray, currentIndex, currentFloat, previousIndex, previousFloat, nextIndex, nextFloat);
 			}
-		}
-		else {
+		} else {
 			SortDirectionByFloatValue(dict, ref tempArray, currentIndex, currentFloat, previousIndex, previousFloat, nextIndex, nextFloat);
 		}
 
@@ -298,7 +297,7 @@ static public class StatManager {
 
 	private static void SortDirectionByFloatValue(Dictionary<string, float> dict, ref string[] tempArray, int currentIndex, float currentFloat, int previousIndex, float previousFloat, int nextIndex, float nextFloat) {
 		if (currentFloat > previousFloat) {
-			while (currentFloat > previousFloat) {
+			while (currentFloat >= previousFloat) {
 				// Deconstructive Swap
 				(tempArray[previousIndex], tempArray[currentIndex]) = (tempArray[currentIndex], tempArray[previousIndex]);
 				currentIndex = previousIndex;
@@ -312,7 +311,7 @@ static public class StatManager {
 			}
 		}
 		else if (currentFloat < nextFloat) {
-			while (currentFloat < nextFloat) {
+			while (currentFloat <= nextFloat) {
 
 				// Deconstructive Swap
 				(tempArray[nextIndex], tempArray[currentIndex]) = (tempArray[currentIndex], tempArray[nextIndex]);
