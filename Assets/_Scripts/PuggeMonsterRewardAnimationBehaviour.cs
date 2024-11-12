@@ -34,7 +34,7 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
 
         changeAnimationCoolDown = 3f;
         Go = Instantiate(monsterPrefab);
-        Go.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+        Go.transform.localScale = new Vector3(0.6f, 0.6f, 1);
         PmonObject = Go.GetComponent<PuggemonObjectPublicProperties>();
         PmonObject.Picture1.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
         PmonObject.Picture2.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
