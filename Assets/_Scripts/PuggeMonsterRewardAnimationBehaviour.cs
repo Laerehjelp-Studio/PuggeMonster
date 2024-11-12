@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -12,6 +13,9 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
     [SerializeField] private float animationSpeed = 1f;
 
     [SerializeField] private BlackBarsFadeInController blackBarsAnimationScript;
+
+    private PuggemonObjectPublicProperties PmonObject;
+
     private float changeAnimationCoolDown = 3f;
 
     private GameObject Go;
@@ -30,8 +34,10 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
 
         changeAnimationCoolDown = 3f;
         Go = Instantiate(monsterPrefab);
-        Go.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-        Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
+        Go.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+        PmonObject = Go.GetComponent<PuggemonObjectPublicProperties>();
+        PmonObject.Picture1.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
+        PmonObject.Picture2.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
         Go.GetComponentInChildren<Canvas>().worldCamera = Camera.main;
         Go.transform.position = startPos.transform.position;
         Go.transform.rotation = startPos.transform.rotation;
@@ -59,7 +65,8 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
         else
         {
             isAnimatingTowardsMid = false;
-            Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(currentMonsterIndex).GetPicture(0);
+            //Go.GetComponentInChildren<Image>().sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(currentMonsterIndex).GetPicture(0);
+            PmonObject.Picture1.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(currentMonsterIndex).GetPicture(0);
             monsterButton = Go.GetComponentInChildren<Button>();
             monsterButton.interactable = true;
             monsterButton.onClick.AddListener(startAnimatingOutOfScreen);
