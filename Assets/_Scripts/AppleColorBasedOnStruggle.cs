@@ -27,7 +27,6 @@ public class AppleColorBasedOnStruggle : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log("sum: " + taskmaster.CurrentStudentPerformance.Sum);
         if(taskmaster == null)
         {
             return;

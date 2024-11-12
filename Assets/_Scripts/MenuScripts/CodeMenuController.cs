@@ -28,28 +28,14 @@ public class CodeMenuController : MonoBehaviour
 				break;
 			
 			case 4: // NOTHING YET
-				validCode = false;
-				break;
-
 			case 5: // NOTHING YET
-				validCode = false;
-				break;
-
 			case 6: // NOTHING YET
-				validCode = false;
-				break;
-
 			case 7: // NOTHING YET
-				validCode = false;
-				break;
-
 			case 8: // NOTHING YET
-				validCode = false;
-				break;
-
 			case 9: // NOTHING YET
 				validCode = false;
-				break;
+                CheckCodeAndRun();
+                break;
 		}
 	}
 
@@ -80,10 +66,8 @@ public class CodeMenuController : MonoBehaviour
 			case 8: // NOTHING YET
 			case 9: // NOTHING YET
 				validCode = false;
-				break;
-
-
-
+                CheckCodeAndRun();
+                break;
 		}
 
 		switch (buttonInputs[2])
@@ -170,13 +154,13 @@ public class CodeMenuController : MonoBehaviour
 
 	void NumberFriendsCase()
 	{
-
-	}
+        CheckCodeAndRun();
+    }
 
 	void LettersCase()
 	{
-
-	}
+        CheckCodeAndRun();
+    }
 
 
 	public void getInputFromButton(GameObject buttonObject)
