@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// 
@@ -54,10 +56,10 @@ public class TaskMaster : MonoBehaviour {
 	//}
 
 	public void RefreshTasks (GameModeType gameMode) {
+		char[] difficultySet = new char[ _maxTasks ];
 		switch (gameMode) {
 			case GameModeType.Math:
 				_mathTasks.Clear();
-				char[] difficultySet = new char[ _maxTasks ];
 				difficultySet = GetDifficultySet(GameModeType.Math);
 				
 				// if there exists a mathCode, we're going to ship it.
@@ -85,12 +87,19 @@ public class TaskMaster : MonoBehaviour {
 				break;
 			case GameModeType.Words:
 				_wordTasks.Clear();
-
+				difficultySet = GetDifficultySet(GameModeType.Words);
+				
 				for (int i = 0; i < _maxTasks; i++)
 				{
 					// first implementation, Will be replaced when a difficulty system has been created.
-
-					_wordTasks.Add(WordGenerator.GenerateWordQuestion());
+					WordTask task = new WordTask();
+					
+					task.difficultyLetter = difficultySet[i];
+					task.difficultySet = difficultySet;
+					WordGenerator.GenerateWordQuestionBasedOnPerformance(ref task);
+					
+					_wordTasks.Add(task);
+					
 				}
 				Debug.Log($"WordTasks: {_wordTasks.Count}, first Task: {_wordTasks[0].Correct}");
 				break;
@@ -102,10 +111,13 @@ public class TaskMaster : MonoBehaviour {
 			case GameModeType.None:
 				break;
 		}
+				
 		if (_mathTasks.Count > 0 ) {
 			MathTask mathTask = _mathTasks[0];
 			SwapQuestion( mathTask );
 		}
+		
+				
 		if (_wordTasks.Count > 0) {
 			WordTask wordTask = _wordTasks[ 0 ];
 			SwapQuestion( wordTask );
@@ -114,9 +126,9 @@ public class TaskMaster : MonoBehaviour {
 	/// <summary>
 	/// Generates a set of characters denoting difficulty. uses _maxTasks to decide how many. Introduces a little bit of randomness.
 	/// </summary>
-	/// <param name="math"></param>
+	/// <param name="gameMode"></param>
 	/// <returns></returns>
-	private char[] GetDifficultySet ( GameModeType math ) {
+	private char[] GetDifficultySet ( GameModeType gameMode ) {
 		char[] difficultySet = new char[_maxTasks];
 		float currentDifficultyModifier = 0f;
 		
@@ -145,7 +157,7 @@ public class TaskMaster : MonoBehaviour {
 		//Debug.Log($"Average: {_currentStudentPerformance.Average} Sum: {_currentStudentPerformance.Sum}, {difficultySet[ 0 ]} {difficultySet[ 1 ]} {difficultySet[ 2 ]} {difficultySet[ 3 ]}, {currentDifficultyModifier}" );
 		return difficultySet;
 	}
-
+	
 	public void RegisterAnswer ( MathTask mathTask, float mathValue ) {
 		_numberOfAnswers++;
 
@@ -154,15 +166,15 @@ public class TaskMaster : MonoBehaviour {
 		if (points < 0.4) {
 			points = 0;
 		}
-		float currentAnswerTime = (Time.realtimeSinceStartup * 1000) - _lastAnswerTime;
-		bool cheatDetected = currentAnswerTime < _spamTimeLimit;
+		
+		bool cheatDetected = DetectCheater(_lastAnswerTime);
 		
 		//Debug.Log($"Selected answer = {mathValue}, Correct Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 		Debug.Log($"timeSinceLastResponse: {(Time.realtimeSinceStartup * 1000) - _lastAnswerTime }, IsCheating: {cheatDetected}");
 		
 		// Floating point comparison should use Mathf.Approximately
-		if (Mathf.Approximately(mathTask.Correct, mathValue)) {
-			if (!cheatDetected) {
+		if (!cheatDetected) {
+			if (Mathf.Approximately(mathTask.Correct, mathValue)) {
 				StatManager.RegisterAnswer(mathTask, mathValue, points );
 				_currentScore +=  points;
 				CurrentStudentPerformance.Push( points );
@@ -176,16 +188,21 @@ public class TaskMaster : MonoBehaviour {
 				}
 
 				GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
-			}
-			
-			NextQuestion( mathTask);
-		} else {
-			if (!cheatDetected) {
+				
+				NextQuestion( mathTask);
+			} else {
 				StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
 				CurrentStudentPerformance.Push( points * -1 );
 			}
+		} else if (Mathf.Approximately(mathTask.Correct, mathValue)) {
+			NextQuestion( mathTask);
 		}
 		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
+	}
+
+	private bool DetectCheater(float lastAnswerTime) {
+		float currentAnswerTime = (Time.realtimeSinceStartup * 1000) - lastAnswerTime;
+		return currentAnswerTime < _spamTimeLimit;
 	}
 
 	private int GetPuggeMonsterIndex(int notThisPuggeMonster) {
@@ -206,32 +223,36 @@ public class TaskMaster : MonoBehaviour {
 		if (points < 0.4) {
 			points = 0;
 		}
+		
+		bool cheatDetected = DetectCheater(_lastAnswerTime);
+		
+		//Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 
-		Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
+		if (!cheatDetected) {
+			if (wordTask.Correct == buttonInputValue) {
+				_currentScore = _currentScore + points;
 
+				if (_currentScore >= _receivePuggemonScoreLimit) // Was comparing to _maxTasks, wich is the ammount of tasks to generate. Changed to score limit
+				{
+					_currentScore = 0;
+					int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
+					PlayerStats.Instance.AddPuggeMonster(temp);
+					rewardAnimationScript.PlayRewardAnimation(temp);
+				}
 
-		if (wordTask.Correct == buttonInputValue) {
-			_currentScore = _currentScore + points;
-
-			if (_currentScore >= _receivePuggemonScoreLimit) // Was comparing to _maxTasks, wich is the ammount of tasks to generate. Changed to score limit
-			{
-				_currentScore = 0;
-				int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
-				PlayerStats.Instance.AddPuggeMonster(temp);
-				rewardAnimationScript.PlayRewardAnimation(temp);
-
-				RefreshTasks(GameModeType.Words);
+				CurrentStudentPerformance.Push(points);
+				StatManager.RegisterAnswer(wordTask, buttonInputValue, points);
+				
+				GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
+				NextQuestion(wordTask);
+			} else {
+				CurrentStudentPerformance.Push(-1 * points);
+				StatManager.RegisterAnswer(wordTask, buttonInputValue, -1 * points);
 			}
-
-			CurrentStudentPerformance.Push(points);
-			StatManager.RegisterAnswer(wordTask, buttonInputValue, points);
-			
-			GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
+		} else if (wordTask.Correct == buttonInputValue) {
 			NextQuestion(wordTask);
-		} else {
-			CurrentStudentPerformance.Push(-1 * points);
-			StatManager.RegisterAnswer(wordTask, buttonInputValue,-1 * points);
 		}
+		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
 	}
 
 	private void NextQuestion (MathTask mathTask) {
@@ -262,7 +283,7 @@ public class TaskMaster : MonoBehaviour {
 		else
 		{
 			_currentTaskIndex = 0;
-			RefreshTasks(_gameMode);
+			RefreshTasks(GameModeType.Words);
 			return;
 		}
 		WordTask newWordTask = _wordTasks[_currentTaskIndex];
@@ -271,12 +292,12 @@ public class TaskMaster : MonoBehaviour {
 	}
 
 	private void SwapQuestion ( MathTask newMathTask ) {
-		GameManager.UIManager.MathQuestion(newMathTask );
+		GameManager.UIManager.MathQuestion( newMathTask );
 	}
 
 	private void SwapQuestion(WordTask newWordTask)
 	{
-		GameManager.UIManager.WordQuestion(newWordTask);
+		GameManager.UIManager.WordQuestion( newWordTask );
 	}
 }
 
@@ -312,7 +333,7 @@ public class StudentPerformance {
 	}
 }
 
-public struct MathTask {
+public struct MathTask : IEquatable<MathTask> {
 	public List<float> Components; // Array with 2 numbers
 	public string Operator; // + - * or /
 	public float Correct; // The correct answer.
@@ -321,6 +342,18 @@ public struct MathTask {
 	public string difficultyLevelStringValue;
 	public char difficultyLetter;
 	public char[] difficultySet;
+
+	public bool Equals(MathTask other) {
+		return Equals(Components, other.Components) && Operator == other.Operator && Correct.Equals(other.Correct) && Equals(Incorrect, other.Incorrect) && Equals(NumberSprite, other.NumberSprite) && difficultyLevelStringValue == other.difficultyLevelStringValue && difficultyLetter == other.difficultyLetter && Equals(difficultySet, other.difficultySet);
+	}
+
+	public override bool Equals(object obj) {
+		return obj is MathTask other && Equals(other);
+	}
+
+	public override int GetHashCode() {
+		return HashCode.Combine(Components, Operator, Correct, Incorrect, NumberSprite, difficultyLevelStringValue, difficultyLetter, difficultySet);
+	}
 }
 public struct LetterTask {
 	public AudioClip LetterSound;
@@ -328,8 +361,23 @@ public struct LetterTask {
 	public string[] Incorrect;
 }
 
-public struct WordTask {
+public struct WordTask : IEquatable<WordTask> {
 	public Sprite WordSprite;
 	public string Correct;
 	public List<string> Incorrect;
+	public string difficultyLevelStringValue;
+	public char difficultyLetter;
+	public char[] difficultySet;
+
+	public bool Equals(WordTask other) {
+		return Equals(WordSprite, other.WordSprite) && Correct == other.Correct && Equals(Incorrect, other.Incorrect) && difficultyLevelStringValue == other.difficultyLevelStringValue && difficultyLetter == other.difficultyLetter && Equals(difficultySet, other.difficultySet);
+	}
+
+	public override bool Equals(object obj) {
+		return obj is WordTask other && Equals(other);
+	}
+
+	public override int GetHashCode() {
+		return HashCode.Combine(WordSprite, Correct, Incorrect, difficultyLevelStringValue, difficultyLetter, difficultySet);
+	}
 }

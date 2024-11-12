@@ -282,8 +282,7 @@ static public class StatManager {
 
 				SortDirectionByFloatValue(dict, ref tempArray, currentIndex, currentFloat, previousIndex, previousFloat, nextIndex, nextFloat);
 			}
-		}
-		else {
+		} else {
 			SortDirectionByFloatValue(dict, ref tempArray, currentIndex, currentFloat, previousIndex, previousFloat, nextIndex, nextFloat);
 		}
 
@@ -298,7 +297,7 @@ static public class StatManager {
 
 	private static void SortDirectionByFloatValue(Dictionary<string, float> dict, ref string[] tempArray, int currentIndex, float currentFloat, int previousIndex, float previousFloat, int nextIndex, float nextFloat) {
 		if (currentFloat > previousFloat) {
-			while (currentFloat > previousFloat) {
+			while (currentFloat >= previousFloat) {
 				// Deconstructive Swap
 				(tempArray[previousIndex], tempArray[currentIndex]) = (tempArray[currentIndex], tempArray[previousIndex]);
 				currentIndex = previousIndex;
@@ -312,7 +311,7 @@ static public class StatManager {
 			}
 		}
 		else if (currentFloat < nextFloat) {
-			while (currentFloat < nextFloat) {
+			while (currentFloat <= nextFloat) {
 
 				// Deconstructive Swap
 				(tempArray[nextIndex], tempArray[currentIndex]) = (tempArray[currentIndex], tempArray[nextIndex]);
@@ -396,11 +395,8 @@ static public class StatManager {
 		get { return _generalMathMasteryList.Count; }
 	}
 
-	private static void AddMathGMIfMastered(string entry, float value) {
-		if (value > GameManager.WhenIsMasteryAchieved && !_generalMathMasteryList.Contains(entry)) {
-			_generalMathMasteryList.Add(entry);
-			OnMathGeneralMastery?.Invoke();
-		}
+	public static int GeneralWordMastery {
+		get { return _generalWordMasteredList.Count; }
 	}
 
 #endregion
@@ -517,7 +513,19 @@ static public class StatManager {
 
 		currentOperator.ThousandsDifficultySorted = ReorderByFloats(currentOperator.ThousandsDifficultySorted, thousandsPair, 4, taskOperator);
 	}
-
+	
+	/// <summary>
+	/// Adds entry to math mastery if it beats mastery level.
+	/// </summary>
+	/// <param name="entry"></param>
+	/// <param name="value"></param>
+	private static void AddMathGMIfMastered(string entry, float value) {
+		if (value > GameManager.WhenIsMasteryAchieved && !_generalMathMasteryList.Contains(entry)) {
+			_generalMathMasteryList.Add(entry);
+			OnMathGeneralMastery?.Invoke();
+		}
+	}
+	
 	/// <summary>
 	/// Adds zeros to the end of and in front of your pairs.
 	/// </summary>
@@ -818,12 +826,12 @@ static public class StatManager {
 	/// <param name="Operator"></param>
 	/// <param name="difficulty"></param>
 	/// <returns></returns>
-	public static DifficultyList GetDifficultyLists(string Operator, string difficulty) {
+	public static MathDifficultyList GetDifficultyLists(string Operator, string difficulty) {
 		if (Operator == default) {
 			Debug.LogError($"Operator is: 'null'");
 		}
 
-		DifficultyList _difficultyLists = new() {
+		MathDifficultyList mathDifficultyLists = new() {
 			//Decimal = new(),
 			One = new(),
 			Tens = new(),
@@ -854,49 +862,57 @@ static public class StatManager {
 			_tempOperator.ThousandsDifficultySorted == default) {
 
 			Debug.LogError($"_tempOperator not properly formed.");
-			return new DifficultyList();
+			return new MathDifficultyList();
 		}
 
 		switch (difficulty) {
 			case "e":
 			case "E":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange(0,20);
-				_difficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(0, 20);
-				_difficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(0, 20);
-				_difficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(0, 20);
-				_difficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(0, 20);
 				break;
 			case "m":
 			case "M":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange( 39, 20 );
-				_difficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(39, 20);
-				_difficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(39, 20);
-				_difficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(39, 20);
-				_difficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(39, 20);
 				break;
 			case "h":
 			case "H":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange( 63, 33 );
-				_difficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(_tempOperator.OneDifficultySorted.Count - 10, 10);
-				_difficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(_tempOperator.TensDifficultySorted.Count - 10, 10);
-				_difficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(_tempOperator.HundredsDifficultySorted.Count - 10, 10);
-				_difficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(_tempOperator.ThousandsDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(_tempOperator.OneDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(_tempOperator.TensDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(_tempOperator.HundredsDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(_tempOperator.ThousandsDifficultySorted.Count - 10, 10);
 				break;
 		}
 
-		return _difficultyLists;
+		return mathDifficultyLists;
 	}
-
 #endregion
 
 #region Words Statistics Storage Management
-
 	public static void RegisterAnswer(WordTask wordTask, string selectedValue, float points) {
 		_generalWordMasteryScores[selectedValue] += points;
 
 		AddWordGMIfMastered(selectedValue, _generalWordMasteryScores[selectedValue]);
 
 		_generalWordDifficultyList = ReorderByFloats(_generalWordDifficultyList, _generalWordMasteryScores, selectedValue);
+		
+		//PrintSortedWordDifficultyList();
+	}
+
+	private static void PrintSortedWordDifficultyList() {
+		string SortedWordMastery = "";
+		foreach (string key in _generalWordDifficultyList) {
+			SortedWordMastery += $"{key}: {_generalWordMasteryScores[key]}\n";
+		}
+		Debug.LogWarning(SortedWordMastery);
 	}
 
 	private static void AddWordGMIfMastered(string selectedValue, float wordMasteryScore) {
@@ -904,11 +920,39 @@ static public class StatManager {
 			_generalWordMasteredList.Add(selectedValue);
 		}
 	}
-
 	public static Dictionary<string, float> GetWordMasteryScore { 
 		get { 
 			return _generalWordMasteryScores;
 		}
+	}
+	
+	/// <summary>
+	/// Produces difficulty lists dependent on the Operator and Difficulty provided.
+	/// </summary>
+	/// <param name="difficulty"></param>
+	/// <returns></returns>
+	public static List<string> GetWordDifficultyList( char difficulty ) {
+		List <string> _difficultyList = new();
+
+		List<string> _tempList = WordQuestionLibrary.GetWordList;
+		int _partSize = (int)(_tempList.Count / 5);
+		//Debug.Log($"Getting word mastery scores for difficulty {difficulty}, part size {_partSize}, and {_tempList.Count}");
+		switch (difficulty) {
+			case 'e':
+			case 'E':
+				_difficultyList = _generalWordDifficultyList.GetRange(0, _partSize);
+				break;
+			case 'm':
+			case 'M':
+				_difficultyList = _generalWordDifficultyList.GetRange(_partSize*2, _partSize);
+				break;
+			case 'h':
+			case 'H':
+				_difficultyList = _generalWordDifficultyList.GetRange(_partSize*4, _partSize);
+				break;
+		}
+
+		return _difficultyList;
 	}
 
 #endregion
@@ -937,11 +981,10 @@ public struct Operator {
 }
 
 [Serializable]
-public struct DifficultyList {
+public struct MathDifficultyList {
 	//public List<string> Decimal;
 	public List<string> One;
 	public List<string> Tens;
 	public List<string> Hundreds;
 	public List<string> Thousands;
 }
-
