@@ -205,7 +205,7 @@ public static class MathGenerator
 		}
 
 		MathCategory category = subject.SelectCategoryByGMChance( generalMathMastery );
-		Debug.LogWarning($"Subject: {subject.Name}, Category: {category.Name}, Mastered: {StatManager.GeneralMathMastery}");
+		//Debug.LogWarning($"Subject: {subject.Name}, Category: {category.Name}, Mastered: {StatManager.GeneralMathMastery}");
 
 		if (category == null) {
 			return;
@@ -215,13 +215,13 @@ public static class MathGenerator
 
 		int placementNumberInt = category.SelectGMChancePlacementNumber( generalMathMastery );
 
-		DifficultyList difficultyLists = StatManager.GetDifficultyLists( task.Operator, task.difficultyLetter.ToString() );
+		MathDifficultyList mathDifficultyLists = StatManager.GetDifficultyLists( task.Operator, task.difficultyLetter.ToString() );
 
 		// If GetDifficultyLists does not produce a properly formed list, run the oldest (outdated) GenerateMathQuestion function.
-		if (difficultyLists.One == default ||
-			difficultyLists.Tens == default ||
-			difficultyLists.Hundreds == default ||
-			difficultyLists.Thousands == default) {
+		if (mathDifficultyLists.One == default ||
+			mathDifficultyLists.Tens == default ||
+			mathDifficultyLists.Hundreds == default ||
+			mathDifficultyLists.Thousands == default) {
 
 			Debug.LogError( "difficultyLists not properly formed." );
 			GenerateMathQuestion( task.difficultyLetter.ToString(), task );
@@ -232,7 +232,7 @@ public static class MathGenerator
 
 		// TODO: Implement decimals.
 
-		GetComponentsFromGeneralMastery(task, placementNumberInt, difficultyLists, ref firstComponent, ref secondComponent);
+		GetComponentsFromGeneralMastery(task, placementNumberInt, mathDifficultyLists, ref firstComponent, ref secondComponent);
 
 		//Debug.Log($"[UpdateTaskBasedOnGMUnlock]: {firstComponent}, placementNumberInt: {placementNumberInt}");
 
@@ -244,24 +244,24 @@ public static class MathGenerator
 		task = AddIncorrectAnswers( task );
 	}
 
-	private static void GetComponentsFromGeneralMastery(MathTask task, int placementNumberInt, DifficultyList difficultyLists, ref string firstComponent, ref string secondComponent) {
+	private static void GetComponentsFromGeneralMastery(MathTask task, int placementNumberInt, MathDifficultyList mathDifficultyLists, ref string firstComponent, ref string secondComponent) {
 		if (placementNumberInt >= 1) {
-			GetComponentFromDifficultyList( task, difficultyLists.One, ref firstComponent, ref secondComponent );
+			GetComponentFromDifficultyList( task, mathDifficultyLists.One, ref firstComponent, ref secondComponent );
 		}
 		if (placementNumberInt >= 2) {
-			GetComponentFromDifficultyList( task, difficultyLists.Tens, ref firstComponent, ref secondComponent );
+			GetComponentFromDifficultyList( task, mathDifficultyLists.Tens, ref firstComponent, ref secondComponent );
 		}
 		if (placementNumberInt >= 3) {
-			GetComponentFromDifficultyList( task, difficultyLists.Hundreds, ref firstComponent, ref secondComponent );
+			GetComponentFromDifficultyList( task, mathDifficultyLists.Hundreds, ref firstComponent, ref secondComponent );
 		}
 		if (placementNumberInt >= 4) {
-			GetComponentFromDifficultyList( task, difficultyLists.Thousands, ref firstComponent, ref secondComponent );
+			GetComponentFromDifficultyList( task, mathDifficultyLists.Thousands, ref firstComponent, ref secondComponent );
 		}
 
 		if (task.Operator == "/" && int.TryParse(secondComponent, out int result) && result == 0) {
 			firstComponent = "";
 			secondComponent = "";
-			GetComponentsFromGeneralMastery(task, placementNumberInt, difficultyLists, ref firstComponent, ref secondComponent);
+			GetComponentsFromGeneralMastery(task, placementNumberInt, mathDifficultyLists, ref firstComponent, ref secondComponent);
 		}
 	}
 
