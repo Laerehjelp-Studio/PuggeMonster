@@ -818,12 +818,12 @@ static public class StatManager {
 	/// <param name="Operator"></param>
 	/// <param name="difficulty"></param>
 	/// <returns></returns>
-	public static DifficultyList GetDifficultyLists(string Operator, string difficulty) {
+	public static MathDifficultyList GetDifficultyLists(string Operator, string difficulty) {
 		if (Operator == default) {
 			Debug.LogError($"Operator is: 'null'");
 		}
 
-		DifficultyList _difficultyLists = new() {
+		MathDifficultyList mathDifficultyLists = new() {
 			//Decimal = new(),
 			One = new(),
 			Tens = new(),
@@ -854,37 +854,37 @@ static public class StatManager {
 			_tempOperator.ThousandsDifficultySorted == default) {
 
 			Debug.LogError($"_tempOperator not properly formed.");
-			return new DifficultyList();
+			return new MathDifficultyList();
 		}
 
 		switch (difficulty) {
 			case "e":
 			case "E":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange(0,20);
-				_difficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(0, 20);
-				_difficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(0, 20);
-				_difficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(0, 20);
-				_difficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(0, 20);
+				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(0, 20);
 				break;
 			case "m":
 			case "M":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange( 39, 20 );
-				_difficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(39, 20);
-				_difficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(39, 20);
-				_difficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(39, 20);
-				_difficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(39, 20);
+				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(39, 20);
 				break;
 			case "h":
 			case "H":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange( 63, 33 );
-				_difficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(_tempOperator.OneDifficultySorted.Count - 10, 10);
-				_difficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(_tempOperator.TensDifficultySorted.Count - 10, 10);
-				_difficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(_tempOperator.HundredsDifficultySorted.Count - 10, 10);
-				_difficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(_tempOperator.ThousandsDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(_tempOperator.OneDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(_tempOperator.TensDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(_tempOperator.HundredsDifficultySorted.Count - 10, 10);
+				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(_tempOperator.ThousandsDifficultySorted.Count - 10, 10);
 				break;
 		}
 
-		return _difficultyLists;
+		return mathDifficultyLists;
 	}
 
 #endregion
@@ -937,7 +937,7 @@ public struct Operator {
 }
 
 [Serializable]
-public struct DifficultyList {
+public struct MathDifficultyList {
 	//public List<string> Decimal;
 	public List<string> One;
 	public List<string> Tens;

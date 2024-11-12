@@ -114,9 +114,9 @@ public class TaskMaster : MonoBehaviour {
 	/// <summary>
 	/// Generates a set of characters denoting difficulty. uses _maxTasks to decide how many. Introduces a little bit of randomness.
 	/// </summary>
-	/// <param name="math"></param>
+	/// <param name="gameMode"></param>
 	/// <returns></returns>
-	private char[] GetDifficultySet ( GameModeType math ) {
+	private char[] GetDifficultySet ( GameModeType gameMode ) {
 		char[] difficultySet = new char[_maxTasks];
 		float currentDifficultyModifier = 0f;
 		
