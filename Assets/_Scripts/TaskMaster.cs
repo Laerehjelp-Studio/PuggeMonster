@@ -311,7 +311,7 @@ public class StudentPerformance {
 	}
 }
 
-public struct MathTask {
+public struct MathTask : IEquatable<MathTask> {
 	public List<float> Components; // Array with 2 numbers
 	public string Operator; // + - * or /
 	public float Correct; // The correct answer.
@@ -320,6 +320,18 @@ public struct MathTask {
 	public string difficultyLevelStringValue;
 	public char difficultyLetter;
 	public char[] difficultySet;
+
+	public bool Equals(MathTask other) {
+		return Equals(Components, other.Components) && Operator == other.Operator && Correct.Equals(other.Correct) && Equals(Incorrect, other.Incorrect) && Equals(NumberSprite, other.NumberSprite) && difficultyLevelStringValue == other.difficultyLevelStringValue && difficultyLetter == other.difficultyLetter && Equals(difficultySet, other.difficultySet);
+	}
+
+	public override bool Equals(object obj) {
+		return obj is MathTask other && Equals(other);
+	}
+
+	public override int GetHashCode() {
+		return HashCode.Combine(Components, Operator, Correct, Incorrect, NumberSprite, difficultyLevelStringValue, difficultyLetter, difficultySet);
+	}
 }
 public struct LetterTask {
 	public AudioClip LetterSound;
@@ -327,8 +339,20 @@ public struct LetterTask {
 	public string[] Incorrect;
 }
 
-public struct WordTask {
+public struct WordTask : IEquatable<WordTask> {
 	public Sprite WordSprite;
 	public string Correct;
 	public List<string> Incorrect;
+
+	public bool Equals(WordTask other) {
+		return Equals(WordSprite, other.WordSprite) && Correct == other.Correct && Equals(Incorrect, other.Incorrect) && difficultyLevelStringValue == other.difficultyLevelStringValue && difficultyLetter == other.difficultyLetter && Equals(difficultySet, other.difficultySet);
+	}
+
+	public override bool Equals(object obj) {
+		return obj is WordTask other && Equals(other);
+	}
+
+	public override int GetHashCode() {
+		return HashCode.Combine(WordSprite, Correct, Incorrect, difficultyLevelStringValue, difficultyLetter, difficultySet);
+	}
 }
