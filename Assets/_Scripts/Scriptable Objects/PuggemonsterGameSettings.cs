@@ -11,5 +11,7 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	public float QuestionSpamTimeLimitInMS = 800f;
 	[Header( "Grades" )]
 	public Grade BuildGrade;
+	[Header("Debug")]
+	public bool IsGamelabBuild = true;
 
 }
