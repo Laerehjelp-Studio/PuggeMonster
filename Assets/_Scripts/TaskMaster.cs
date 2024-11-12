@@ -207,8 +207,7 @@ public class TaskMaster : MonoBehaviour {
 			points = 0;
 		}
 
-		Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-
+		//Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
 
 		if (wordTask.Correct == buttonInputValue) {
 			_currentScore = _currentScore + points;
