@@ -396,11 +396,8 @@ static public class StatManager {
 		get { return _generalMathMasteryList.Count; }
 	}
 
-	private static void AddMathGMIfMastered(string entry, float value) {
-		if (value > GameManager.WhenIsMasteryAchieved && !_generalMathMasteryList.Contains(entry)) {
-			_generalMathMasteryList.Add(entry);
-			OnMathGeneralMastery?.Invoke();
-		}
+	public static int GeneralWordMastery {
+		get { return _generalWordMasteredList.Count; }
 	}
 
 #endregion
@@ -517,7 +514,19 @@ static public class StatManager {
 
 		currentOperator.ThousandsDifficultySorted = ReorderByFloats(currentOperator.ThousandsDifficultySorted, thousandsPair, 4, taskOperator);
 	}
-
+	
+	/// <summary>
+	/// Adds entry to math mastery if it beats mastery level.
+	/// </summary>
+	/// <param name="entry"></param>
+	/// <param name="value"></param>
+	private static void AddMathGMIfMastered(string entry, float value) {
+		if (value > GameManager.WhenIsMasteryAchieved && !_generalMathMasteryList.Contains(entry)) {
+			_generalMathMasteryList.Add(entry);
+			OnMathGeneralMastery?.Invoke();
+		}
+	}
+	
 	/// <summary>
 	/// Adds zeros to the end of and in front of your pairs.
 	/// </summary>
@@ -886,17 +895,25 @@ static public class StatManager {
 
 		return mathDifficultyLists;
 	}
-
 #endregion
 
 #region Words Statistics Storage Management
-
 	public static void RegisterAnswer(WordTask wordTask, string selectedValue, float points) {
 		_generalWordMasteryScores[selectedValue] += points;
 
 		AddWordGMIfMastered(selectedValue, _generalWordMasteryScores[selectedValue]);
 
 		_generalWordDifficultyList = ReorderByFloats(_generalWordDifficultyList, _generalWordMasteryScores, selectedValue);
+		
+		//PrintSortedWordDifficultyList();
+	}
+
+	private static void PrintSortedWordDifficultyList() {
+		string SortedWordMastery = "";
+		foreach (string key in _generalWordDifficultyList) {
+			SortedWordMastery += $"{key}: {_generalWordMasteryScores[key]}\n";
+		}
+		Debug.LogWarning(SortedWordMastery);
 	}
 
 	private static void AddWordGMIfMastered(string selectedValue, float wordMasteryScore) {
@@ -904,11 +921,39 @@ static public class StatManager {
 			_generalWordMasteredList.Add(selectedValue);
 		}
 	}
-
 	public static Dictionary<string, float> GetWordMasteryScore { 
 		get { 
 			return _generalWordMasteryScores;
 		}
+	}
+	
+	/// <summary>
+	/// Produces difficulty lists dependent on the Operator and Difficulty provided.
+	/// </summary>
+	/// <param name="difficulty"></param>
+	/// <returns></returns>
+	public static List<string> GetWordDifficultyList( char difficulty ) {
+		List <string> _difficultyList = new();
+
+		List<string> _tempList = WordQuestionLibrary.GetWordList;
+		int _partSize = (int)(_tempList.Count / 5);
+		//Debug.Log($"Getting word mastery scores for difficulty {difficulty}, part size {_partSize}, and {_tempList.Count}");
+		switch (difficulty) {
+			case 'e':
+			case 'E':
+				_difficultyList = _generalWordDifficultyList.GetRange(0, _partSize);
+				break;
+			case 'm':
+			case 'M':
+				_difficultyList = _generalWordDifficultyList.GetRange(_partSize*2, _partSize);
+				break;
+			case 'h':
+			case 'H':
+				_difficultyList = _generalWordDifficultyList.GetRange(_partSize*4, _partSize);
+				break;
+		}
+
+		return _difficultyList;
 	}
 
 #endregion
@@ -944,4 +989,3 @@ public struct MathDifficultyList {
 	public List<string> Hundreds;
 	public List<string> Thousands;
 }
-

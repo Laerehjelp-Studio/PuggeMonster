@@ -48,7 +48,20 @@ public class WordQuestionLibrary : MonoBehaviour
         return var;
     }
 
-    public static string GetCorrectWord(Sprite key)
+	public WordQuestionPair GetWordAndSprite(List<string> wordList) {
+		if ( wordList.Count == 0) {
+			Debug.Log($"Something is terribly wrong and I was unable to generate a WQPair: {wordList.Count}");
+			//return new WordQuestionPair();
+		}
+
+		WordQuestionPair wordQuestionPair = new WordQuestionPair();
+		string selectedWord = wordList[ Random.Range( 0, wordList.Count ) ];
+		wordQuestionPair.Picture = GetSpriteFromValue(selectedWord);
+		wordQuestionPair.Word = selectedWord;
+		return wordQuestionPair;
+	}
+
+	public static string GetCorrectWord(Sprite key)
     {
         if (WordQuestionLibrary.Instance.wordTaskLibrary.ContainsKey(key))
         {

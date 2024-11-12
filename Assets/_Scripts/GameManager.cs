@@ -51,6 +51,14 @@ public class GameManager : MonoBehaviour {
 			return (GameManager.Instance != default && GameManager.Instance._gameSettings.BuildGrade != default) ? GameManager.Instance._gameSettings.BuildGrade : default;
 		}
 	}
+	/// <summary>
+	/// Used by debug checks.
+	/// </summary>
+	public static bool IsGamelabBuild {
+		get {
+			return (GameManager.Instance != default && GameManager.Instance._gameSettings.IsGamelabBuild != default) ? GameManager.Instance._gameSettings.IsGamelabBuild: false;
+		}
+	}
 
 	public static Action OnGameSave { get; set; } = delegate { };
 	public static Action OnGameLoad { get; set; } = delegate { };
