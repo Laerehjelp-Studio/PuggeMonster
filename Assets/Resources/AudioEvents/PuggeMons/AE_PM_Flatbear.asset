@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
   m_Name: AE_PM_Flatbear
   m_EditorClassIdentifier: 
-  _clips:
-  - {fileID: 8300000, guid: 5c898f97882bcec4dab982f877fade0a, type: 3}
+  _clips: []
   _volume:
     minValue: 0.47768396
     maxValue: 0.6320869

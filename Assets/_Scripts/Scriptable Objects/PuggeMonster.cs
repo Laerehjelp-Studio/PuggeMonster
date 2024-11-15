@@ -11,7 +11,7 @@ public class PuggeMonster : ScriptableObject {
 	public Sprite Picture { get { return Images[ ImageIndex ]; } }
 	public string Name;
 	public string Lore;
-	public AudioEvent CollectSound;
+	public SimpleAudioEvent CollectSound;
 	public PuggeMonster ( PuggeMonsterRarity rarity, int spriteIndex) {
 		Rarity = rarity;
 		ImageIndex = spriteIndex;

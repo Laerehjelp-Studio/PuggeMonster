@@ -20,3 +20,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 25711ed955d58c64ca392c64e523da10, type: 3}
   Name: Khait
   Lore: 
+  CollectSound: {fileID: 11400000, guid: 1dd6bea9ae375894c99c2e89e17e4a74, type: 2}

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
-  m_Name: AE_PM_Khait_Shiny
+  m_Name: UI_SFX_Wrong
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 31af0e4c733312f4ba0c5dcfe9657e74, type: 3}
+  - {fileID: 8300000, guid: e3ea2d9686133a8438b1546c14bef835, type: 3}
   _volume:
-    minValue: 0.47768396
-    maxValue: 0.6320869
+    minValue: 0.17322075
+    maxValue: 0.37322083
   _pitch:
-    minValue: 1.0422195
-    maxValue: 1.1194209
+    minValue: 0.9544029
+    maxValue: 1.0034981

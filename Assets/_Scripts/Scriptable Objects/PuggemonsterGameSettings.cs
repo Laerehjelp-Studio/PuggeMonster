@@ -13,5 +13,9 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	public Grade BuildGrade;
 	[Header("Debug")]
 	public bool IsGamelabBuild = true;
-
+	
+	[Header( "UX Audio Events" )]
+	public AudioEvent CorrectAnswerSound;
+	public AudioEvent WrongAnswerSound;
+	public AudioEvent CollectPuggemonsterSound;
 }

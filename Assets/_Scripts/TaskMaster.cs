@@ -50,10 +50,6 @@ public class TaskMaster : MonoBehaviour {
 		GameManager.Instance.OnSceneLoad -= RefreshTasks;
 	}
 
-	//private void UpdateGameMode (GameModeType gameMode ) {
-	//	_gameMode = gameMode;
-	//}
-
 	public void RefreshTasks (GameModeType gameMode) {
 		char[] difficultySet = new char[ _maxTasks ];
 		switch (gameMode) {
@@ -100,6 +96,7 @@ public class TaskMaster : MonoBehaviour {
 					_wordTasks.Add(task);
 				}
 				Debug.Log($"WordTasks: {_wordTasks.Count}, first Task: {_wordTasks[0].Correct}");
+				_lastGenerationTime = Time.realtimeSinceStartup * 1000;
 				break;
 			case GameModeType.Letters:
 				_letterTasks.Clear();
@@ -180,19 +177,24 @@ public class TaskMaster : MonoBehaviour {
 				if (_currentScore >= _receivePuggemonScoreLimit) {
 					_currentScore = 0;
 					int temp = PlayerStats.GetNewPuggeMonsterIndex;
-					PlayerStats.Instance.AddPuggeMonster(temp);
+					// Adding the puggemonster to your library now happens when you click the puggemon in the rewardAnimationScript.
 					rewardAnimationScript.PlayRewardAnimation(temp);
 				}
 
 				GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
 				
+				GameManager.CorrectAnswer();
 				NextQuestion( mathTask);
 			} else {
+				GameManager.WrongAnswer();
 				StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
 				CurrentStudentPerformance.Push( points * -1 );
 			}
 		} else if (Mathf.Approximately(mathTask.Correct, mathValue)) {
+			GameManager.CorrectAnswer();
 			NextQuestion( mathTask);
+		} else {
+			GameManager.WrongAnswer();
 		}
 		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
 	}
@@ -223,7 +225,7 @@ public class TaskMaster : MonoBehaviour {
 				{
 					_currentScore = 0;
 					int temp = PlayerStats.GetNewPuggeMonsterIndex;
-					PlayerStats.Instance.AddPuggeMonster(temp);
+					// Adding the puggemonster to your library now happens when you click the puggemon in the rewardAnimationScript.
 					rewardAnimationScript.PlayRewardAnimation(temp);
 				}
 
@@ -231,13 +233,18 @@ public class TaskMaster : MonoBehaviour {
 				StatManager.RegisterAnswer(wordTask, buttonInputValue, points);
 				
 				GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
+				GameManager.CorrectAnswer();
 				NextQuestion(wordTask);
 			} else {
+				GameManager.WrongAnswer();
 				CurrentStudentPerformance.Push(-1 * points);
 				StatManager.RegisterAnswer(wordTask, buttonInputValue, -1 * points);
 			}
 		} else if (wordTask.Correct == buttonInputValue) {
+			GameManager.CorrectAnswer();
 			NextQuestion(wordTask);
+		} else {
+			GameManager.WrongAnswer();
 		}
 		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
 	}
