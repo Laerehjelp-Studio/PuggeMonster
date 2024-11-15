@@ -192,11 +192,13 @@ public class TaskMaster : MonoBehaviour {
 					int temp = PlayerStats.GetNewPuggeMonsterIndex;
 					// Adding the puggemonster to your library now happens when you click the puggemon in the rewardAnimationScript.
 					rewardAnimationScript.PlayRewardAnimation(temp);
+				} else {
+					// Play the CorrectAnswer sound if we are not also receiving a new Puggemon. This prevents a clash between the two audios.
+					GameManager.CorrectAnswer();
 				}
 
 				GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
 				
-				GameManager.CorrectAnswer();
 				NextQuestion( mathTask);
 			} else {
 				GameManager.WrongAnswer();
@@ -240,13 +242,16 @@ public class TaskMaster : MonoBehaviour {
 					int temp = PlayerStats.GetNewPuggeMonsterIndex;
 					// Adding the puggemonster to your library now happens when you click the puggemon in the rewardAnimationScript.
 					rewardAnimationScript.PlayRewardAnimation(temp);
+				} else {
+					// Play the CorrectAnswer sound if we are not also receiving a new Puggemon. This prevents a clash between the two audios.
+					GameManager.CorrectAnswer();
 				}
 
 				CurrentStudentPerformance.Push(points);
 				StatManager.RegisterAnswer(wordTask, buttonInputValue, points);
 				
 				GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
-				GameManager.CorrectAnswer();
+				
 				NextQuestion(wordTask);
 			} else {
 				GameManager.WrongAnswer();
