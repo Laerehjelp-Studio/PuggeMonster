@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
-  m_Name: UI_SFX_Wrong
+  m_Name: UI_SFX_Q_Correct
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: e3ea2d9686133a8438b1546c14bef835, type: 3}
+  - {fileID: 8300000, guid: 2bf0b0182f01e8647991eb490a2c94a7, type: 3}
   _volume:
-    minValue: 0.17322075
-    maxValue: 0.37322083
+    minValue: 0.16839567
+    maxValue: 0.36839575
   _pitch:
     minValue: 0.9544029
-    maxValue: 1.0034981
+    maxValue: 1.0026538
