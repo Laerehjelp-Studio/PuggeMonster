@@ -15,5 +15,10 @@ MonoBehaviour:
   WhenIsMasteryAchieved: 2
   RecievePuggemonsterLimit: 10
   QuestionSetSize: 4
-  QuestionSpamTimeLimitInMS: 800
+  QuestionSpamTimeLimitInMS: 600
   BuildGrade: {fileID: 11400000, guid: 8abb565bfe47b844ea7b60afdd3cf93b, type: 2}
+  IsGamelabBuild: 1
+  CorrectAnswerSound: {fileID: 11400000, guid: e13076ac5ac4f2b479decde3bade2bb9, type: 2}
+  WrongAnswerSound: {fileID: 11400000, guid: a9fc982f2b0a02d4491c53afd689abbb, type: 2}
+  CollectPuggemonsterSound: {fileID: 11400000, guid: b02dea77910b24d4dba24b21237f4348,
+    type: 2}

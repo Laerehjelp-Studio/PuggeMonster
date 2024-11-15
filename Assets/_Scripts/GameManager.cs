@@ -4,14 +4,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-	[Header("Main Menu References")]
-	[SerializeField] GameObject _mMGameObject;
-	[SerializeField] Transform _panningTransform;
-	[SerializeField] Transform _pannedMenuTransform;
-	[SerializeField] ParallaxingManager _parallaxingManager;
-	[Header("Game Settings")]
-	[SerializeField] PuggeMonsterGameSettings _gameSettings;
-
 	public static GameManager Instance { get; private set; }
 	public static TaskMaster TaskMaster { get; private set; }
 	public static GameplayUIManager UIManager { get; private set; }
@@ -21,14 +13,13 @@ public class GameManager : MonoBehaviour {
 
 	public VoidDelegateGameMode OnGameModeUpdate;
 	public VoidDelegateGameMode OnSceneLoad;
-	
-	[Header( "Device Specific" )]
-	public DeviceScale DeviceScaler;
 
-	public float GetDeviceWidth {  get; }
-
-	private GameModeType _gameMode;
-
+	public static Action OnGameSave { get; set; } = delegate { };
+	public static Action OnGameLoad { get; set; } = delegate { };
+	public static Action OnClearSaveGame { get; set; } = delegate { };
+	public static Action OnCorrectAnswer { get; set; } = delegate { };
+	public static Action OnWrongAnswer { get; set; } = delegate { };
+	public static Action OnCollectPuggemonster{ get; set; } = delegate { };
 	public MathCode MathCode { get; set; }
 
 	public static float WhenIsMasteryAchieved { 
@@ -59,11 +50,22 @@ public class GameManager : MonoBehaviour {
 			return (GameManager.Instance != default && GameManager.Instance._gameSettings.IsGamelabBuild != default) ? GameManager.Instance._gameSettings.IsGamelabBuild: false;
 		}
 	}
-
-	public static Action OnGameSave { get; set; } = delegate { };
-	public static Action OnGameLoad { get; set; } = delegate { };
-	public static Action OnClearSaveGame { get; set; } = delegate { };
 	
+	[Header("Main Menu References")]
+	[SerializeField] GameObject _mMGameObject;
+	[SerializeField] Transform _panningTransform;
+	[SerializeField] Transform _pannedMenuTransform;
+	[SerializeField] ParallaxingManager _parallaxingManager;
+	[Header("Game Settings")]
+	[SerializeField] PuggeMonsterGameSettings _gameSettings;
+	[SerializeField] private AudioSource _eventAudioSource;
+	
+	[Header( "Device Specific" )]
+	public DeviceScale DeviceScaler;
+
+	public float GetDeviceWidth {  get; }
+
+	private GameModeType _gameMode;
 	private GraphicRaycaster[] _menuRaycasters;
 	
 	private void Awake () {
@@ -90,8 +92,32 @@ public class GameManager : MonoBehaviour {
 		StatManager.Initialize();
 	}
 
+	public static void CorrectAnswer() {
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
+			GameManager.Instance._gameSettings.CorrectAnswerSound.Play(GameManager.Instance._eventAudioSource);
+		}
+		OnCorrectAnswer?.Invoke();
+	}
+	
+	public static void WrongAnswer() {
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
+			GameManager.Instance._gameSettings.WrongAnswerSound.Play(GameManager.Instance._eventAudioSource);
+		}
+		OnWrongAnswer?.Invoke();
+	}
 
-	private void Start() {
+	public static void PuggeMonAppearSound() {
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
+			GameManager.Instance._gameSettings.CollectPuggemonsterSound.Play(GameManager.Instance._eventAudioSource);
+		}
+		OnCollectPuggemonster?.Invoke();
+	}
+
+	public static void PlayPuggemonCollectSound(int puggemonsterIndex) {
+		PuggeMonster _puggeMonster = MonsterIndexLibrary.Instance.GetMonsterFromIndex(puggemonsterIndex);
+		if (_puggeMonster is not null) {
+			_puggeMonster.CollectSound.Play(GameManager.Instance._eventAudioSource);
+		}
 	}
 
 	public static void SaveGame() {

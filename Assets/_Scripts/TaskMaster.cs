@@ -25,7 +25,6 @@ public class TaskMaster : MonoBehaviour {
 	private float _lastGenerationTime;
 	private float _lastAnswerTime;
 	private float _spamTimeLimit;
-	private int _lastPuggeMonsterAwarded;
 
 	private void Awake () {
 		_maxTasks = GameManager.QuestionSetSize;
@@ -50,10 +49,6 @@ public class TaskMaster : MonoBehaviour {
 		//GameManager.Instance.OnGameModeUpdate -= UpdateGameMode;
 		GameManager.Instance.OnSceneLoad -= RefreshTasks;
 	}
-
-	//private void UpdateGameMode (GameModeType gameMode ) {
-	//	_gameMode = gameMode;
-	//}
 
 	public void RefreshTasks (GameModeType gameMode) {
 		char[] difficultySet = new char[ _maxTasks ];
@@ -99,14 +94,27 @@ public class TaskMaster : MonoBehaviour {
 					WordGenerator.GenerateWordQuestionBasedOnPerformance(ref task);
 					
 					_wordTasks.Add(task);
-					
 				}
 				Debug.Log($"WordTasks: {_wordTasks.Count}, first Task: {_wordTasks[0].Correct}");
+				_lastGenerationTime = Time.realtimeSinceStartup * 1000;
 				break;
 			case GameModeType.Letters:
 				_letterTasks.Clear();
-				
-				_letterTasks.Add( LetterGenerator.GenerateLetterQuestion() );
+				difficultySet = GetDifficultySet(GameModeType.Letters);
+
+				for (int i = 0; i < _maxTasks; i++) {
+					// first implementation, Will be replaced when a difficulty system has been created.
+					LetterTask task = new LetterTask();
+					task = LetterGenerator.GenerateLetterQuestion();
+
+					//task.difficultyLetter = difficultySet[i];
+					//task.difficultySet = difficultySet;
+					//LetterGenerator.GenerateWordQuestionBasedOnPerformance(ref task);
+
+					_letterTasks.Add(task);
+				}
+
+				_lastGenerationTime = Time.realtimeSinceStartup * 1000;
 				break;
 			case GameModeType.None:
 				break;
@@ -181,21 +189,25 @@ public class TaskMaster : MonoBehaviour {
 				
 				if (_currentScore >= _receivePuggemonScoreLimit) {
 					_currentScore = 0;
-					int temp = GetPuggeMonsterIndex(_lastPuggeMonsterAwarded);
-					PlayerStats.Instance.AddPuggeMonster(temp);
-					_lastPuggeMonsterAwarded = temp;
+					int temp = PlayerStats.GetNewPuggeMonsterIndex;
+					// Adding the puggemonster to your library now happens when you click the puggemon in the rewardAnimationScript.
 					rewardAnimationScript.PlayRewardAnimation(temp);
 				}
 
 				GameManager.UIManager.SetExpBar( _currentScore / _receivePuggemonScoreLimit);
 				
+				GameManager.CorrectAnswer();
 				NextQuestion( mathTask);
 			} else {
+				GameManager.WrongAnswer();
 				StatManager.RegisterAnswer( mathTask, mathValue, -1 * points );
 				CurrentStudentPerformance.Push( points * -1 );
 			}
 		} else if (Mathf.Approximately(mathTask.Correct, mathValue)) {
+			GameManager.CorrectAnswer();
 			NextQuestion( mathTask);
+		} else {
+			GameManager.WrongAnswer();
 		}
 		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
 	}
@@ -203,16 +215,6 @@ public class TaskMaster : MonoBehaviour {
 	private bool DetectCheater(float lastAnswerTime) {
 		float currentAnswerTime = (Time.realtimeSinceStartup * 1000) - lastAnswerTime;
 		return currentAnswerTime < _spamTimeLimit;
-	}
-
-	private int GetPuggeMonsterIndex(int notThisPuggeMonster) {
-		int newPuggeMonsterIndex = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
-		
-		if (notThisPuggeMonster == newPuggeMonsterIndex) {
-			GetPuggeMonsterIndex(notThisPuggeMonster);
-		}
-		
-		return newPuggeMonsterIndex;
 	}
 	
 	public void RegisterAnswer(WordTask wordTask, string buttonInputValue) {
@@ -235,8 +237,8 @@ public class TaskMaster : MonoBehaviour {
 				if (_currentScore >= _receivePuggemonScoreLimit) // Was comparing to _maxTasks, wich is the ammount of tasks to generate. Changed to score limit
 				{
 					_currentScore = 0;
-					int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
-					PlayerStats.Instance.AddPuggeMonster(temp);
+					int temp = PlayerStats.GetNewPuggeMonsterIndex;
+					// Adding the puggemonster to your library now happens when you click the puggemon in the rewardAnimationScript.
 					rewardAnimationScript.PlayRewardAnimation(temp);
 				}
 
@@ -244,13 +246,18 @@ public class TaskMaster : MonoBehaviour {
 				StatManager.RegisterAnswer(wordTask, buttonInputValue, points);
 				
 				GameManager.UIManager.SetExpBar(_currentScore / _receivePuggemonScoreLimit);
+				GameManager.CorrectAnswer();
 				NextQuestion(wordTask);
 			} else {
+				GameManager.WrongAnswer();
 				CurrentStudentPerformance.Push(-1 * points);
 				StatManager.RegisterAnswer(wordTask, buttonInputValue, -1 * points);
 			}
 		} else if (wordTask.Correct == buttonInputValue) {
+			GameManager.CorrectAnswer();
 			NextQuestion(wordTask);
+		} else {
+			GameManager.WrongAnswer();
 		}
 		_lastAnswerTime = Time.realtimeSinceStartup * 1000;
 	}

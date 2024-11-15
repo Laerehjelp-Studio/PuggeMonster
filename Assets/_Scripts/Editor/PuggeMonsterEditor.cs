@@ -14,6 +14,7 @@ public class PuggeMonsterEditor : Editor {
 	private SerializedProperty imageIndexProp;
 	private SerializedProperty imagesProp;
 	private SerializedProperty loreProp;  // Added the lore field
+	private SerializedProperty collectAudioProp;  // Added the lore field
 
 	private void OnEnable () {
 		// Cache the serialized properties
@@ -23,6 +24,7 @@ public class PuggeMonsterEditor : Editor {
 		imageIndexProp = serializedObject.FindProperty( "ImageIndex" );
 		imagesProp = serializedObject.FindProperty( "Images" );
 		loreProp = serializedObject.FindProperty( "Lore" ); 
+		collectAudioProp = serializedObject.FindProperty( "CollectSound" ); 
 	}
 
 	public override void OnInspectorGUI () {
@@ -93,6 +95,9 @@ public class PuggeMonsterEditor : Editor {
 		EditorGUILayout.LabelField( "Rarity", boldLargeStyle );
 		rarityProp.enumValueIndex = EditorGUILayout.EnumPopup( (PuggeMonsterRarity)rarityProp.enumValueIndex, GUILayout.Height( 30 ) ).GetHashCode();
 
+		EditorGUILayout.LabelField("Audio Events", boldLargeStyle );
+		EditorGUILayout.PropertyField(collectAudioProp);
+		
 		serializedObject.ApplyModifiedProperties();
 	}
 

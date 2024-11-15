@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GalleryManager : MonoBehaviour {
 

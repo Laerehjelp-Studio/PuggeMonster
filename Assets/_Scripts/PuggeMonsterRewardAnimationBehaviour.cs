@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
@@ -73,8 +70,9 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
         }
     }
 
-    private void startAnimatingOutOfScreen()
-    {
+    private void startAnimatingOutOfScreen() {
+        GameManager.PlayPuggemonCollectSound(currentMonsterIndex);
+        PlayerStats.Instance.AddPuggeMonster(currentMonsterIndex);
         isAnimatingTowardsLeft = true;
     }
 
