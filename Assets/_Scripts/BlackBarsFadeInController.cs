@@ -24,13 +24,19 @@ public class BlackBarsFadeInController : MonoBehaviour
     private float barsScaleStepSize;
 
     private Color startColor = new Color(255,255,255,0);
-    private Color stopColor = new Color(255,255,255,1);
+    private Color stopColor = new Color(255,255,255,.5f);
+
+    private Color blackBarsStartColor;
 
 
     void Start()
     {
-        // Start the timer coroutine
+        blackBarsImage = fadeBarsObj.GetComponent<Image>();
+        backgoundImage = fadeBackgroundObj.GetComponent<Image>();
         barsScaleStepSize = (StartScaleY - StopScaleY) / animationDuration;
+        blackBarsStartColor = blackBarsImage.color;
+        fadeBarsObj.SetActive(false);
+        fadeBackgroundObj.SetActive(false);
     }
 
     public void StartAnimatingBlackBars()
@@ -47,14 +53,32 @@ public class BlackBarsFadeInController : MonoBehaviour
             Debug.LogWarning("Missing reference in " + transform.name + "'s script");
             return;
         }
-        fadeBarsObj.SetActive(false);
-        fadeBackgroundObj.SetActive(false);
+        /*
         fadeBarsObj.transform.localScale = new Vector3(
                 fadeBarsObj.transform.localScale.x,
                 StartScaleY,
-                fadeBarsObj.transform.localScale.z);
+                fadeBarsObj.transform.localScale.z);*/
+        StartCoroutine(FadeToZeroAlpha(1f));
+    }
+    private IEnumerator FadeToZeroAlpha(float duration)
+    {
+        Color color = blackBarsImage.color;
+        float startAlpha = color.a;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            float normalizedTime = t / duration;
+            color.a = Mathf.Lerp(startAlpha, 0, normalizedTime);
+            blackBarsImage.color = color;
+            backgoundImage.color = color;
+            yield return null;
+        }
+
+        color.a = 0;
+        blackBarsImage.color = blackBarsStartColor;
         backgoundImage.color = startColor;
-        blackBarsImage.color = startColor;
+        fadeBarsObj.SetActive(false);
+        fadeBackgroundObj.SetActive(false);
     }
 
 
@@ -62,10 +86,9 @@ public class BlackBarsFadeInController : MonoBehaviour
     {
         fadeBarsObj.SetActive(true);
         fadeBackgroundObj.SetActive(true);
-        blackBarsImage = fadeBarsObj.GetComponent<Image>();
-        backgoundImage = fadeBackgroundObj.GetComponent<Image>();
+        
         backgoundImage.color = startColor;
-        blackBarsImage.color = startColor;
+        blackBarsImage.color = blackBarsStartColor;
     }
 
     private void Update()
@@ -107,10 +130,6 @@ public class BlackBarsFadeInController : MonoBehaviour
                 fadeBarsObj.transform.localScale.x, 
                 StartScaleY - (barsScaleStepSize * elapsedTime), 
                 fadeBarsObj.transform.localScale.z);
-        }
-        if(blackBarsImage.color.a <= 1)
-        {
-            blackBarsImage.color = Color.Lerp(startColor, stopColor, elapsedTime / animationDuration);
         }
         if (backgoundImage.color.a <= 1)
         {
