@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/PuggeMonster Game Settings", fileName = "PuggeMonster Game Settings" )]
 public class PuggeMonsterGameSettings: ScriptableObject
@@ -18,5 +19,5 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	public AudioEvent ButtonClickSound;
 	public AudioEvent CorrectAnswerSound;
 	public AudioEvent WrongAnswerSound;
-	public AudioEvent CollectPuggemonsterSound;
+	public AudioEvent PuggeMonsterAppearedSound;
 }

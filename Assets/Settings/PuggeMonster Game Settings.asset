@@ -21,5 +21,5 @@ MonoBehaviour:
   ButtonClickSound: {fileID: 11400000, guid: 191861f257d4cf64b93eed30f198a8d8, type: 2}
   CorrectAnswerSound: {fileID: 11400000, guid: e13076ac5ac4f2b479decde3bade2bb9, type: 2}
   WrongAnswerSound: {fileID: 11400000, guid: a9fc982f2b0a02d4491c53afd689abbb, type: 2}
-  CollectPuggemonsterSound: {fileID: 11400000, guid: b02dea77910b24d4dba24b21237f4348,
+  PuggeMonsterAppearedSound: {fileID: 11400000, guid: b02dea77910b24d4dba24b21237f4348,
     type: 2}
