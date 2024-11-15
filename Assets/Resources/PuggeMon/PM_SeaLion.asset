@@ -20,3 +20,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dd8456f0c6eb67e47a34e5c25616e930, type: 3}
   Name: "Sj\xF8l\xF8ve"
   Lore: rawr
+  CollectSound: {fileID: 11400000, guid: f5b7124812ddac540b6c6a1458f62716, type: 2}

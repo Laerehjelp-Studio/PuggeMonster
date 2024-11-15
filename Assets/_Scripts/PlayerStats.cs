@@ -6,6 +6,7 @@ public class PlayerStats : MonoBehaviour
 
 	public int[] PuggemonArray;
 	public SO_PuggeMonsterRegistry puggemonsterList;
+	private static int lastPuggeMonsterIndex;
 
 	private void Awake()
 	{
@@ -51,4 +52,17 @@ public class PlayerStats : MonoBehaviour
 		PuggemonArray[monsterIndex]++;
 		GameManager.SaveGame();
 	}
+
+	public static int GetNewPuggeMonsterIndex {
+		get {
+			int temp = Random.Range(0, PlayerStats.Instance.puggemonsterList.Length);
+			
+			if (temp == lastPuggeMonsterIndex) {
+				return GetNewPuggeMonsterIndex;
+			}
+			
+			lastPuggeMonsterIndex = temp;
+			return temp;
+		}
+	} 
 }

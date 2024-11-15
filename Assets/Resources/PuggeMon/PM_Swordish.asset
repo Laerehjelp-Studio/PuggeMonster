@@ -20,3 +20,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8443042065cc488439558b519ac8942a, type: 3}
   Name: Sverdfisk
   Lore: 
+  CollectSound: {fileID: 11400000, guid: c985b073190dac94a93c7976a388a554, type: 2}

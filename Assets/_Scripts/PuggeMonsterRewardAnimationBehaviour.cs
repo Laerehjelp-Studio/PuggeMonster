@@ -70,8 +70,9 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
         }
     }
 
-    private void startAnimatingOutOfScreen()
-    {
+    private void startAnimatingOutOfScreen() {
+        GameManager.PlayPuggemonCollectSound(currentMonsterIndex);
+        PlayerStats.Instance.AddPuggeMonster(currentMonsterIndex);
         isAnimatingTowardsLeft = true;
     }
 
