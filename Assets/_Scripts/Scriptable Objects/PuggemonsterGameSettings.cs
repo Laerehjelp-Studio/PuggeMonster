@@ -15,6 +15,7 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	public bool IsGamelabBuild = true;
 	
 	[Header( "UX Audio Events" )]
+	public AudioEvent ButtonClickSound;
 	public AudioEvent CorrectAnswerSound;
 	public AudioEvent WrongAnswerSound;
 	public AudioEvent CollectPuggemonsterSound;

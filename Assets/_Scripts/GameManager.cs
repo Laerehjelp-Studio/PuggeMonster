@@ -91,7 +91,11 @@ public class GameManager : MonoBehaviour {
 		_menuRaycasters = _panningTransform.GetComponentsInChildren<GraphicRaycaster>();
 		StatManager.Initialize();
 	}
-
+	public static void ButtonClickSound() {
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
+			GameManager.Instance._gameSettings.ButtonClickSound.Play(GameManager.Instance._eventAudioSource);
+		}
+	}
 	public static void CorrectAnswer() {
 		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
 			GameManager.Instance._gameSettings.CorrectAnswerSound.Play(GameManager.Instance._eventAudioSource);
