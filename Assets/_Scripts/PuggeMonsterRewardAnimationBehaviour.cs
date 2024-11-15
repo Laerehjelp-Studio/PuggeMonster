@@ -23,8 +23,8 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
     private bool isAnimatingTowardsMid = false;
     private bool isAnimatingTowardsLeft = false;
 
-    public void PlayRewardAnimation(int monsterIndex)
-    {
+    public void PlayRewardAnimation(int monsterIndex) {
+        GameManager.PuggeMonAppearSound();
         blackBarsAnimationScript.StartAnimatingBlackBars();
         currentMonsterIndex = monsterIndex;
         isAnimatingTowardsMid = true;
