@@ -91,32 +91,35 @@ public class GameManager : MonoBehaviour {
 		_menuRaycasters = _panningTransform.GetComponentsInChildren<GraphicRaycaster>();
 		StatManager.Initialize();
 	}
-
+	public static void ButtonClickSound() {
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null && GameManager.Instance._gameSettings.ButtonClickSound) {
+			GameManager.Instance._gameSettings.ButtonClickSound.PlayOneShot(GameManager.Instance._eventAudioSource);
+		}
+	}
 	public static void CorrectAnswer() {
-		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
-			GameManager.Instance._gameSettings.CorrectAnswerSound.Play(GameManager.Instance._eventAudioSource);
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null && GameManager.Instance._gameSettings.CorrectAnswerSound) {
+			GameManager.Instance._gameSettings.CorrectAnswerSound.PlayOneShot(GameManager.Instance._eventAudioSource);
 		}
 		OnCorrectAnswer?.Invoke();
 	}
 	
 	public static void WrongAnswer() {
-		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
-			GameManager.Instance._gameSettings.WrongAnswerSound.Play(GameManager.Instance._eventAudioSource);
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null && GameManager.Instance._gameSettings.WrongAnswerSound) {
+			GameManager.Instance._gameSettings.WrongAnswerSound.PlayOneShot(GameManager.Instance._eventAudioSource);
 		}
-		OnWrongAnswer?.Invoke();
+		OnWrongAnswer?.Invoke(); 
 	}
 
 	public static void PuggeMonAppearSound() {
-		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null) {
-			GameManager.Instance._gameSettings.CollectPuggemonsterSound.Play(GameManager.Instance._eventAudioSource);
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null && GameManager.Instance._gameSettings.PuggeMonsterAppearedSound) {
+			GameManager.Instance._gameSettings.PuggeMonsterAppearedSound.PlayOneShot(GameManager.Instance._eventAudioSource);
 		}
-		OnCollectPuggemonster?.Invoke();
 	}
 
 	public static void PlayPuggemonCollectSound(int puggemonsterIndex) {
 		PuggeMonster _puggeMonster = MonsterIndexLibrary.Instance.GetMonsterFromIndex(puggemonsterIndex);
-		if (_puggeMonster is not null) {
-			_puggeMonster.CollectSound.Play(GameManager.Instance._eventAudioSource);
+		if (_puggeMonster is not null && _puggeMonster.CollectSound) {
+			_puggeMonster.CollectSound.PlayOneShot(GameManager.Instance._eventAudioSource);
 		}
 	}
 

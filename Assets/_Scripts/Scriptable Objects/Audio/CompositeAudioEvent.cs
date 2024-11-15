@@ -34,7 +34,27 @@ public class CompositeAudioEvent : AudioEvent
 				continue;
 			}
 
-			Entries[i].Event.Play(source);
+			Entries[i].Event.PlayOneShot(source);
+			return;
+		}
+	}
+	public override void PlayOneShot(AudioSource source)
+	{
+		float totalWeight = 0;
+
+		for(int i= 0; i<Entries.Length; ++i )
+			totalWeight += Entries[i].Weight;
+
+		float _picked = Random.Range( 0, totalWeight );
+		for(int i= 0;i < Entries.Length; ++i )
+		{
+			if ( _picked > Entries[i].Weight )
+			{
+				_picked -= Entries[i].Weight;
+				continue;
+			}
+
+			Entries[i].Event.PlayOneShot(source);
 			return;
 		}
 	}
