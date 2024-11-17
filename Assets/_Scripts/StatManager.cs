@@ -12,7 +12,11 @@ static public class StatManager {
 	private static List<string> _generalMathMasteryList = new();
 	private static List<string> _generalWordMasteredList = new();
 	private static List<string> _generalWordDifficultyList = new();
+	private static List<string> _generalLetterPictureDifficultyList = new();
+	private static List<string> _generalLetterSoundDifficultyList = new();
 	private static Dictionary<string, float> _generalWordMasteryScores = new();
+	private static Dictionary<string, float> _generalLetterPictureMasteryScores = new();
+	private static Dictionary<string, float> _generalLetterSoundMasteryScores = new();
 	public static Action OnDatabaseUpdate { get; set; } = delegate { };
 	public static Action OnMathGeneralMastery { get; set; } = delegate { };
 
@@ -49,6 +53,9 @@ static public class StatManager {
 				InitializeGeneralWordMastery();
 			}
 
+			if (_generalLetterPictureMasteryScores.Count != LetterSoundQuestionLibrary.GetLetterList.Count) {
+				InitializeGeneralLetterPictureMastery();
+			}
 			return;
 		}
 
@@ -165,6 +172,16 @@ static public class StatManager {
 		}
 	}
 
+	private static void InitializeGeneralLetterPictureMastery() {
+		_generalLetterPictureDifficultyList = ShuffleList(WordQuestionLibrary.GetWordList);
+
+		foreach (string keyString in WordQuestionLibrary.GetWordList) {
+			_generalLetterSoundMasteryScores.Add(keyString, 0f);
+		}
+	}
+
+	//
+	
 	private static void CountMaxGeneralMathMasteryValue(Dictionary<string, float> initDictAddition, Dictionary<string, float> initDictZeroRemovedAddition) {
 		if (!initialized) {
 			return;
@@ -956,7 +973,67 @@ static public class StatManager {
 	}
 
 #endregion
+
+#region Letter Statistics Storage Management
+	public static void RegisterAnswer(LetterTask task, string selectedValue, float points) {
+
+		switch ( task.Mode ) {
+			case LetterMode.Picture:
+				_generalLetterPictureMasteryScores[selectedValue] += points;
+
+				AddWordGMIfMastered(selectedValue, _generalLetterPictureMasteryScores[selectedValue]);
+
+				_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores, selectedValue);
+
+				break;
+			case LetterMode.Sound:
+				_generalLetterSoundMasteryScores[selectedValue] += points;
+				
+				AddMathGMIfMastered(selectedValue, _generalLetterSoundMasteryScores[selectedValue]);
+
+				_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores, selectedValue);
+				break;
+		}
+		
+		//PrintSortedWordDifficultyList();
+	}
+
 	
+	public static List<string> GetLetterDifficultyList( char taskDifficultyLetter, LetterMode mode ) {
+		List <string> difficultyList = new();
+		List <string> keyList = new();
+		List <string> tempSortedList = new();
+		switch ( mode ) {
+			case LetterMode.Picture:
+				keyList = WordQuestionLibrary.GetWordList;
+				tempSortedList = _generalWordDifficultyList;
+				break;
+			case LetterMode.Sound:
+				keyList = LetterSoundQuestionLibrary.GetLetterList;
+				tempSortedList = _generalLetterSoundDifficultyList;
+				break;
+		}
+		
+		int partSize = (int)(keyList.Count / 5);
+		//Debug.Log($"Getting word mastery scores for difficulty {difficulty}, part size {_partSize}, and {_tempList.Count}");
+		switch (taskDifficultyLetter) {
+			case 'e':
+			case 'E':
+				difficultyList = tempSortedList.GetRange(0, partSize);
+				break;
+			case 'm':
+			case 'M':
+				difficultyList = tempSortedList.GetRange(partSize*2, partSize);
+				break;
+			case 'h':
+			case 'H':
+				difficultyList = tempSortedList.GetRange(partSize*4, partSize);
+				break;
+		}
+
+		return difficultyList;
+	}
+#endregion
 }
 
 [Serializable]

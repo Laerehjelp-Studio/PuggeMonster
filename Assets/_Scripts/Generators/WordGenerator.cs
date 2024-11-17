@@ -7,9 +7,9 @@ public static class WordGenerator
 	{
 		WordTask task = new();
 		
-		WordQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite();
+		WordPictureQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite();
 		task.Correct = wp.Word;
-		task.WordSprite = wp.Picture;
+		task.TaskSprite = wp.Picture;
 
 		Sprite[] tempSpriteArray = new Sprite[2];
 		tempSpriteArray[0] = wp.Picture;
@@ -22,21 +22,21 @@ public static class WordGenerator
 	}
 
 	public static WordTask GenerateWordQuestionBasedOnPerformance(ref WordTask task) {
-		if (task.difficultyLetter == default) {
-			task.difficultyLetter = 'e';
+		if (task.DifficultyLetter == default) {
+			task.DifficultyLetter = 'e';
 		}
 
 		UpdateTaskBasedOnGeneralMasteryUnlock(ref task, StatManager.GeneralWordMastery, GameManager.SelectedGrade );
 
-		switch (task.difficultyLetter) {
+		switch (task.DifficultyLetter) {
 			case 'e':
-				task.difficultyLevelStringValue = "Easy";
+				task.DifficultyLevelStringValue = "Easy";
 				break;
 			case 'm':
-				task.difficultyLevelStringValue = "Medium";
+				task.DifficultyLevelStringValue = "Medium";
 				break;
 			case 'h':
-				task.difficultyLevelStringValue = "Hard";
+				task.DifficultyLevelStringValue = "Hard";
 				break;
 		}
 
@@ -44,13 +44,11 @@ public static class WordGenerator
 	}
 
 	private static void UpdateTaskBasedOnGeneralMasteryUnlock(ref WordTask task, float generalWordMastery, Grade selectedGrade) {
+		List<string> tempList = StatManager.GetWordDifficultyList(task.DifficultyLetter);
 		
-		
-		List<string> tempList = StatManager.GetWordDifficultyList(task.difficultyLetter);
-		
-		WordQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite(tempList);
+		WordPictureQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite(tempList);
 		task.Correct = wp.Word;
-		task.WordSprite = wp.Picture;
+		task.TaskSprite = wp.Picture;
 
 		Sprite[] tempSpriteArray = new Sprite[2];
 		tempSpriteArray[0] = wp.Picture;

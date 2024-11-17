@@ -29,7 +29,7 @@ public static class MathGenerator
 				task.Incorrect = new();
 				task.Components.Add( Random.Range( 0, 10 ) );
 				task.Components.Add( Random.Range( 0, 10 ) );
-				task.difficultyLevelStringValue = "Easy";
+				task.DifficultyLevelStringValue = "Easy";
 
 
 				task.Correct = GetMathResult( task );
@@ -44,7 +44,7 @@ public static class MathGenerator
 				task.Incorrect = new();
 				task.Components.Add( Random.Range( 10, 31 ) );
 				task.Components.Add( Random.Range( 10, 31 ) );
-				task.difficultyLevelStringValue = "Medium";
+				task.DifficultyLevelStringValue = "Medium";
 
 				task.Correct = GetMathResult( task );
 
@@ -57,7 +57,7 @@ public static class MathGenerator
 				task.Incorrect = new();
 				task.Components.Add( Random.Range( 20, 101 ) );
 				task.Components.Add( Random.Range( 30, 101 ) );
-				task.difficultyLevelStringValue = "Hard";
+				task.DifficultyLevelStringValue = "Hard";
 
 				task.Correct = GetMathResult( task );
 
@@ -87,7 +87,7 @@ public static class MathGenerator
 			return GenerateMathQuestionFromStudentPerformance( task, mathCode );
 		}
 
-		task.difficultyLevelStringValue = "Kode";
+		task.DifficultyLevelStringValue = "Kode";
 
 		task.Components.Add( Random.Range( mathCode.Lower, mathCode.Upper ) );
 		if (task.Operator == "/") {
@@ -171,21 +171,21 @@ public static class MathGenerator
 	/// <param name="mathCode"></param>
 	/// <returns></returns>
 	public static MathTask GenerateMathQuestionFromStudentPerformance (  MathTask task, MathCode mathCode  = new() ) {
-		if (task.difficultyLetter == default) {
-			task.difficultyLetter = 'e';
+		if (task.DifficultyLetter == default) {
+			task.DifficultyLetter = 'e';
 		}
 
 		UpdateTaskBasedOnGeneralMasteryUnlock(ref task, StatManager.GeneralMathMastery, GameManager.SelectedGrade );
 
-		switch (task.difficultyLetter) {
+		switch (task.DifficultyLetter) {
 			case 'e':
-				task.difficultyLevelStringValue = "Easy";
+				task.DifficultyLevelStringValue = "Easy";
 				break;
 			case 'm':
-				task.difficultyLevelStringValue = "Medium";
+				task.DifficultyLevelStringValue = "Medium";
 				break;
 			case 'h':
-				task.difficultyLevelStringValue = "Hard";
+				task.DifficultyLevelStringValue = "Hard";
 				break;
 		}
 
@@ -215,7 +215,7 @@ public static class MathGenerator
 
 		int placementNumberInt = category.SelectGMChancePlacementNumber( generalMathMastery );
 
-		MathDifficultyList mathDifficultyLists = StatManager.GetDifficultyLists( task.Operator, task.difficultyLetter.ToString() );
+		MathDifficultyList mathDifficultyLists = StatManager.GetDifficultyLists( task.Operator, task.DifficultyLetter.ToString() );
 
 		// If GetDifficultyLists does not produce a properly formed list, run the oldest (outdated) GenerateMathQuestion function.
 		if (mathDifficultyLists.One == default ||
@@ -224,7 +224,7 @@ public static class MathGenerator
 			mathDifficultyLists.Thousands == default) {
 
 			Debug.LogError( "difficultyLists not properly formed." );
-			GenerateMathQuestion( task.difficultyLetter.ToString(), task );
+			GenerateMathQuestion( task.DifficultyLetter.ToString(), task );
 			return;
 		}
 
