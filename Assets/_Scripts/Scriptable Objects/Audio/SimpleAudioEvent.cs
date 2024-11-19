@@ -26,4 +26,14 @@ public class SimpleAudioEvent : AudioEvent
 		source.pitch = Random.Range(_pitch.minValue, _pitch.maxValue);
 		source.Play();
 	}
+	public override void PlayOneShot(AudioSource source )
+	{
+		if ( _clips.Length == 0 ) {
+			return;
+		}
+		source.clip = _clips[Random.Range(0, _clips.Length)];
+		source.volume = Random.Range(_volume.minValue, _volume.maxValue);
+		source.pitch = Random.Range(_pitch.minValue, _pitch.maxValue);
+		source.PlayOneShot(source.clip);
+	}
 }

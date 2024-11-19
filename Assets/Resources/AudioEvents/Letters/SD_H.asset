@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
-  m_Name: UI_SFX_CollectMonster
+  m_Name: SD_H
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 70885b37b37947545a6caf319f0e3091, type: 3}
+  - {fileID: 8300000, guid: d6f4ea6db03b4884da68d07bb4aa6358, type: 3}
   _volume:
-    minValue: 0.4
-    maxValue: 0.6
+    minValue: 0.9162847
+    maxValue: 0.99565744
   _pitch:
-    minValue: 0.8
-    maxValue: 1.1
+    minValue: 0.8974668
+    maxValue: 1.1009654
