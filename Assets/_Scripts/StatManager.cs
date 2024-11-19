@@ -234,9 +234,15 @@ static public class StatManager {
 		// Letter Picture Mastery
 		json = JsonConvert.SerializeObject(_generalLetterPictureMasteryScores);
 		PlayerPrefs.SetString("GeneralLetterPictureMasteryScores", json);
-		//json = JsonConvert.SerializeObject(_generalLetterPictureDifficultyList);
-		//PlayerPrefs.SetString("GeneralLetterPictureMastered", json);
+		json = JsonConvert.SerializeObject(_generalLetterPictureMasteredList);
+		PlayerPrefs.SetString("GeneralLetterPictureMastered", json);
 		
+		// Letter Sound Mastery
+		json = JsonConvert.SerializeObject(_generalLetterSoundMasteryScores);
+		PlayerPrefs.SetString("_generalLetterSoundMasteryScores", json);
+		json = JsonConvert.SerializeObject(_generalLetterSoundMasteredList);
+		PlayerPrefs.SetString("GeneralLetterSoundMastered", json);
+
 		Debug.Log("Game saved successfully.");
 	}
 
@@ -275,6 +281,22 @@ static public class StatManager {
 			string json = PlayerPrefs.GetString("GeneralLetterPictureMasteryList");
 			_generalLetterPictureMasteryScores = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
 			_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores);
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterPictureMasteredList")) {
+			string json = PlayerPrefs.GetString("GeneralLetterPictureMasteredList");
+			_generalLetterPictureMasteredList = JsonConvert.DeserializeObject<List<string>>(json);
+		}
+		
+		if (PlayerPrefs.HasKey("GeneralLetterSoundMasteryList")) {
+			string json = PlayerPrefs.GetString("GeneralLetterSoundMasteryList");
+			_generalLetterSoundMasteryScores = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
+			_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores);
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterSoundMastered")) {
+			string json = PlayerPrefs.GetString("GeneralLetterSoundMastered");
+			_generalLetterSoundMasteredList = JsonConvert.DeserializeObject<List<string>>(json);
 		}
 	}
 
