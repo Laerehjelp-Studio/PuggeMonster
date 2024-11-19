@@ -4,8 +4,9 @@ using UnityEngine;
 public class LetterSoundQuestionLibrary : MonoBehaviour {
 	public static LetterSoundQuestionLibrary Instance { get; private set; }
 
-	private Dictionary<AudioClip, char> _letterSoundTaskLibrary = new();
-	[SerializeField] private List<AudioClip> _clipList = new();
+	private Dictionary<SimpleAudioEvent, string> _letterPictureTaskLibrary = new();
+	private Dictionary<SimpleAudioEvent, string> _letterSoundTaskLibrary = new();
+	[SerializeField] private List<SimpleAudioEvent> _clipList = new();
 
 	public static int GetMaxWordCount => LetterSoundQuestionLibrary.Instance._letterSoundTaskLibrary.Count;
 
@@ -15,15 +16,14 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 
 			if (LetterSoundQuestionLibrary.Instance != null && LetterSoundQuestionLibrary.Instance._letterSoundTaskLibrary.Count > 0) {
 				
-				foreach ( char var in LetterSoundQuestionLibrary.Instance._letterSoundTaskLibrary.Values ) {
-					tempLetterList.Add( var.ToString() );
+				foreach ( string var in LetterSoundQuestionLibrary.Instance._letterSoundTaskLibrary.Values ) {
+					tempLetterList.Add( var );
 				}
 			} else if (WordQuestionLibrary.GetMaxWordCount > 0 ) {
 				foreach ( string word in WordQuestionLibrary.GetWordList ) {
-					string letter = word.Substring( 0, 1 );
 
-					if (!tempLetterList.Contains( letter )) {
-						tempLetterList.Add( letter );
+					if (!tempLetterList.Contains( word )) {
+						tempLetterList.Add( word );
 					}
 				}
 			}
@@ -31,7 +31,27 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 			return tempLetterList;
 		}
 	}
+	public static List<string> GetWordList {
+		get {
+			List<string> tempWordList = new();
 
+			if (LetterSoundQuestionLibrary.Instance != null && LetterSoundQuestionLibrary.Instance._letterPictureTaskLibrary.Count > 0) {
+				
+				foreach ( string var in LetterSoundQuestionLibrary.Instance._letterPictureTaskLibrary.Values ) {
+					tempWordList.Add( var );
+				}
+			} else if (WordQuestionLibrary.GetMaxWordCount > 0 ) {
+				foreach ( string word in WordQuestionLibrary.GetWordList ) {
+
+					if (!tempWordList.Contains( word )) {
+						tempWordList.Add( word );
+					}
+				}
+			}
+
+			return tempWordList;
+		}
+	}
 	private void Awake() {
 		if ( Instance == default ) {
 			Instance = this;
@@ -40,7 +60,7 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 			for ( int i = 0; i < _clipList.Count; i++ ) {
 				string temp = _clipList[i].name;
 				temp = temp.Replace( "SD_", "" );
-				_letterSoundTaskLibrary.Add( _clipList[i], temp.ToCharArray()[0] );
+				_letterSoundTaskLibrary.Add( _clipList[i], temp );
 			}
 		}
 	}
@@ -53,26 +73,26 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 		
 		CharSoundQuestionPair var = new CharSoundQuestionPair();
 		var.Sound = _clipList[Random.Range( 0, _clipList.Count )];
-		var.Character = _letterSoundTaskLibrary[var.Sound];
+		var.StorageKey = _letterSoundTaskLibrary[var.Sound];
 
 		return var;
 	}
 
-	public CharSoundQuestionPair GetCharAndSound( List<char> charList ) {
+	public CharSoundQuestionPair GetCharAndSound( List<string> charList ) {
 		if ( charList.Count == 0 ) {
 			Debug.Log( $"Something is terribly wrong and I was unable to generate a WQPair: {charList.Count}" );
 			//return new CharSoundQuestionPair();
 		}
 		
 		CharSoundQuestionPair charQuestionPair = new CharSoundQuestionPair();
-		char selectedCharacter = charList[Random.Range( 0, charList.Count )];
+		string selectedCharacter = charList[Random.Range( 0, charList.Count )];
 		charQuestionPair.Sound = GetSoundFromValue( selectedCharacter );
-		charQuestionPair.Character = selectedCharacter;
+		charQuestionPair.StorageKey = selectedCharacter;
 
 		return charQuestionPair;
 	}
 
-	public static char GetCorrectChar ( AudioClip key ) {
+	public static string GetCorrectChar ( SimpleAudioEvent key ) {
 		if ( LetterSoundQuestionLibrary.Instance._letterSoundTaskLibrary.TryGetValue( key, out var word ) ) {
 			return word;
 		}
@@ -82,7 +102,7 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 		return default;
 	}
 	
-	public static AudioClip GetSoundFromValue( char key ) {
+	public static SimpleAudioEvent GetSoundFromValue( string key ) {
 		if (LetterSoundQuestionLibrary.Instance == default) {
 			return null;
 		}
@@ -97,19 +117,17 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 			}
 		}
 
-		Debug.LogWarning( "Trying to access a Sprite that does not exist!" );
-
 		return null;
 	}
 
-	public char GetInCorrectWord( AudioClip[] blockedSprite ) {
-		List<AudioClip> tempSpriteList = new();
+	public string GetInCorrectLetter( SimpleAudioEvent[] blockedSprite ) {
+		List<SimpleAudioEvent> tempSpriteList = new();
 
-		foreach ( AudioClip item in _clipList ) {
+		foreach ( SimpleAudioEvent item in _clipList ) {
 			tempSpriteList.Add( item );
 		}
 
-		foreach ( AudioClip item in blockedSprite ) {
+		foreach ( SimpleAudioEvent item in blockedSprite ) {
 			tempSpriteList.Remove( item );
 		}
 
@@ -120,22 +138,40 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 		return default;
 	}
 
-	public static string GetInCorrectWord( string blockedCharacter ) {
+	public static string GetInCorrectLetter( string blockedCharacter ) {
 		if (GetLetterList.Count == 0) {
 			return default;
 		}
 		
-		string tempCharacter = GetLetterList[Random.Range( 0, GetLetterList.Count )];
+		string tempCharacter = GetLetterList[Random.Range( 0, GetLetterList.Count )].Substring(0,1);
 		
 		if ( tempCharacter == blockedCharacter ) {
-			return GetInCorrectWord(blockedCharacter);
+			return GetInCorrectLetter(blockedCharacter);
 		}
 
 		return tempCharacter;
 	}
+
+	public static string GetInCorrectLetter( List<string> blockedWords ) {
+		List<string> tempWordList = new();
+		
+		foreach ( var item in LetterSoundQuestionLibrary.GetWordList ) {
+			string letter = item.Substring(0, 1);
+			
+			if (!blockedWords.Contains(letter)) {
+				tempWordList.Add( letter );
+			}
+		}
+		
+		if ( tempWordList.Count > 0 ) {
+			return tempWordList[Random.Range( 0, tempWordList.Count )];
+		}
+
+		return default;
+	}
 }
 
 public struct CharSoundQuestionPair {
-	public AudioClip Sound;
-	public char Character;
+	public SimpleAudioEvent Sound;
+	public string StorageKey;
 }

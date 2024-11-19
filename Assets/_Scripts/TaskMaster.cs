@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -109,7 +110,27 @@ public class TaskMaster : MonoBehaviour {
 				for ( int i = 0; i < _maxTasks; i++ ) {
 					// first implementation, Will be replaced when a difficulty system has been created.
 					LetterTask task = new LetterTask();
+					task.Mode = GameModeType.Letters;
 					task = LetterGenerator.GenerateWordQuestionBasedOnPerformance( ref task );
+
+					task.DifficultyLetter = difficultySet[i];
+					task.DifficultySet = difficultySet;
+
+					_letterTasks.Add( task );
+				}
+
+				_lastGenerationTime = Time.realtimeSinceStartup * 1000;
+
+				break;
+			case GameModeType.LetterPicture:
+				_letterTasks.Clear();
+				difficultySet = GetDifficultySet( GameModeType.LetterPicture );
+
+				for ( int i = 0; i < _maxTasks; i++ ) {
+					// first implementation, Will be replaced when a difficulty system has been created.
+					LetterTask task = new LetterTask();
+					task = LetterGenerator.GenerateWordQuestionBasedOnPerformance( ref task );
+					task.Mode = GameModeType.LetterPicture;
 
 					task.DifficultyLetter = difficultySet[i];
 					task.DifficultySet = difficultySet;
@@ -393,7 +414,8 @@ public class TaskMaster : MonoBehaviour {
 			_currentTaskIndex = _currentTaskIndex + 1;
 		} else {
 			_currentTaskIndex = 0;
-			RefreshTasks( GameModeType.Letters );
+			
+			RefreshTasks( letterTask.Mode );
 
 			return;
 		}
@@ -465,17 +487,18 @@ public struct MathTask : IEquatable<MathTask> {
 	}
 }
 public struct LetterTask : IEquatable<LetterTask> {
-	public AudioClip LetterSound;
+	public SimpleAudioEvent LetterSound;
 	public Sprite TaskSprite;
 	public string Correct;
-	public LetterMode Mode;
+	public GameModeType Mode;
 	public List<string> Incorrect;
 	public string DifficultyLevelStringValue;
 	public char DifficultyLetter;
 	public char[] DifficultySet;
+	public string StorageKey;
 
 	public bool Equals( LetterTask other ) {
-		return Equals( LetterSound, other.LetterSound ) && Equals( TaskSprite, other.TaskSprite ) && Correct == other.Correct && Mode == other.Mode && Equals( Incorrect, other.Incorrect ) && DifficultyLevelStringValue == other.DifficultyLevelStringValue && DifficultyLetter == other.DifficultyLetter && Equals( DifficultySet, other.DifficultySet );
+		return Equals( LetterSound, other.LetterSound ) && Equals( TaskSprite, other.TaskSprite ) && Correct == other.Correct && Mode == other.Mode && Equals( Incorrect, other.Incorrect ) && DifficultyLevelStringValue == other.DifficultyLevelStringValue && DifficultyLetter == other.DifficultyLetter && Equals( DifficultySet, other.DifficultySet ) && StorageKey == other.StorageKey;
 	}
 
 	public override bool Equals( object obj ) {

@@ -12,6 +12,7 @@ public class GameplayUIManager : MonoBehaviour {
 	[SerializeField] private Image _questionBackground;
 	[SerializeField] private Image _questionSprite;
 	[SerializeField] private TMP_Text _questionText;
+	[SerializeField] private Button _questionSoundPlayButton;
 
 	[Header("Experience Bar")]
 	[SerializeField] private Slider _expBar;
@@ -52,6 +53,7 @@ public class GameplayUIManager : MonoBehaviour {
 		_tempPlacementList.Clear();
 		_questionText.enabled = true;
 		_questionSprite.enabled = false;
+		_questionSoundPlayButton.gameObject.SetActive(false);
 
 		if (RandomizeButtonPlacement(out var _correctPlacement)) {
 			return;
@@ -111,7 +113,19 @@ public class GameplayUIManager : MonoBehaviour {
 		// Reset 
 		_tempPlacementList.Clear();
 		_questionText.enabled = false;
-		_questionSprite.enabled = true;
+		switch (task.Mode) {
+			case GameModeType.LetterPicture:
+				_questionSprite.enabled = true;
+				_questionSoundPlayButton.gameObject.SetActive( false );
+				break;
+			case GameModeType.Letters:
+				_questionSoundPlayButton.gameObject.SetActive(true);
+				_questionSprite.enabled = false;
+				_questionSoundPlayButton.onClick.AddListener( () => {
+					GameManager.PlayLetterSound(task.LetterSound);
+				} );
+				break;
+		}
 		difficultyLevelText.text = "";
 
 		if ( RandomizeButtonPlacement( out var correctPlacement ) ) {

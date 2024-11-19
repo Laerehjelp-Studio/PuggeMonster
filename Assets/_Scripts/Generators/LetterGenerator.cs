@@ -43,16 +43,20 @@ public static class LetterGenerator {
 		List<string> tempList = StatManager.GetLetterDifficultyList(task.DifficultyLetter, LetterMode.Picture );
 		
 		WordPictureQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite();
-		task.Correct = wp.Word;
-		task.LetterSound = LetterSoundQuestionLibrary.GetSoundFromValue(task.Correct.ToString()[0]);
+		task.Correct = wp.Word.Substring(0,1);
+		task.LetterSound = LetterSoundQuestionLibrary.GetSoundFromValue(task.Correct);
 		task.TaskSprite = wp.Picture;
-
-		Sprite[] tempSpriteArray = new Sprite[2];
-		tempSpriteArray[0] = wp.Picture;
+		task.StorageKey = wp.Word;
 
 		task.Incorrect = new();
-		task.Incorrect.Add( LetterSoundQuestionLibrary.GetInCorrectWord( task.Correct ) );
-		tempSpriteArray[1] = WordQuestionLibrary.GetSpriteFromValue(task.Incorrect[0]);
-		task.Incorrect.Add(LetterSoundQuestionLibrary.GetInCorrectWord( task.Correct ));
+		List<string> blocklist = new();
+		blocklist.Add(task.StorageKey.Substring(0, 1));
+		
+		task.Incorrect.Add( LetterSoundQuestionLibrary.GetInCorrectLetter( blocklist ));
+		if (task.Incorrect[0] != null) {
+			blocklist.Add(task.Incorrect[0].Substring(0, 1));
+		}
+
+		task.Incorrect.Add(LetterSoundQuestionLibrary.GetInCorrectLetter( blocklist ) );
 	}
 }
