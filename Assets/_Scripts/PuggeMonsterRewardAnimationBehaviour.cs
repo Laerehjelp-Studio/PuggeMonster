@@ -23,6 +23,8 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
     private bool isAnimatingTowardsMid = false;
     private bool isAnimatingTowardsLeft = false;
 
+    private float rewardScale = 0.45f;
+    
     public void PlayRewardAnimation(int monsterIndex) {
         GameManager.PuggeMonAppearSound();
         blackBarsAnimationScript.StartAnimatingBlackBars();
@@ -31,7 +33,7 @@ public class PuggeMonsterRewardAnimationBehaviour : MonoBehaviour
 
         changeAnimationCoolDown = 3f;
         Go = Instantiate(monsterPrefab);
-        Go.transform.localScale = new Vector3(0.6f, 0.6f, 1);
+        Go.transform.localScale = new Vector3(rewardScale, rewardScale, 1);
         PmonObject = Go.GetComponent<PuggemonObjectPublicProperties>();
         PmonObject.Picture1.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
         PmonObject.Picture2.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterIndex).GetPicture(1);
