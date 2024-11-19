@@ -10,9 +10,19 @@ static public class StatManager {
 	private static int _generalMathMasteryMaxValue;
 	private static OperatorStore _operatorStore;
 	private static List<string> _generalMathMasteryList = new();
+	
 	private static List<string> _generalWordMasteredList = new();
 	private static List<string> _generalWordDifficultyList = new();
 	private static Dictionary<string, float> _generalWordMasteryScores = new();
+	
+	
+	private static List<string> _generalLetterPictureMasteredList = new();
+	private static List<string> _generalLetterPictureDifficultyList = new();
+	private static Dictionary<string, float> _generalLetterPictureMasteryScores = new();
+	
+	private static List<string> _generalLetterSoundMasteredList = new();
+	private static List<string> _generalLetterSoundDifficultyList = new();
+	private static Dictionary<string, float> _generalLetterSoundMasteryScores = new(){{"A",0f},{"B",0f},{"C",0f},{"D",0f},{"E",0f},{"F",0f},{"G",0f},{"H",0f},{"I",0f},{"J",0f},{"K",0f},{"L",0f},{"M",0f},{"N",0f},{"O",0f},{"P",0f},{"Q",0f},{"R",0f},{"S",0f},{"T",0f},{"U",0f},{"V",0f},{"W",0f},{"X",0f},{"Y",0f},{"Z",0f},{"Æ",0f},{"Ø",0f},{"Å",0f}};
 	public static Action OnDatabaseUpdate { get; set; } = delegate { };
 	public static Action OnMathGeneralMastery { get; set; } = delegate { };
 
@@ -45,10 +55,17 @@ static public class StatManager {
 	/// </summary>
 	public static void Initialize(float defaultMasteryScore = 0f) {
 		if (initialized) {
+			//Debug.LogWarning($"[StatManager.Initialize] Initializing GeneralWordMastery, Initializing General Letter Picture Difficulty List].");
 			if (_generalWordMasteryScores.Count != WordQuestionLibrary.GetWordList.Count) {
 				InitializeGeneralWordMastery();
 			}
 
+			if (_generalLetterPictureMasteryScores == null) {
+				_generalLetterPictureMasteryScores = new();
+			}
+			if (_generalLetterPictureMasteryScores.Count == 0 || _generalLetterPictureMasteryScores.Count != LetterSoundQuestionLibrary.GetLetterList.Count) {
+				InitializeGeneralLetterPictureMastery();
+			}
 			return;
 		}
 
@@ -155,6 +172,7 @@ static public class StatManager {
 		CountMaxGeneralMathMasteryValue(_initDictAddition, _initDictZeroRemovedAddition);
 
 		InitializeGeneralWordMastery();
+		InitializeGeneralLetterPictureMastery();
 	}
 
 	private static void InitializeGeneralWordMastery() {
@@ -165,6 +183,16 @@ static public class StatManager {
 		}
 	}
 
+	private static void InitializeGeneralLetterPictureMastery() {
+		_generalLetterPictureDifficultyList = ShuffleList(WordQuestionLibrary.GetWordList);
+
+		foreach (string keyString in _generalLetterPictureDifficultyList) {
+			_generalLetterPictureMasteryScores.Add(keyString, 0f);
+		}
+	}
+
+	//
+	
 	private static void CountMaxGeneralMathMasteryValue(Dictionary<string, float> initDictAddition, Dictionary<string, float> initDictZeroRemovedAddition) {
 		if (!initialized) {
 			return;
@@ -203,6 +231,18 @@ static public class StatManager {
 		json = JsonConvert.SerializeObject(_generalWordMasteredList);
 		PlayerPrefs.SetString("GeneralWordMasteryList", json);
 
+		// Letter Picture Mastery
+		json = JsonConvert.SerializeObject(_generalLetterPictureMasteryScores);
+		PlayerPrefs.SetString("GeneralLetterPictureMasteryScores", json);
+		json = JsonConvert.SerializeObject(_generalLetterPictureMasteredList);
+		PlayerPrefs.SetString("GeneralLetterPictureMastered", json);
+		
+		// Letter Sound Mastery
+		json = JsonConvert.SerializeObject(_generalLetterSoundMasteryScores);
+		PlayerPrefs.SetString("_generalLetterSoundMasteryScores", json);
+		json = JsonConvert.SerializeObject(_generalLetterSoundMasteredList);
+		PlayerPrefs.SetString("GeneralLetterSoundMastered", json);
+
 		Debug.Log("Game saved successfully.");
 	}
 
@@ -214,8 +254,7 @@ static public class StatManager {
 			_operatorStore = JsonConvert.DeserializeObject<OperatorStore>(json);
 			Debug.Log("OperatorStore loaded successfully.");
 
-		}
-		else {
+		} else {
 			Debug.LogWarning("No saved game data found.");
 		}
 
@@ -236,6 +275,28 @@ static public class StatManager {
 			_generalWordMasteryScores = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
 			_generalWordDifficultyList = ReorderByFloats(_generalWordDifficultyList, _generalWordMasteryScores);
 			Debug.Log("Word Mastery Scores loaded successfully.");
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterPictureMasteryList")) {
+			string json = PlayerPrefs.GetString("GeneralLetterPictureMasteryList");
+			_generalLetterPictureMasteryScores = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
+			_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores);
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterPictureMasteredList")) {
+			string json = PlayerPrefs.GetString("GeneralLetterPictureMasteredList");
+			_generalLetterPictureMasteredList = JsonConvert.DeserializeObject<List<string>>(json);
+		}
+		
+		if (PlayerPrefs.HasKey("GeneralLetterSoundMasteryList")) {
+			string json = PlayerPrefs.GetString("GeneralLetterSoundMasteryList");
+			_generalLetterSoundMasteryScores = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
+			_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores);
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterSoundMastered")) {
+			string json = PlayerPrefs.GetString("GeneralLetterSoundMastered");
+			_generalLetterSoundMasteredList = JsonConvert.DeserializeObject<List<string>>(json);
 		}
 	}
 
@@ -956,7 +1017,83 @@ static public class StatManager {
 	}
 
 #endregion
-	
+
+#region Letter Statistics Storage Management
+	public static void RegisterAnswer(LetterTask task, string selectedValue, float points) {
+
+		switch (task.Mode) {
+			case GameModeType.LetterPicture:
+				_generalLetterPictureMasteryScores[task.StorageKey] += points;
+
+				AddLetterPictureGMIfMastered(task.StorageKey, _generalLetterPictureMasteryScores[task.StorageKey]);
+
+				_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores, task.StorageKey);
+
+				break;
+			case GameModeType.Letters: {
+				string storageLetter = task.StorageKey.Substring(0, 1);
+				if (_generalLetterSoundMasteryScores.ContainsKey(storageLetter)) {
+					_generalLetterSoundMasteryScores[storageLetter] += points;
+					
+					AddLetterSoundGMIfMastered(storageLetter, _generalLetterSoundMasteryScores[storageLetter]);
+
+					_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores, storageLetter);
+				} else {
+					Debug.LogError("[StatManager.RegisterAnswer] There are no sound mastery scores!]");
+				}
+				
+			} break;
+		}
+		
+		//PrintSortedWordDifficultyList();
+	}
+
+	private static void AddLetterPictureGMIfMastered(string taskStorageKey, float generalLetterPictureMasteryScore) {
+		if (!_generalLetterPictureMasteredList.Contains(taskStorageKey) && generalLetterPictureMasteryScore > GameManager.WhenIsMasteryAchieved) {
+			_generalLetterPictureMasteredList.Add(taskStorageKey);
+		}
+	}
+
+	private static void AddLetterSoundGMIfMastered(string storageLetter, float generalLetterSoundMasteryScore) {
+		if (!_generalLetterSoundMasteredList.Contains(storageLetter) && generalLetterSoundMasteryScore > GameManager.WhenIsMasteryAchieved) {
+			_generalLetterSoundMasteredList.Add(storageLetter);
+		}
+	}
+	public static List<string> GetLetterDifficultyList( char taskDifficultyLetter, LetterMode mode ) {
+		List <string> difficultyList = new();
+		List <string> keyList = new();
+		List <string> tempSortedList = new();
+		switch ( mode ) {
+			case LetterMode.Picture:
+				keyList = WordQuestionLibrary.GetWordList;
+				tempSortedList = _generalWordDifficultyList;
+				break;
+			case LetterMode.Sound:
+				keyList = LetterSoundQuestionLibrary.GetLetterList;
+				tempSortedList = _generalLetterSoundDifficultyList;
+				break;
+		}
+		
+		int partSize = (int)(keyList.Count / 5);
+		//Debug.Log($"Getting word mastery scores for difficulty {difficulty}, part size {_partSize}, and {_tempList.Count}");
+		switch (taskDifficultyLetter) {
+			case 'e':
+			case 'E':
+				difficultyList = tempSortedList.GetRange(0, partSize);
+				break;
+			case 'm':
+			case 'M':
+				difficultyList = tempSortedList.GetRange(partSize*2, partSize);
+				break;
+			case 'h':
+			case 'H':
+				difficultyList = tempSortedList.GetRange(partSize*4, partSize);
+				break;
+		}
+
+		return difficultyList;
+	}
+#endregion
 }
 
 [Serializable]

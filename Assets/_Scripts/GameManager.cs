@@ -116,13 +116,19 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	
 	public static void PlayPuggemonCollectSound(int puggemonsterIndex) {
 		PuggeMonster _puggeMonster = MonsterIndexLibrary.Instance.GetMonsterFromIndex(puggemonsterIndex);
 		if (_puggeMonster is not null && _puggeMonster.CollectSound) {
 			_puggeMonster.CollectSound.PlayOneShot(GameManager.Instance._eventAudioSource);
 		}
 	}
-
+	
+	public static void PlayLetterSound(SimpleAudioEvent simpleAudioEvent) {
+		if (GameManager.Instance != null && GameManager.Instance._eventAudioSource != null && simpleAudioEvent != null) {
+			simpleAudioEvent.Play(GameManager.Instance._eventAudioSource);
+		}
+	}
 	public static void SaveGame() {
 		OnGameSave?.Invoke();
 		PlayerPrefs.Save();
@@ -359,6 +365,10 @@ public class GameManager : MonoBehaviour {
 			case "Letters":
 				GameManager.Instance.GameMode = GameModeType.Letters;
 				break;
+			case "letterpicture":
+			case "LetterPicture":
+				GameManager.Instance.GameMode = GameModeType.LetterPicture;
+				break;
 			case "words":
 			case "Words":
 				GameManager.Instance.GameMode = GameModeType.Words;
@@ -404,6 +414,7 @@ public enum GameModeType {
 	None,
 	Math,
 	Letters,
+	LetterPicture,
 	Words
 }
 

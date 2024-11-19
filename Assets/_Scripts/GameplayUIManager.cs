@@ -12,6 +12,7 @@ public class GameplayUIManager : MonoBehaviour {
 	[SerializeField] private Image _questionBackground;
 	[SerializeField] private Image _questionSprite;
 	[SerializeField] private TMP_Text _questionText;
+	[SerializeField] private Button _questionSoundPlayButton;
 
 	[Header("Experience Bar")]
 	[SerializeField] private Slider _expBar;
@@ -52,13 +53,14 @@ public class GameplayUIManager : MonoBehaviour {
 		_tempPlacementList.Clear();
 		_questionText.enabled = true;
 		_questionSprite.enabled = false;
+		_questionSoundPlayButton.gameObject.SetActive(false);
 
 		if (RandomizeButtonPlacement(out var _correctPlacement)) {
 			return;
 		}
 
 		_questionText.text = $"{task.Components[0]} {task.Operator} {task.Components[ 1 ]}";
-		SetDifficultyString(task.difficultyLevelStringValue, task.difficultySet);
+		SetDifficultyString(task.DifficultyLevelStringValue, task.DifficultySet);
 
 		_buttonRegistry[ _answerButtons[ _correctPlacement ] ].text = $"{task.Correct}";
 		_answerButtons[ _correctPlacement ].onClick.AddListener(() => {
@@ -107,6 +109,58 @@ public class GameplayUIManager : MonoBehaviour {
 		difficultySetText.text = difficultySet;
 	}
 
+	public void LetterQuestion( LetterTask task ) {
+		// Reset 
+		_tempPlacementList.Clear();
+		_questionText.enabled = false;
+		switch (task.Mode) {
+			case GameModeType.LetterPicture:
+				_questionSprite.enabled = true;
+				_questionSoundPlayButton.gameObject.SetActive( false );
+				break;
+			case GameModeType.Letters:
+				_questionSoundPlayButton.gameObject.SetActive(true);
+				_questionSprite.enabled = false;
+				_questionSoundPlayButton.onClick.AddListener( () => {
+					GameManager.PlayLetterSound(task.LetterSound);
+				} );
+				break;
+		}
+		difficultyLevelText.text = "";
+
+		if ( RandomizeButtonPlacement( out var correctPlacement ) ) {
+			return;
+		}
+
+		_questionSprite.sprite = task.TaskSprite;
+
+		/*
+			public Sprite WordSprite;
+			public string Correct;
+			public string[] Incorrect;
+		 */
+
+		_buttonRegistry[_answerButtons[correctPlacement]].text = $"{task.Correct}";
+		SetDifficultyString( task.DifficultyLevelStringValue, task.DifficultySet );
+
+		_answerButtons[correctPlacement].onClick.AddListener( () => {
+			AnswerButtonClick( task.Correct, task, correctPlacement );
+		} );
+
+		foreach ( string incorrectValue in task.Incorrect ) {
+			int _incorrectPlacement = GetRandomAnswerPlacement();
+
+			if ( _incorrectPlacement == -1 ) {
+				return;
+			}
+
+			_buttonRegistry[_answerButtons[_incorrectPlacement]].text = $"{incorrectValue}";
+			_answerButtons[_incorrectPlacement].onClick.AddListener( () => {
+				AnswerButtonClick( incorrectValue, task, _incorrectPlacement );
+			} );
+		}
+	}
+
 	public void WordQuestion(WordTask task)
 	{
 		// Reset 
@@ -115,13 +169,11 @@ public class GameplayUIManager : MonoBehaviour {
 		_questionSprite.enabled = true;
 		difficultyLevelText.text = "";
 
-
-		
 		if (RandomizeButtonPlacement(out var _correctPlacement)) {
 			return;
 		}
 
-		_questionSprite.sprite = task.WordSprite;
+		_questionSprite.sprite = task.TaskSprite;
 
 		/*
 			public Sprite WordSprite;
@@ -130,7 +182,7 @@ public class GameplayUIManager : MonoBehaviour {
 		 */
 
 		_buttonRegistry[_answerButtons[_correctPlacement]].text = $"{task.Correct}";
-		SetDifficultyString(task.difficultyLevelStringValue, task.difficultySet);
+		SetDifficultyString(task.DifficultyLevelStringValue, task.DifficultySet);
 		
 		_answerButtons[_correctPlacement].onClick.AddListener(() => {
 			AnswerButtonClick(task.Correct, task, _correctPlacement);
@@ -151,15 +203,20 @@ public class GameplayUIManager : MonoBehaviour {
 			});
 		}
 	}
-
-	private void AnswerButtonClick ( float valuePicked, MathTask mathTask, int _correctPlacement ) {
-		_answerButtons[ _correctPlacement ].interactable = false;
+	
+	private void AnswerButtonClick ( string valuePicked, LetterTask letterTask, int correctPlacement ) {
+		_answerButtons[ correctPlacement ].interactable = false;
+		LetterButtonClicked( valuePicked, letterTask );
+	}
+	
+	private void AnswerButtonClick ( float valuePicked, MathTask mathTask, int correctPlacement ) {
+		_answerButtons[ correctPlacement ].interactable = false;
 		MathButtonClicked( valuePicked, mathTask );
 	}
 
-	private void AnswerButtonClick(string valuePicked, WordTask wordTask, int _correctPlacement)
+	private void AnswerButtonClick(string valuePicked, WordTask wordTask, int correctPlacement)
 	{
-		_answerButtons[_correctPlacement].interactable = false;
+		_answerButtons[correctPlacement].interactable = false;
 		WordButtonClicked(valuePicked, wordTask);
 	}
 
@@ -170,6 +227,10 @@ public class GameplayUIManager : MonoBehaviour {
 	private void WordButtonClicked(string buttonValue, WordTask wordTask)
 	{
 		GameManager.TaskMaster.RegisterAnswer(wordTask, buttonValue);
+	}
+	private void LetterButtonClicked(string buttonValue, LetterTask letterTask)
+	{
+		GameManager.TaskMaster.RegisterAnswer(letterTask, buttonValue);
 	}
 
 	private int GetRandomAnswerPlacement ( ) {
