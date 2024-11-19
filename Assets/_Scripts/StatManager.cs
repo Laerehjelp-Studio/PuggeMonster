@@ -10,13 +10,19 @@ static public class StatManager {
 	private static int _generalMathMasteryMaxValue;
 	private static OperatorStore _operatorStore;
 	private static List<string> _generalMathMasteryList = new();
+	
 	private static List<string> _generalWordMasteredList = new();
 	private static List<string> _generalWordDifficultyList = new();
-	private static List<string> _generalLetterPictureDifficultyList = new();
-	private static List<string> _generalLetterSoundDifficultyList = new();
 	private static Dictionary<string, float> _generalWordMasteryScores = new();
+	
+	
+	private static List<string> _generalLetterPictureMasteredList = new();
+	private static List<string> _generalLetterPictureDifficultyList = new();
 	private static Dictionary<string, float> _generalLetterPictureMasteryScores = new();
-	private static Dictionary<string, float> _generalLetterSoundMasteryScores = new();
+	
+	private static List<string> _generalLetterSoundMasteredList = new();
+	private static List<string> _generalLetterSoundDifficultyList = new();
+	private static Dictionary<string, float> _generalLetterSoundMasteryScores = new(){{"A",0f},{"B",0f},{"C",0f},{"D",0f},{"E",0f},{"F",0f},{"G",0f},{"H",0f},{"I",0f},{"J",0f},{"K",0f},{"L",0f},{"M",0f},{"N",0f},{"O",0f},{"P",0f},{"Q",0f},{"R",0f},{"S",0f},{"T",0f},{"U",0f},{"V",0f},{"W",0f},{"X",0f},{"Y",0f},{"Z",0f},{"Æ",0f},{"Ø",0f},{"Å",0f}};
 	public static Action OnDatabaseUpdate { get; set; } = delegate { };
 	public static Action OnMathGeneralMastery { get; set; } = delegate { };
 
@@ -997,7 +1003,7 @@ static public class StatManager {
 			case GameModeType.LetterPicture:
 				_generalLetterPictureMasteryScores[task.StorageKey] += points;
 
-				AddWordGMIfMastered(task.StorageKey, _generalLetterPictureMasteryScores[task.StorageKey]);
+				AddLetterPictureGMIfMastered(task.StorageKey, _generalLetterPictureMasteryScores[task.StorageKey]);
 
 				_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores, task.StorageKey);
 
@@ -1006,12 +1012,12 @@ static public class StatManager {
 				string storageLetter = task.StorageKey.Substring(0, 1);
 				if (_generalLetterSoundMasteryScores.ContainsKey(storageLetter)) {
 					_generalLetterSoundMasteryScores[storageLetter] += points;
-
-					AddMathGMIfMastered(storageLetter, _generalLetterSoundMasteryScores[task.StorageKey]);
+					
+					AddLetterSoundGMIfMastered(storageLetter, _generalLetterSoundMasteryScores[storageLetter]);
 
 					_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores, storageLetter);
 				} else {
-					Debug.LogError("[StatManager.RegisterAnswer] There is no sound mastery scores!]");
+					Debug.LogError("[StatManager.RegisterAnswer] There are no sound mastery scores!]");
 				}
 				
 			} break;
@@ -1020,7 +1026,17 @@ static public class StatManager {
 		//PrintSortedWordDifficultyList();
 	}
 
-	
+	private static void AddLetterPictureGMIfMastered(string taskStorageKey, float generalLetterPictureMasteryScore) {
+		if (!_generalLetterPictureMasteredList.Contains(taskStorageKey) && generalLetterPictureMasteryScore > GameManager.WhenIsMasteryAchieved) {
+			_generalLetterPictureMasteredList.Add(taskStorageKey);
+		}
+	}
+
+	private static void AddLetterSoundGMIfMastered(string storageLetter, float generalLetterSoundMasteryScore) {
+		if (!_generalLetterSoundMasteredList.Contains(storageLetter) && generalLetterSoundMasteryScore > GameManager.WhenIsMasteryAchieved) {
+			_generalLetterSoundMasteredList.Add(storageLetter);
+		}
+	}
 	public static List<string> GetLetterDifficultyList( char taskDifficultyLetter, LetterMode mode ) {
 		List <string> difficultyList = new();
 		List <string> keyList = new();
