@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SD_W
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 5725db7af88b8184fb33ac40a346520c, type: 3}
+  - {fileID: 8300000, guid: eb21b0c74a234e84a92892ef7bb787d2, type: 3}
   _volume:
     minValue: 0.9162847
     maxValue: 0.99565744
