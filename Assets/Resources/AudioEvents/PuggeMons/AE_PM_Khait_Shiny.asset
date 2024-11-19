@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: AE_PM_Khait_Shiny
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 31af0e4c733312f4ba0c5dcfe9657e74, type: 3}
+  - {fileID: 8300000, guid: 30c4f711e6af5424fb77d57d18a7a5b0, type: 3}
+  - {fileID: 8300000, guid: 2910fb7f09c036b40a073f667c00f4f4, type: 3}
+  - {fileID: 8300000, guid: 882883db7e188a44391f8f9626092ee7, type: 3}
   _volume:
     minValue: 0.47768396
     maxValue: 0.6320869

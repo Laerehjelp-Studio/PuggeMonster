@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: AE_PM_Flammingo
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 5502a841ed63a0e4f99eb19a7c952ea1, type: 3}
+  - {fileID: 8300000, guid: 4b09a300baa0e0047b1193b31b9d9502, type: 3}
+  - {fileID: 8300000, guid: b2151f33548696c498dc81d1ac1c6d02, type: 3}
+  - {fileID: 8300000, guid: e5528850808080749b62017de8ed8166, type: 3}
+  - {fileID: 8300000, guid: f286593ebbda4504b88aecd8fae0c7f7, type: 3}
+  - {fileID: 8300000, guid: f286593ebbda4504b88aecd8fae0c7f7, type: 3}
   _volume:
     minValue: 0.47768396
     maxValue: 0.6320869
