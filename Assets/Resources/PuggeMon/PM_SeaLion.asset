@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 00228a142b0b5ec479151f1a4d84b8f1, type: 3}
   - {fileID: 21300000, guid: dd8456f0c6eb67e47a34e5c25616e930, type: 3}
   Name: "Sj\xF8l\xF8ve"
-  Lore: rawr
+  Lore: "Bor ved kysten i varmere str\xF8k. liker fisk og hater s\xF8ppel i havet."
   CollectSound: {fileID: 11400000, guid: f5b7124812ddac540b6c6a1458f62716, type: 2}

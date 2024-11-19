@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 679a3c008c777424db2ae9f09ec344ce, type: 3}
   - {fileID: 21300000, guid: 3c7f3bf7508dda84d8a074f04d0b062f, type: 3}
   Name: Runddrage
-  Lore: 
+  Lore: "Bor i h\xF8ye fjell, spiser bare blomster. Kan ikke fly."
   CollectSound: {fileID: 11400000, guid: 29541aff47364e543b7d8124aa69b27d, type: 2}
