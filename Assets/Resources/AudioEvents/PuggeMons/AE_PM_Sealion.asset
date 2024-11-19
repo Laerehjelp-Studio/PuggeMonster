@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
   m_Name: AE_PM_Sealion
   m_EditorClassIdentifier: 
-  _clips: []
+  _clips:
+  - {fileID: 8300000, guid: 4e9de9113b63e164cb8699d7253b53f8, type: 3}
+  - {fileID: 8300000, guid: 88073270bc4ba88409e39e0200939b21, type: 3}
+  - {fileID: 8300000, guid: 70175e938fcda77408255324055e7ae6, type: 3}
   _volume:
     minValue: 0.47768396
     maxValue: 0.6320869
   _pitch:
-    minValue: 0.43425813
-    maxValue: 0.7816647
+    minValue: 1.0542823
+    maxValue: 1.1990345

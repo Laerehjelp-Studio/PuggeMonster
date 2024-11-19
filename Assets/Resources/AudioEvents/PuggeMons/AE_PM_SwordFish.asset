@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: AE_PM_SwordFish
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 11183ad3f4c0ba241b6271f6263d976d, type: 3}
+  - {fileID: 8300000, guid: 59d91a34867527f4a819cb19307a8a44, type: 3}
+  - {fileID: 8300000, guid: b91177c346ea75d4d98c088c16227800, type: 3}
+  - {fileID: 8300000, guid: 1ff7141e8bf2f264c8095a000b437aa5, type: 3}
+  - {fileID: 8300000, guid: 3a596092fd1cb5d469aa9e077566999a, type: 3}
+  - {fileID: 8300000, guid: c2776173b0a5c17438e6b13829c5af1f, type: 3}
+  - {fileID: 8300000, guid: 9c949de1c25d4ad428b229fc334d1d04, type: 3}
   _volume:
     minValue: 0.47768396
     maxValue: 0.6320869
   _pitch:
-    minValue: 0.96501803
+    minValue: 0.87816644
     maxValue: 1.1676717

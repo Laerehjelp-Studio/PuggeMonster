@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: AE_PM_ProgrammingOwl
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: a6c00804c6d3a23439a2d85312c3a203, type: 3}
+  - {fileID: 8300000, guid: a2a547b7c1da2e64d857d00fc3cab1a2, type: 3}
+  - {fileID: 8300000, guid: 6fd034d0c33b4454d96e4d964dc645f5, type: 3}
+  - {fileID: 8300000, guid: 02a8dc9b07da1e8468bad4050e618d52, type: 3}
+  - {fileID: 8300000, guid: 162c5af011b4dda498180b11b2700033, type: 3}
+  - {fileID: 8300000, guid: 2ea6021eff951ca428df11e92616f33e, type: 3}
   _volume:
     minValue: 0.47768396
     maxValue: 0.6320869
   _pitch:
-    minValue: 0.694813
+    minValue: 0.8299155
     maxValue: 1.0422196

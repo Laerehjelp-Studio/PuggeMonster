@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
   m_Name: AE_PM_RoundDragon
   m_EditorClassIdentifier: 
-  _clips: []
+  _clips:
+  - {fileID: 8300000, guid: bfc47e31e4ca2544aa700a9f88e33d1c, type: 3}
+  - {fileID: 8300000, guid: 0a72dc1b9a1180f46bc190f02ead5daf, type: 3}
   _volume:
     minValue: 0.47768396
     maxValue: 0.6320869
   _pitch:
-    minValue: 0.43425813
-    maxValue: 0.7816647
+    minValue: 0.86851627
+    maxValue: 1.0422196
