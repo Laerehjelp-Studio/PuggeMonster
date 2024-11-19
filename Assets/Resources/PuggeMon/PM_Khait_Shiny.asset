@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 89ce9feae81612a4fb3f01c7303a94ff, type: 3}
   - {fileID: 21300000, guid: 25711ed955d58c64ca392c64e523da10, type: 3}
   Name: Shiny Khait
-  Lore: 
+  Lore: "Liker varmere str\xF8k. Er en tropisk variant. Liker glinsende ting.\n"
   CollectSound: {fileID: 11400000, guid: 2b962005247ff8044844238ee0b3f739, type: 2}

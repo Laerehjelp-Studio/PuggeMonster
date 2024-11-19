@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2654cda7d5f4f19459410894965f6c0d, type: 3}
   - {fileID: 21300000, guid: 5b7b3689fc04d124e932a6dfbf60c4aa, type: 3}
   Name: Programer Ugle
-  Lore: 
+  Lore: "Veldig smart ugle, liker kaffe og v\xE6re v\xE5ken p\xE5 natta."
   CollectSound: {fileID: 11400000, guid: 4e07d4e6955ddac4d8fb239ce9466f77, type: 2}

@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c87fdcc5d86e36e4eb2227e24a6a53cd, type: 3}
   - {fileID: 21300000, guid: 25711ed955d58c64ca392c64e523da10, type: 3}
   Name: Khait
-  Lore: 
+  Lore: Katter liker ikke vann, men denne hai-katten elsker havet.
   CollectSound: {fileID: 11400000, guid: 1dd6bea9ae375894c99c2e89e17e4a74, type: 2}
