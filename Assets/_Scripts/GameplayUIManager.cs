@@ -167,6 +167,7 @@ public class GameplayUIManager : MonoBehaviour {
 		_tempPlacementList.Clear();
 		_questionText.enabled = false;
 		_questionSprite.enabled = true;
+		_questionSoundPlayButton.gameObject.SetActive( false );
 		difficultyLevelText.text = "";
 
 		if (RandomizeButtonPlacement(out var _correctPlacement)) {

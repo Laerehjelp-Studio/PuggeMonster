@@ -582,6 +582,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1502600326533108991, guid: 95882c41123c54343ac4a10aeaee5474,
+        type: 3}
+      propertyPath: m_text
+      value: 'Bokstav
+
+        Bilde'
+      objectReference: {fileID: 0}
     - target: {fileID: 3632522357139704308, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: m_Camera
