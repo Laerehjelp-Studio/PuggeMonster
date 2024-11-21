@@ -13,7 +13,7 @@ public class PuggeMonsterGameSettings: ScriptableObject
 	[Header( "Grades" )]
 	public Grade BuildGrade;
 	[Header("Debug")]
-	public bool IsGamelabBuild = true;
+	public bool DeveloperMode = true;
 	
 	[Header( "UX Audio Events" )]
 	public AudioEvent ButtonClickSound;

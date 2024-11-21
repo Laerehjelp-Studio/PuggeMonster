@@ -97,7 +97,9 @@ public class GameplayUIManager : MonoBehaviour {
 	}
 
 	private void SetDifficultyString(string difficultyLevelStringValue, char[] difficultySetArray) {
-		if (!GameManager.IsGamelabBuild) {
+		if (!GameManager.DeveloperMode) {
+			difficultyLevelText.gameObject.SetActive( false );
+			difficultySetText.gameObject.SetActive( false );
 			return;
 		}
 		difficultyLevelText.text = difficultyLevelStringValue;

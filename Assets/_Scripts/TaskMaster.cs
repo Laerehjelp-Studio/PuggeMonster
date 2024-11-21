@@ -437,7 +437,7 @@ public class TaskMaster : MonoBehaviour {
 /// </summary>
 public class StudentPerformance {
 	private List<float> _performanceRegister = new(); // the average score for the set of four generated questions
-	private int _maxSize = GameManager.QuestionSetSize;
+	private int _maxSize = GameManager.QuestionSetSize * 2;
 	public float Average => (Sum == 0 && Mathf.Approximately(Sum, _performanceRegister.Count)) ? 0 : Sum / _performanceRegister.Count;
 
 	public float Sum {
