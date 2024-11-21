@@ -45,9 +45,9 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// Used by debug checks.
 	/// </summary>
-	public static bool IsGamelabBuild {
+	public static bool DeveloperMode {
 		get {
-			return (GameManager.Instance != default && GameManager.Instance._gameSettings.IsGamelabBuild != default) ? GameManager.Instance._gameSettings.IsGamelabBuild: false;
+			return (GameManager.Instance != default && GameManager.Instance._gameSettings.DeveloperMode != default) ? GameManager.Instance._gameSettings.DeveloperMode: false;
 		}
 	}
 	
