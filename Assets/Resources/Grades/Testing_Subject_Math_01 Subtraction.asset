@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Testing_Subject_Math_01 Subtraction
   m_EditorClassIdentifier: 
   Name: Subtraksjon
-  CategoryStart: 0
+  CategoryStart: 5
   CategoryEnd: 900
   Operator: '-'
+  SelectionChance: 0.5
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -28,7 +29,7 @@ MonoBehaviour:
     Result: -1
   OneMastery:
     Name: Enere
-    CategoryStart: 200
+    CategoryStart: 5
     CategoryEnd: 300
     Result: 1
   TensMastery:

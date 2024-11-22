@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: GeneralMastery_Math_01 Division
   m_EditorClassIdentifier: 
   Name: Divisjon
-  CategoryStart: 0
-  CategoryEnd: 1984
+  CategoryStart: 1000
+  CategoryEnd: 1976
   Operator: /
+  SelectionChance: 0.6
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -43,6 +44,6 @@ MonoBehaviour:
     Result: 3
   ThousandsMastery:
     Name: Tusentalls
-    CategoryStart: 1450
-    CategoryEnd: 1984
+    CategoryStart: 1442
+    CategoryEnd: 1976
     Result: 4

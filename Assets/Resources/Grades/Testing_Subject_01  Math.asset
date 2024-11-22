@@ -16,6 +16,5 @@ MonoBehaviour:
   SubjectType: 1
   MathCategories:
   - {fileID: 11400000, guid: 2991676cb058f884ca06daa833148947, type: 2}
-  - {fileID: 11400000, guid: 4c49b324299035444ba478bf92df54c4, type: 2}
-  - {fileID: 11400000, guid: ff38474cd04e44849954317aa168c856, type: 2}
   - {fileID: 11400000, guid: f8214a58b6aaf054da59bdc13568c697, type: 2}
+  - {fileID: 11400000, guid: ff38474cd04e44849954317aa168c856, type: 2}

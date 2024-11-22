@@ -9,12 +9,14 @@ public class MathCategory : ScriptableObject {
 	public int CategoryEnd = 100;
 	public string Operator = ""; 
 
+	[Header("Selection Chance")]
+	[SerializeField] private float SelectionChance = 0.6f;
 	[Header( "Enable Placements" )]
-	[SerializeField] bool Decimals;
-	[SerializeField] bool Ones;
-	[SerializeField] bool Tens;
-	[SerializeField] bool Hundreds;
-	[SerializeField] bool Thousands;
+	[SerializeField] private bool Decimals;
+	[SerializeField] private bool Ones;
+	[SerializeField] private bool Tens;
+	[SerializeField] private bool Hundreds;
+	[SerializeField] private bool Thousands;
 
 	[Header( "Placement Number Configuration" )]
 	[SerializeField] PlacementNumber DecimalMastery;
