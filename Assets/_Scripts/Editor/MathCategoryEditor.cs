@@ -104,16 +104,8 @@ public class MathCategoryEditor : Editor {
 	}
 
 	private void DrawMainCategoryBar ( Rect rect ) {
-		int min = Mathf.Clamp( Mathf.Min( decimalMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   oneMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   tensMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   hundredMastery.FindPropertyRelative( "CategoryStart" ).intValue,
-		   thousandsMastery.FindPropertyRelative( "CategoryStart" ).intValue ),0,1984);
-		int max = Mathf.Clamp( Mathf.Max( decimalMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   oneMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   tensMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   hundredMastery.FindPropertyRelative( "CategoryEnd" ).intValue,
-		   thousandsMastery.FindPropertyRelative( "CategoryEnd" ).intValue ),0,1984);
+		int min = Mathf.Clamp( MaxMin("min"),0,1984);
+		int max = Mathf.Clamp( MaxMin("max"),0,1984);
 		
 		mathCategory.CategoryStart = min;
 		mathCategory.CategoryEnd = max;
@@ -123,6 +115,59 @@ public class MathCategoryEditor : Editor {
 		Rect mathRect = new Rect( startX, rect.y + 10, endX - startX, 20 );
 		EditorGUI.DrawRect( mathRect, new Color( 0.3f, 0.5f, 0.3f, 1f ) );
 		EditorGUI.LabelField( mathRect, mathCategory.Name, fontStyle );
+	}
+
+	private int MaxMin(string mode = "min") {
+		int value = -1;
+
+		switch (mode) {
+			case "min":
+				value = int.MaxValue;
+				if (decimals.boolValue) {
+					value = Mathf.Min(decimalMastery.FindPropertyRelative("CategoryStart").intValue, value);
+				}
+
+				if (ones.boolValue) {
+					value = Mathf.Min(oneMastery.FindPropertyRelative("CategoryStart").intValue, value);
+				}
+
+				if (tens.boolValue) {
+					value = Mathf.Min(tensMastery.FindPropertyRelative("CategoryStart").intValue, value);
+				}
+
+				if (hundreds.boolValue) {
+					value = Mathf.Min(hundredMastery.FindPropertyRelative("CategoryStart").intValue, value);
+				}
+
+				if (thousands.boolValue) {
+					value = Mathf.Min(thousandsMastery.FindPropertyRelative("CategoryStart").intValue, value);
+				}
+
+				break;
+			case "max":
+				value = int.MinValue;
+				if (decimals.boolValue) {
+					value = Mathf.Max(decimalMastery.FindPropertyRelative("CategoryEnd").intValue, value);
+				}
+
+				if (ones.boolValue) {
+					value = Mathf.Max(oneMastery.FindPropertyRelative("CategoryEnd").intValue, value);
+				}
+
+				if (tens.boolValue) {
+					value = Mathf.Max(tensMastery.FindPropertyRelative("CategoryEnd").intValue, value);
+				}
+
+				if (hundreds.boolValue) {
+					value = Mathf.Max(hundredMastery.FindPropertyRelative("CategoryEnd").intValue, value);
+				}
+
+				if (thousands.boolValue) {
+					value = Mathf.Max(thousandsMastery.FindPropertyRelative("CategoryEnd").intValue, value);
+				}
+				break;
+		}
+		return value;
 	}
 
 	private float DrawMasteryBar ( SerializedProperty masteryProperty, float yPos, Rect timelineRect, float barHeight ) {
