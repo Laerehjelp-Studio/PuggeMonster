@@ -10,17 +10,6 @@ public class WordQuestionLibrary : MonoBehaviour {
 
 	public static int GetMaxWordCount => WordQuestionLibrary.Instance.wordTaskLibrary.Count;
 
-	public static List<string> GetWordList {
-		get {
-			List<string> tempWordList = new();
-
-			foreach ( string var in Instance.wordTaskLibrary.Values ) {
-				tempWordList.Add( var );
-			}
-
-			return tempWordList;
-		}
-	}
 
 	private void Awake() {
 		if ( Instance == default ) {
@@ -34,8 +23,22 @@ public class WordQuestionLibrary : MonoBehaviour {
 			}
 		}
 	}
+	
+	public static List<string> GetWordList {
+		get {
+			List<string> tempWordList = new();
+			if (WordQuestionLibrary.Instance == default) {
+				return tempWordList;
+			}
+			
+			foreach ( string var in WordQuestionLibrary.Instance.wordTaskLibrary.Values ) {
+				tempWordList.Add( var );
+			}
 
-
+			return tempWordList;
+		}
+	}
+	
 	public WordPictureQuestionPair GetWordAndSprite() {
 		if ( spriteList.Count == 0 ) {
 			Debug.Log( $"Something is terribly wrong and I was unable to generate a WQPair: {spriteList.Count}" );
