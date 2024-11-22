@@ -18,22 +18,26 @@ public class StatDumper : MonoBehaviour
 		Debug.Log("Running Update Interface");
 		GameObject _additionGameObject = Instantiate(_contentPrefab, _targetTransform);
 		if (_additionGameObject.TryGetComponent(out ContentDumpOperator additionDumpOperator )) {
-			additionDumpOperator.OperatorDump(operatorStore.Addition, "Addition" );
+			//additionDumpOperator.OperatorDump(operatorStore.Addition, "Addition" );
+			additionDumpOperator.OperatorDump("+", "Addition" );
 		}
 
 		GameObject _subtractionGameObject = Instantiate( _contentPrefab, _targetTransform );
 		if (_subtractionGameObject.TryGetComponent( out ContentDumpOperator subtractionDumpOperator )) {
-			subtractionDumpOperator.OperatorDump( operatorStore.Subtraction, "Subtraction" );
+			//subtractionDumpOperator.OperatorDump( operatorStore.Subtraction, "Subtraction" );
+			subtractionDumpOperator.OperatorDump("-", "Subtraction" );
 		}
 
 		GameObject _multiplicationGameObject = Instantiate( _contentPrefab, _targetTransform );
 		if (_multiplicationGameObject.TryGetComponent( out ContentDumpOperator multiplicationDumpOperator )) {
-			multiplicationDumpOperator.OperatorDump( operatorStore.Multiplication, "Multiplication" );
+			//multiplicationDumpOperator.OperatorDump( operatorStore.Multiplication, "Multiplication" );
+			multiplicationDumpOperator.OperatorDump("*", "Multiplication" );
 		}
 
 		GameObject _divisionGameObject = Instantiate( _contentPrefab, _targetTransform );
 		if (_divisionGameObject.TryGetComponent( out ContentDumpOperator divisionDumpOperator )) {
-			divisionDumpOperator.OperatorDump( operatorStore.Division, "Division" );
+			//divisionDumpOperator.OperatorDump( operatorStore.Division, "Division" );
+			divisionDumpOperator.OperatorDump("/", "Division" );
 		}
 		
 		// Words Mastery

@@ -3,16 +3,21 @@ using UnityEngine;
 
 public class ContentDumpOperator : MonoBehaviour
 {
+	[Header("Old References")]
 	[SerializeField] private TMP_Text _heading;
 	[SerializeField] private TMP_Text _decimals;
 	[SerializeField] private TMP_Text _oners;
 	[SerializeField] private TMP_Text _tenners;
 	[SerializeField] private TMP_Text _hundreds;
 	[SerializeField] private TMP_Text _thousands;
-	public void OperatorDump(Operator mathOperator, string heading = "") {
+	[Header("New References")]
+	[SerializeField] private TeacherStatDisplayController _teacherStatDisplayController;
+	public void OperatorDump(string mathOperator, string heading = "") {
 		_heading.SetText(heading);
 
-		string _onerString = "<b>Ones</b> -> \n";
+		_teacherStatDisplayController.SetStats(mathOperator);
+		
+		/*string _onerString = "<b>Ones</b> -> \n";
 		foreach (var item in mathOperator.OneStats) {
 			_onerString += $"	{item.Key}: {mathOperator.OneStats[ item.Key ]}\n";
 		}
@@ -34,7 +39,7 @@ public class ContentDumpOperator : MonoBehaviour
 		foreach (var item in mathOperator.ThousandsStats) {
 			_thousandsString += $"	{item.Key}: {item.Value}\n";
 		}
-		_thousands.SetText( _thousandsString );
+		_thousands.SetText( _thousandsString );*/
 	}
 }
 
