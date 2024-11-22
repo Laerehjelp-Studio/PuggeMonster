@@ -671,7 +671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8650310172610774573
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3986,38 +3986,26 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1488641282684625107}
+  m_TargetGraphic: {fileID: 6846079570276238459}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8178383109795122049}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ButtonClickSound
-        m_Mode: 1
+        m_MethodName: CodeScreenLoader
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: CodeScene
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2226234457385626865}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 8178383109795122049}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: EnablePannedMainMenuClickability
-        m_Mode: 6
+        m_MethodName: ButtonClickSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4296,18 +4284,18 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300000, guid: 1b7d202bdc315114e854937d7f03122b, type: 3}
   - {fileID: 21300000, guid: 8c6a976f46aa79e4aa5c9025562de325, type: 3}
-  - {fileID: 21300000, guid: f66821ac6d13766418b4b7bc3710d476, type: 3}
-  - {fileID: 21300000, guid: 2a7126d86e36f4643ade54c68e10d01e, type: 3}
-  - {fileID: 21300000, guid: 71b4bc5bb8695ca43bc2990c790859cc, type: 3}
-  - {fileID: 21300000, guid: c0832fa7b7a7d7e479a40d7382881553, type: 3}
-  - {fileID: 21300000, guid: 6ea5b06e69f440c44b67f94c3b11ece3, type: 3}
+  - {fileID: 21300000, guid: 9e075e6d99388524eb5295029456df71, type: 3}
+  - {fileID: 21300000, guid: 1d6949847e99c704b888905a8f5f728c, type: 3}
+  - {fileID: 21300000, guid: a83cf260544320b469839613545b68d2, type: 3}
+  - {fileID: 21300000, guid: 7f927866311a9904fb0dfb5e880c07e2, type: 3}
+  - {fileID: 21300000, guid: bbcaaa56ef339194c87a4e11978f842e, type: 3}
   - {fileID: 21300000, guid: 5cc6f81f39388e64fae6f4966ea1091d, type: 3}
   - {fileID: 21300000, guid: 1de0e04ccc1a2c04cb9eda0be4baa070, type: 3}
   - {fileID: 21300000, guid: 6da7232110cb6164dbc6d05732f74607, type: 3}
   - {fileID: 21300000, guid: 5a391de4c28f7ae429e152362059d958, type: 3}
   - {fileID: 21300000, guid: 72a437334c87f054e9ef00097cc72442, type: 3}
-  - {fileID: 21300000, guid: 497d464051805f648af32c07b3f191b3, type: 3}
-  - {fileID: 21300000, guid: 3d9e188227fed2448be37a5425563a4e, type: 3}
+  - {fileID: 21300000, guid: 35808e1a5c16fb146910410698a40349, type: 3}
+  - {fileID: 21300000, guid: eac0fc25cacc1d346898047d1af5c256, type: 3}
   - {fileID: 21300000, guid: 81a71a7ae6ebef6489e8a2a983e20fe4, type: 3}
   - {fileID: 21300000, guid: 1c3163d9037152f458d41cbe7f9275b6, type: 3}
 --- !u!114 &4935994770442100702
@@ -7276,7 +7264,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Bilde
+  m_text: 'Bokstav
+
+    Bilde'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
