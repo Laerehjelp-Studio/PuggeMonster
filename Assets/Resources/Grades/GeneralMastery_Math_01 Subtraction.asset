@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: GeneralMastery_Math_01 Subtraction
   m_EditorClassIdentifier: 
   Name: Subtraksjon
-  CategoryStart: 0
-  CategoryEnd: 900
+  CategoryStart: 200
+  CategoryEnd: 892
   Operator: '-'
+  SelectionChance: 0.6
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -43,6 +44,6 @@ MonoBehaviour:
     Result: 3
   ThousandsMastery:
     Name: Tusentalls
-    CategoryStart: 550
-    CategoryEnd: 900
+    CategoryStart: 542
+    CategoryEnd: 892
     Result: 4

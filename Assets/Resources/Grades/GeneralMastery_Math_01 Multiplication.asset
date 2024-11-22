@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: GeneralMastery_Math_01 Multiplication
   m_EditorClassIdentifier: 
   Name: Multiplikasjon
-  CategoryStart: 0
-  CategoryEnd: 1200
+  CategoryStart: 500
+  CategoryEnd: 1192
   Operator: '*'
+  SelectionChance: 0.6
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -43,6 +44,6 @@ MonoBehaviour:
     Result: 3
   ThousandsMastery:
     Name: Tusentalls
-    CategoryStart: 860
-    CategoryEnd: 1200
+    CategoryStart: 852
+    CategoryEnd: 1192
     Result: 4
