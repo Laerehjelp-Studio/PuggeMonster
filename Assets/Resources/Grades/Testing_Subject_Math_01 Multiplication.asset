@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Testing_Subject_Math_01 Multiplication
   m_EditorClassIdentifier: 
   Name: Multiplikasjon
-  CategoryStart: 0
+  CategoryStart: 500
   CategoryEnd: 1200
   Operator: '*'
+  SelectionChance: 0.5
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -38,8 +39,8 @@ MonoBehaviour:
     Result: 2
   HundredMastery:
     Name: Hundretalls
-    CategoryStart: 650
-    CategoryEnd: 900
+    CategoryStart: 646
+    CategoryEnd: 896
     Result: 3
   ThousandsMastery:
     Name: Tusentalls

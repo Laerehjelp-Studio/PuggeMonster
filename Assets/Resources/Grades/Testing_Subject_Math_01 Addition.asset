@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Addisjon
   CategoryStart: 0
-  CategoryEnd: 495
+  CategoryEnd: 503
   Operator: +
+  SelectionChance: 0.5
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -43,6 +44,6 @@ MonoBehaviour:
     Result: 3
   ThousandsMastery:
     Name: Tusentalls
-    CategoryStart: 85
-    CategoryEnd: 495
+    CategoryStart: 93
+    CategoryEnd: 503
     Result: 4

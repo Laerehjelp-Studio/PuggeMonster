@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Testing_Subject_Math_01 Division
   m_EditorClassIdentifier: 
   Name: Divisjon
-  CategoryStart: 0
+  CategoryStart: 1000
   CategoryEnd: 1984
   Operator: /
+  SelectionChance: 0.5
   Decimals: 0
   Ones: 1
   Tens: 1
@@ -38,8 +39,8 @@ MonoBehaviour:
     Result: 2
   HundredMastery:
     Name: Hundretalls
-    CategoryStart: 1250
-    CategoryEnd: 1500
+    CategoryStart: 1254
+    CategoryEnd: 1504
     Result: 3
   ThousandsMastery:
     Name: Tusentalls
