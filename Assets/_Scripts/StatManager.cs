@@ -974,37 +974,25 @@ static public class StatManager {
 			case "E":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange(0,20);
 				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(0, 20);
-				mathDifficultyLists.One = GetNonZeroMathFloatList(mathDifficultyLists.One, 1, Operator);
 				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(0, 20);
-				mathDifficultyLists.Tens = GetNonZeroMathFloatList(mathDifficultyLists.Tens, 2, Operator);
 				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(0, 20);
-				mathDifficultyLists.Hundreds = GetNonZeroMathFloatList(mathDifficultyLists.Hundreds, 3, Operator);
 				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(0, 20);
-				mathDifficultyLists.Thousands = GetNonZeroMathFloatList(mathDifficultyLists.Thousands, 4, Operator);
 				break;
 			case "m":
 			case "M":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange( 39, 20 );
 				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(39, 20);
-				mathDifficultyLists.One = GetNonZeroMathFloatList(mathDifficultyLists.One, 1, Operator);
 				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(39, 20);
-				mathDifficultyLists.Tens = GetNonZeroMathFloatList(mathDifficultyLists.Tens, 2, Operator);
 				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(39, 20);
-				mathDifficultyLists.Hundreds = GetNonZeroMathFloatList(mathDifficultyLists.Hundreds, 3, Operator);
 				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(39, 20);
-				mathDifficultyLists.Thousands = GetNonZeroMathFloatList(mathDifficultyLists.Thousands, 4, Operator);
 				break;
 			case "h":
 			case "H":
 				//_difficultyLists.Decimal = _tempOperator.DecimalDifficultySorted.GetRange( 63, 33 );
 				mathDifficultyLists.One = _tempOperator.OneDifficultySorted.GetRange(_tempOperator.OneDifficultySorted.Count - 10, 10);
-				mathDifficultyLists.One = GetNonZeroMathFloatList(mathDifficultyLists.One, 1, Operator);
 				mathDifficultyLists.Tens = _tempOperator.TensDifficultySorted.GetRange(_tempOperator.TensDifficultySorted.Count - 10, 10);
-				mathDifficultyLists.Tens = GetNonZeroMathFloatList(mathDifficultyLists.Tens, 2, Operator);
 				mathDifficultyLists.Hundreds = _tempOperator.HundredsDifficultySorted.GetRange(_tempOperator.HundredsDifficultySorted.Count - 10, 10);
-				mathDifficultyLists.Hundreds = GetNonZeroMathFloatList(mathDifficultyLists.Hundreds, 3, Operator);
 				mathDifficultyLists.Thousands = _tempOperator.ThousandsDifficultySorted.GetRange(_tempOperator.ThousandsDifficultySorted.Count - 10, 10);
-				mathDifficultyLists.Thousands = GetNonZeroMathFloatList(mathDifficultyLists.Thousands, 4, Operator);
 				break;
 		}
 
