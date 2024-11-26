@@ -256,7 +256,7 @@ static public class StatManager {
 		
 		// Letter Sound Mastery
 		json = JsonConvert.SerializeObject(_generalLetterSoundMasteryScores);
-		PlayerPrefs.SetString("_generalLetterSoundMasteryScores", json);
+		PlayerPrefs.SetString("GeneralLetterSoundMasteryScores", json);
 		json = JsonConvert.SerializeObject(_generalLetterSoundMasteredList);
 		PlayerPrefs.SetString("GeneralLetterSoundMastered", json);
 
@@ -294,8 +294,8 @@ static public class StatManager {
 			Debug.Log("Word Mastery Scores loaded successfully.");
 		}
 
-		if (PlayerPrefs.HasKey("GeneralLetterPictureMasteryList")) {
-			string json = PlayerPrefs.GetString("GeneralLetterPictureMasteryList");
+		if (PlayerPrefs.HasKey("GeneralLetterPictureMasteryScores")) {
+			string json = PlayerPrefs.GetString("GeneralLetterPictureMasteryScores");
 			_generalLetterPictureMasteryScores = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
 			_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores);
 		}
@@ -305,8 +305,8 @@ static public class StatManager {
 			_generalLetterPictureMasteredList = JsonConvert.DeserializeObject<List<string>>(json);
 		}
 		
-		if (PlayerPrefs.HasKey("GeneralLetterSoundMasteryList")) {
-			string json = PlayerPrefs.GetString("GeneralLetterSoundMasteryList");
+		if (PlayerPrefs.HasKey("GeneralLetterSoundMasteryScores")) {
+			string json = PlayerPrefs.GetString("GeneralLetterSoundMasteryScores");
 			_generalLetterSoundMasteryScores = JsonConvert.DeserializeObject<Dictionary<string, float>>(json);
 			_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores);
 		}
@@ -420,6 +420,21 @@ static public class StatManager {
 
 		if (PlayerPrefs.HasKey("GeneralWordMasteryScores")) {
 			PlayerPrefs.DeleteKey("GeneralWordMasteryScores");
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterPictureMasteryScores")) {
+			PlayerPrefs.DeleteKey("GeneralLetterPictureMasteryScores");
+		}
+		if (PlayerPrefs.HasKey("GeneralLetterPictureMasteredList")) {
+			PlayerPrefs.DeleteKey("GeneralLetterPictureMasteredList");
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterSoundMasteryScores")) {
+			PlayerPrefs.DeleteKey("GeneralLetterSoundMasteryScores");
+		}
+
+		if (PlayerPrefs.HasKey("GeneralLetterSoundMastered")) {
+			PlayerPrefs.DeleteKey("GeneralLetterSoundMastered");
 		}
 	}
 
