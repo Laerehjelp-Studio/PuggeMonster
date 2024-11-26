@@ -31,6 +31,8 @@ public class TeacherStatDisplayController : MonoBehaviour {
 		MathDifficultyList easyDifficulty = StatManager.GetDifficultyLists(Operator,"e");
 		MathDifficultyList hardDifficulty = StatManager.GetDifficultyLists(Operator,"h");
 
+		ZeroUpdateMathStats(ref easyDifficulty, Operator);
+		ZeroUpdateMathStats(ref hardDifficulty,Operator);
 		//SetOperatorText(easyDifficulty.Decimal, _decimalEasy);
 		SetOperatorText(easyDifficulty.One, _onesEasy);
 		SetOperatorText(easyDifficulty.Tens, _tensEasy);
@@ -49,6 +51,13 @@ public class TeacherStatDisplayController : MonoBehaviour {
 		SetOperatorText(hardDifficulty.Hundreds, _hundredsHard);
 		SetOperatorText(hardDifficulty.Thousands, _thousandsHard);
 		
+	}
+
+	private void ZeroUpdateMathStats(ref MathDifficultyList mathDifficultyLists, string Operator) {
+		mathDifficultyLists.One = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.One, 1, Operator);
+		mathDifficultyLists.Tens = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Tens, 2, Operator);
+		mathDifficultyLists.Hundreds = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Hundreds, 3, Operator);
+		mathDifficultyLists.Thousands = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Thousands, 4, Operator);
 	}
 
 	public void SetWordText( string heading) {
