@@ -3,19 +3,12 @@ using UnityEngine;
 
 public class ContentDumpOperator : MonoBehaviour
 {
-	[Header("Old References")]
 	[SerializeField] private TMP_Text _heading;
-	[SerializeField] private TMP_Text _decimals;
-	[SerializeField] private TMP_Text _oners;
-	[SerializeField] private TMP_Text _tenners;
-	[SerializeField] private TMP_Text _hundreds;
-	[SerializeField] private TMP_Text _thousands;
-	[Header("New References")]
 	[SerializeField] private TeacherStatDisplayController _teacherStatDisplayController;
 	public void OperatorDump(string mathOperator, string heading = "") {
 		_heading.SetText(heading);
 
-		_teacherStatDisplayController.SetStats(mathOperator);
+		_teacherStatDisplayController.SetMathStats(mathOperator);
 		
 		/*string _onerString = "<b>Ones</b> -> \n";
 		foreach (var item in mathOperator.OneStats) {
@@ -40,6 +33,11 @@ public class ContentDumpOperator : MonoBehaviour
 			_thousandsString += $"	{item.Key}: {item.Value}\n";
 		}
 		_thousands.SetText( _thousandsString );*/
+	}
+
+	public void WordsDump(string heading = "") {
+		_heading.SetText(heading);
+		_teacherStatDisplayController.SetWordText("Bokstaver og Ord");
 	}
 }
 

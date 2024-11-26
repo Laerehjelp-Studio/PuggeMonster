@@ -563,21 +563,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5260250902992192793, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.11372549
-      objectReference: {fileID: 0}
-    - target: {fileID: 5260250902992192793, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5260250902992192793, guid: 95882c41123c54343ac4a10aeaee5474,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.003921569
-      objectReference: {fileID: 0}
     - target: {fileID: 7444715236889575765, guid: 95882c41123c54343ac4a10aeaee5474,
         type: 3}
       propertyPath: m_AnchorMax.y
