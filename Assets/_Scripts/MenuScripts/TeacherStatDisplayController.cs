@@ -53,19 +53,25 @@ public class TeacherStatDisplayController : MonoBehaviour {
 
 	public void SetWordText( string heading) {
 		List<string> easyDifficulty = StatManager.GetWordDifficultyList('e');
+		easyDifficulty = StatManager.GetNonZeroWordFloatList(easyDifficulty);
 		List<string> hardDifficulty = StatManager.GetWordDifficultyList('h');
+		hardDifficulty = StatManager.GetNonZeroWordFloatList(hardDifficulty);
 		_onesHeader.text = "Bilde Ord";
 		SetOperatorText(easyDifficulty, _onesEasy);
 		SetOperatorText(hardDifficulty, _onesHard);
 		
 		easyDifficulty = StatManager.GetLetterDifficultyList('e', LetterMode.Picture);
+		easyDifficulty = StatManager.GetNonZeroLetterFloatList(easyDifficulty, LetterMode.Picture);
 		hardDifficulty = StatManager.GetLetterDifficultyList('h', LetterMode.Picture);
+		hardDifficulty = StatManager.GetNonZeroLetterFloatList(hardDifficulty, LetterMode.Picture);
 		_tensHeader.text = "Bilde Bokstav";
 		SetOperatorText(easyDifficulty, _tensEasy);
 		SetOperatorText(hardDifficulty, _tensHard);
 
 		easyDifficulty = StatManager.GetLetterDifficultyList('e', LetterMode.Sound);
+		easyDifficulty = StatManager.GetNonZeroLetterFloatList(easyDifficulty, LetterMode.Sound);
 		hardDifficulty = StatManager.GetLetterDifficultyList('h', LetterMode.Sound);
+		hardDifficulty = StatManager.GetNonZeroLetterFloatList(hardDifficulty, LetterMode.Sound);
 		_hundredsHeader.text = "Lyd Bokstav";
 		SetOperatorText(easyDifficulty, _hundredsEasy);
 		SetOperatorText(hardDifficulty, _hundredsHard);
@@ -76,6 +82,10 @@ public class TeacherStatDisplayController : MonoBehaviour {
 	private void SetOperatorText(List<string> difficultyList, TMP_Text textField) {
 		string difficultyString = "";
 		int entries = 0;
+		if (difficultyList.Count == 0) {
+			textField.text = "Ukjent.";
+			return;
+		}
 		foreach (var difficultyKey in difficultyList) {
 			entries++;
 			if (entries >= 10) {
