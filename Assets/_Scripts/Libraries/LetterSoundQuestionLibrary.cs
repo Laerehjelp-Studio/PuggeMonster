@@ -13,18 +13,10 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 	public static List<string> GetLetterList {
 		get {
 			List<string> tempLetterList = new();
-
 			if (LetterSoundQuestionLibrary.Instance != null && LetterSoundQuestionLibrary.Instance._letterSoundTaskLibrary.Count > 0) {
 				
 				foreach ( string var in LetterSoundQuestionLibrary.Instance._letterSoundTaskLibrary.Values ) {
 					tempLetterList.Add( var );
-				}
-			} else if (WordQuestionLibrary.GetMaxWordCount > 0 ) {
-				foreach ( string word in WordQuestionLibrary.GetWordList ) {
-
-					if (!tempLetterList.Contains( word )) {
-						tempLetterList.Add( word );
-					}
 				}
 			}
 
@@ -36,7 +28,6 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 			List<string> tempWordList = new();
 
 			if (LetterSoundQuestionLibrary.Instance != null && LetterSoundQuestionLibrary.Instance._letterPictureTaskLibrary.Count > 0) {
-				
 				foreach ( string var in LetterSoundQuestionLibrary.Instance._letterPictureTaskLibrary.Values ) {
 					tempWordList.Add( var );
 				}

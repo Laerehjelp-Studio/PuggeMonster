@@ -63,9 +63,16 @@ static public class StatManager {
 			if (_generalLetterPictureMasteryScores == null) {
 				_generalLetterPictureMasteryScores = new();
 			}
-			if (_generalLetterPictureMasteryScores.Count == 0 || _generalLetterPictureMasteryScores.Count != LetterSoundQuestionLibrary.GetLetterList.Count) {
+			if (_generalLetterPictureMasteryScores.Count == 0 || _generalLetterPictureMasteryScores.Count != WordQuestionLibrary.GetWordList.Count) {
 				InitializeGeneralLetterPictureMastery();
 			}
+			if (_generalLetterSoundMasteryScores == null) {
+				_generalLetterSoundMasteryScores = new();
+			}
+			if (_generalLetterSoundMasteryScores.Count == 0 || _generalLetterSoundMasteryScores.Count != LetterSoundQuestionLibrary.GetLetterList.Count) {
+				InitializeGeneralLetterSoundMastery();
+			}
+			
 			return;
 		}
 
@@ -173,6 +180,7 @@ static public class StatManager {
 
 		InitializeGeneralWordMastery();
 		InitializeGeneralLetterPictureMastery();
+		InitializeGeneralLetterSoundMastery();
 	}
 
 	private static void InitializeGeneralWordMastery() {
@@ -188,6 +196,15 @@ static public class StatManager {
 
 		foreach (string keyString in _generalLetterPictureDifficultyList) {
 			_generalLetterPictureMasteryScores.Add(keyString, 0f);
+		}
+	}
+	private static void InitializeGeneralLetterSoundMastery() {
+		_generalLetterSoundDifficultyList = ShuffleList(LetterSoundQuestionLibrary.GetLetterList);
+		
+		foreach (string keyString in _generalLetterSoundDifficultyList) {
+			if (!_generalLetterSoundMasteryScores.ContainsKey(keyString)) {
+				_generalLetterSoundMasteryScores.Add(keyString, 0f);
+			}
 		}
 	}
 
@@ -1059,6 +1076,7 @@ static public class StatManager {
 			_generalLetterSoundMasteredList.Add(storageLetter);
 		}
 	}
+	
 	public static List<string> GetLetterDifficultyList( char taskDifficultyLetter, LetterMode mode ) {
 		List <string> difficultyList = new();
 		List <string> keyList = new();
@@ -1075,7 +1093,8 @@ static public class StatManager {
 		}
 		
 		int partSize = (int)(keyList.Count / 5);
-		//Debug.Log($"Getting word mastery scores for difficulty {difficulty}, part size {_partSize}, and {_tempList.Count}");
+		//Debug.Log($"Getting word mastery scores for difficulty {taskDifficultyLetter}, part size {partSize}, and {tempSortedList.Count}");
+		
 		switch (taskDifficultyLetter) {
 			case 'e':
 			case 'E':

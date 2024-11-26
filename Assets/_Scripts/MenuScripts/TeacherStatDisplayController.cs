@@ -3,6 +3,14 @@ using TMPro;
 using UnityEngine;
 
 public class TeacherStatDisplayController : MonoBehaviour {
+	[Header("Header References")]
+	[SerializeField] private TMP_Text _decimalHeader;
+	[SerializeField] private TMP_Text _onesHeader;
+	[SerializeField] private TMP_Text _tensHeader;
+	[SerializeField] private TMP_Text _hundredsHeader;
+	[SerializeField] private TMP_Text _thousandsHeader;
+	
+	[Header("Content References")]
 	[SerializeField] private TMP_Text _decimalEasy;
 	[SerializeField] private TMP_Text _decimalMedium;
 	[SerializeField] private TMP_Text _decimalHard;
@@ -19,33 +27,22 @@ public class TeacherStatDisplayController : MonoBehaviour {
 	[SerializeField] private TMP_Text _thousandsMedium;
 	[SerializeField] private TMP_Text _thousandsHard;
 
-	public void SetStats(string Operator) {
+	public void SetMathStats(string Operator) {
 		MathDifficultyList easyDifficulty = StatManager.GetDifficultyLists(Operator,"e");
-		//MathDifficultyList mediumDifficulty = StatManager.GetDifficultyLists(Operator,"m");
 		MathDifficultyList hardDifficulty = StatManager.GetDifficultyLists(Operator,"h");
-		//MathDifficultyList additionEasy = StatManager.GetDifficultyLists("+","e");
-		//MathDifficultyList additionMedium = StatManager.GetDifficultyLists("+","m");
-		//MathDifficultyList additionHard = StatManager.GetDifficultyLists("+","h");
-		//MathDifficultyList subtractionEasy = StatManager.GetDifficultyLists("-","e");
-		//MathDifficultyList subtractionMedium = StatManager.GetDifficultyLists("-","m");
-		//MathDifficultyList subtractionHard = StatManager.GetDifficultyLists("-","h");
-		//MathDifficultyList multiplicationEasy = StatManager.GetDifficultyLists("*","e");
-		//MathDifficultyList multiplicationMedium = StatManager.GetDifficultyLists("*","m");
-		//MathDifficultyList multiplicationHard = StatManager.GetDifficultyLists("*","h");
-		//MathDifficultyList divisionEasy = StatManager.GetDifficultyLists("/","e");
-		//MathDifficultyList divisionMedium = StatManager.GetDifficultyLists("/","m");
-		//MathDifficultyList divisionHard = StatManager.GetDifficultyLists("/","h");
 
 		//SetOperatorText(easyDifficulty.Decimal, _decimalEasy);
 		SetOperatorText(easyDifficulty.One, _onesEasy);
 		SetOperatorText(easyDifficulty.Tens, _tensEasy);
 		SetOperatorText(easyDifficulty.Hundreds, _hundredsEasy);
 		SetOperatorText(easyDifficulty.Thousands, _thousandsEasy);
+		
 		//SetOperatorText(mediumDifficulty.Decimal, _decimalMedium);
 		//SetOperatorText(mediumDifficulty.One, _onesMedium);
 		//SetOperatorText(mediumDifficulty.Tens, _tensMedium);
 		//SetOperatorText(mediumDifficulty.Hundreds, _hundredsMedium);
 		//SetOperatorText(mediumDifficulty.Thousands, _thousandsMedium);
+		
 		//SetOperatorText(hardDifficulty.Decimal, _decimalHard);
 		SetOperatorText(hardDifficulty.One, _onesHard);
 		SetOperatorText(hardDifficulty.Tens, _tensHard);
@@ -54,6 +51,28 @@ public class TeacherStatDisplayController : MonoBehaviour {
 		
 	}
 
+	public void SetWordText( string heading) {
+		List<string> easyDifficulty = StatManager.GetWordDifficultyList('e');
+		List<string> hardDifficulty = StatManager.GetWordDifficultyList('h');
+		_onesHeader.text = "Bilde Ord";
+		SetOperatorText(easyDifficulty, _onesEasy);
+		SetOperatorText(hardDifficulty, _onesHard);
+		
+		easyDifficulty = StatManager.GetLetterDifficultyList('e', LetterMode.Picture);
+		hardDifficulty = StatManager.GetLetterDifficultyList('h', LetterMode.Picture);
+		_tensHeader.text = "Bilde Bokstav";
+		SetOperatorText(easyDifficulty, _tensEasy);
+		SetOperatorText(hardDifficulty, _tensHard);
+
+		easyDifficulty = StatManager.GetLetterDifficultyList('e', LetterMode.Sound);
+		hardDifficulty = StatManager.GetLetterDifficultyList('h', LetterMode.Sound);
+		_hundredsHeader.text = "Lyd Bokstav";
+		SetOperatorText(easyDifficulty, _hundredsEasy);
+		SetOperatorText(hardDifficulty, _hundredsHard);
+		
+		_thousandsHeader.transform.parent.gameObject.SetActive(false);
+	}
+	
 	private void SetOperatorText(List<string> difficultyList, TMP_Text textField) {
 		string difficultyString = "";
 		int entries = 0;
