@@ -187,7 +187,9 @@ static public class StatManager {
 		_generalWordDifficultyList = ShuffleList(WordQuestionLibrary.GetWordList);
 
 		foreach (string keyString in WordQuestionLibrary.GetWordList) {
-			_generalWordMasteryScores.Add(keyString, 0f);
+			if (!_generalWordMasteryScores.ContainsKey(keyString)) {
+				_generalWordMasteryScores.Add(keyString, 0f);
+			}
 		}
 	}
 

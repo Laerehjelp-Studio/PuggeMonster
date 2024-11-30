@@ -200,7 +200,7 @@ public class TaskMaster : MonoBehaviour {
 		return difficultySet;
 	}
 
-	private bool DetectCheater( float lastAnswerTime ) {
+	private bool DetectSpammer( float lastAnswerTime ) {
 		float currentAnswerTime = ( Time.realtimeSinceStartup * 1000 ) - lastAnswerTime;
 
 		return currentAnswerTime < _spamTimeLimit;
@@ -235,11 +235,11 @@ public class TaskMaster : MonoBehaviour {
 			points = 0;
 		}
 
-		bool cheatDetected = DetectCheater( _lastAnswerTime );
+		bool spamDetected = DetectSpammer( _lastAnswerTime );
 
 		//Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-
-		if ( !cheatDetected ) {
+		Debug.Log( $"timeSinceLastResponse: {( Time.realtimeSinceStartup * 1000 ) - _lastAnswerTime}, IsSpamming: {spamDetected}" );
+		if ( !spamDetected ) {
 			if ( wordTask.Correct == buttonInputValue ) {
 				_currentScore = _currentScore + points;
 
@@ -292,13 +292,13 @@ public class TaskMaster : MonoBehaviour {
 			points = 0;
 		}
 
-		bool cheatDetected = DetectCheater( _lastAnswerTime );
+		bool spamDetected = DetectSpammer( _lastAnswerTime );
 
 		//Debug.Log($"Selected answer = {mathValue}, Correct Answer: {mathTask.Correct}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-		Debug.Log( $"timeSinceLastResponse: {( Time.realtimeSinceStartup * 1000 ) - _lastAnswerTime}, IsCheating: {cheatDetected}" );
+		Debug.Log( $"timeSinceLastResponse: {( Time.realtimeSinceStartup * 1000 ) - _lastAnswerTime}, IsSpamming: {spamDetected}" );
 
 		// Floating point comparison should use Mathf.Approximately
-		if ( !cheatDetected ) {
+		if ( !spamDetected ) {
 			if ( Mathf.Approximately( mathTask.Correct, mathValue ) ) {
 				StatManager.RegisterAnswer( mathTask, mathValue, points );
 				_currentScore += points;
@@ -367,11 +367,11 @@ public class TaskMaster : MonoBehaviour {
 			points = 0;
 		}
 
-		bool cheatDetected = DetectCheater( _lastAnswerTime );
+		bool spamDetected = DetectSpammer( _lastAnswerTime );
 
 		//Debug.Log($"Correct answer = {buttonInputValue}, points = {points} / {1f * (1f / _numberOfAnswers)}, Answer Number: {_numberOfAnswers}");
-
-		if ( !cheatDetected ) {
+		Debug.Log( $"timeSinceLastResponse: {( Time.realtimeSinceStartup * 1000 ) - _lastAnswerTime}, IsSpamming: {spamDetected}" );
+		if ( !spamDetected ) {
 			if ( newLetterTask.Correct == buttonInputValue ) {
 				_currentScore = _currentScore + points;
 
