@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,10 +16,15 @@ public class BookAnimationBehaviour : MonoBehaviour
     private float calculatedWaitTime;
     private SpriteRenderer spriteImage;
 
-    private void Start()
+    private void Awake()
     {
         spriteImage = GetComponent<SpriteRenderer>();
         spriteImage.enabled = false;
+    }
+
+    private void OnEnable() {
+        
+        spriteImage.sprite = imageFramesList[0];
     }
 
     public void StartBookAnimation()
@@ -55,12 +61,11 @@ public class BookAnimationBehaviour : MonoBehaviour
             index++;
             yield return new WaitForSecondsRealtime(calculatedWaitTime);
         }
-        spriteImage.sprite = imageFramesList[0];
+        gameManager.GalleryLoader("GalleryScene");
         BookButton.SetActive(true);
         BookWhiteOut.SetActive(true);
         floatingScript.enabled = true;
         spriteImage.enabled = false;
-        gameManager.GalleryLoader("GalleryScene");
         StopCoroutine(PlayAnimationThing());
         Debug.Log("animation finished");
     }
