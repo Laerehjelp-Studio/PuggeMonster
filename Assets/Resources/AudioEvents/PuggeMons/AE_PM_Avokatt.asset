@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
+  m_Name: AE_PM_Avokatt
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: 30c4f711e6af5424fb77d57d18a7a5b0, type: 3}
+  - {fileID: 8300000, guid: 2910fb7f09c036b40a073f667c00f4f4, type: 3}
+  - {fileID: 8300000, guid: 882883db7e188a44391f8f9626092ee7, type: 3}
+  _volume:
+    minValue: 0.7319392
+    maxValue: 0.77836704
+  _pitch:
+    minValue: 1.0422195
+    maxValue: 1.1194209
