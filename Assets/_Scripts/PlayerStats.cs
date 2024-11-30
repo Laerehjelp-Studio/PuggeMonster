@@ -34,6 +34,8 @@ public class PlayerStats : MonoBehaviour
 		if (PlayerPrefs.HasKey("PuggemonArray")) {
 			PlayerPrefs.DeleteKey("PuggemonArray");
 		}
+		
+		PuggemonArray = new int[ puggemonsterList.GetAllPuggeMonsters.Count ];
 	}
 
 	private void LoadPuggeMonster() {
