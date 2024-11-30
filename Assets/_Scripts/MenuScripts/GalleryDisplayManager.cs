@@ -141,7 +141,7 @@ public class GalleryDisplayManager : MonoBehaviour
         
         if (pictureIndex == 0) {
             page.PuggemonButton.interactable = true;
-            page.PuggemonButton.onClick.AddListener(delegate { GameManager.PlayPuggemonCollectSound(index); });
+            page.PuggemonButton.onClick.AddListener(delegate { GameManager.PlayPuggemonCollectSound(monsterList[index]); });
         } else {
             page.PuggemonButton.interactable = false;
         }
