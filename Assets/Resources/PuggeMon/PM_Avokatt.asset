@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9df652b5408eea84db45fe9e6bfafbf5, type: 3}
   - {fileID: 21300000, guid: 5d5a338320606644597081dcf92293a5, type: 3}
   Name: Avokatt
-  Lore: 
+  Lore: "Er enklest \xE5 finne i bibliotek siden de elsker \xE5 lese lovb\xF8ker."
   CollectSound: {fileID: 11400000, guid: dd0558043d9802846af2207da4487faf, type: 2}
