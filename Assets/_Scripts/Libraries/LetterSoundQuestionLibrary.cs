@@ -143,10 +143,10 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 		return tempCharacter;
 	}
 
-	public static string GetInCorrectLetter( List<string> blockedWords ) {
+	public static string GetInCorrectLetter(List<string>inputList, List<string> blockedWords ) {
 		List<string> tempWordList = new();
 		
-		foreach ( var item in LetterSoundQuestionLibrary.GetWordList ) {
+		foreach ( var item in inputList ) {
 			string letter = item.Substring(0, 1);
 			
 			if (!blockedWords.Contains(letter)) {

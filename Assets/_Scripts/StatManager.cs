@@ -1078,6 +1078,7 @@ static public class StatManager {
 
 		switch (task.Mode) {
 			case GameModeType.LetterPicture:
+				string storageLetter = task.StorageKey.Substring(0, 1);
 				_generalLetterPictureMasteryScores[task.StorageKey] += points;
 
 				AddLetterPictureGMIfMastered(task.StorageKey, _generalLetterPictureMasteryScores[task.StorageKey]);
@@ -1086,13 +1087,12 @@ static public class StatManager {
 
 				break;
 			case GameModeType.Letters: {
-				string storageLetter = task.StorageKey.Substring(0, 1);
-				if (_generalLetterSoundMasteryScores.ContainsKey(storageLetter)) {
-					_generalLetterSoundMasteryScores[storageLetter] += points;
+				if (_generalLetterSoundMasteryScores.ContainsKey(task.Correct)) {
+					_generalLetterSoundMasteryScores[task.Correct] += points;
 					
-					AddLetterSoundGMIfMastered(storageLetter, _generalLetterSoundMasteryScores[storageLetter]);
+					AddLetterSoundGMIfMastered(task.Correct, _generalLetterSoundMasteryScores[task.Correct]);
 
-					_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores, storageLetter);
+					_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores, task.Correct);
 				} else {
 					Debug.LogError("[StatManager.RegisterAnswer] There are no sound mastery scores!]");
 				}
