@@ -18,10 +18,10 @@ public class GalleryDisplayManager : MonoBehaviour
     {
         // Get the amount of avaliable puggemonsters and set the amount of pages needed to display all of them.
         maxPageNumber = PlayerStats.Instance.PuggemonArray.Length;
-        if (maxPageNumber % 2 == 1) // odd number
-        {
-            maxPageNumber++;
-        }
+        // if (maxPageNumber % 2 == 1) // odd number
+        // {
+        //     maxPageNumber++;
+        // }
         maxPageNumber -= 2;
         unlockedMonsers.Clear();
         lockedMonsers.Clear();
@@ -96,21 +96,13 @@ public class GalleryDisplayManager : MonoBehaviour
         // LEFT page
         if (unlockedMonsers.Count > pageNumber) // unlocked monsters
         {
-            leftPageData.PuggemonImage.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(unlockedMonsers[pageNumber]).GetPicture(0);
-            leftPageData.PuggemonImage.color = new Color(255, 255, 255, 1);
-            leftPageData.AmmountDisplayText.text = "" + PlayerStats.Instance.PuggemonArray[unlockedMonsers[pageNumber]];
-            leftPageData.LoreText.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(unlockedMonsers[pageNumber]).Lore;
-            leftPageData.NameOfPuggemon.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(unlockedMonsers[pageNumber]).Name;
+            DisplayPage(leftPageData, unlockedMonsers, pageNumber,0);
             Debug.Log("Left page image set to unlocked monster");
             return;
         }
         else // locked monsters
         {
-            leftPageData.PuggemonImage.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(lockedMonsers[pageNumber - unlockedMonsers.Count]).GetPicture(1);
-            leftPageData.PuggemonImage.color = new Color(255, 255, 255, 1);
-            leftPageData.AmmountDisplayText.text = "" + PlayerStats.Instance.PuggemonArray[lockedMonsers[pageNumber - unlockedMonsers.Count]];
-            leftPageData.LoreText.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(lockedMonsers[pageNumber - unlockedMonsers.Count]).Lore;
-            leftPageData.NameOfPuggemon.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(lockedMonsers[pageNumber - unlockedMonsers.Count]).Name;
+            DisplayPage(leftPageData, lockedMonsers, pageNumber - unlockedMonsers.Count,1);
             Debug.Log("left page image set to locked monster");
         }
     }
@@ -120,21 +112,14 @@ public class GalleryDisplayManager : MonoBehaviour
         // RIGHT page
         if (unlockedMonsers.Count > pageNumber + 1)
         {
-            rightPageData.PuggemonImage.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(unlockedMonsers[pageNumber + 1]).GetPicture(0);
-            rightPageData.PuggemonImage.color = new Color(255, 255, 255, 1);
-            rightPageData.AmmountDisplayText.text = "" + PlayerStats.Instance.PuggemonArray[unlockedMonsers[pageNumber + 1]];
-            rightPageData.LoreText.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(unlockedMonsers[pageNumber + 1]).Lore;
-            rightPageData.NameOfPuggemon.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(unlockedMonsers[pageNumber + 1]).Name;
+            DisplayPage(rightPageData, unlockedMonsers, pageNumber + 1, 0);
             Debug.Log("Right page image set to unlocked monster");
             return;
         }
-        if (lockedMonsers.Count > pageNumber - unlockedMonsers.Count)
+        if (lockedMonsers.Count > pageNumber + 1- unlockedMonsers.Count)
         {
-            rightPageData.PuggemonImage.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(lockedMonsers[pageNumber + 1 - unlockedMonsers.Count]).GetPicture(1);
-            rightPageData.PuggemonImage.color = new Color(255, 255, 255, 1);
-            rightPageData.AmmountDisplayText.text = "" + PlayerStats.Instance.PuggemonArray[lockedMonsers[pageNumber + 1 - unlockedMonsers.Count]];
-            rightPageData.LoreText.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(lockedMonsers[pageNumber + 1 - unlockedMonsers.Count]).Lore;
-            rightPageData.NameOfPuggemon.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(lockedMonsers[pageNumber + 1 - unlockedMonsers.Count]).Name;
+            DisplayPage(rightPageData, lockedMonsers, pageNumber + 1 - unlockedMonsers.Count, 1);
+            
             Debug.Log("Right page image set to Locked monster");
             return;
         }
@@ -147,6 +132,15 @@ public class GalleryDisplayManager : MonoBehaviour
         rightPageData.NameOfPuggemon.text = "";
         Debug.Log("right page image set to blank");
     }
+
+    private void DisplayPage(GalleryPageComponents page, List<int> monsterList, int index, int pictureIndex) {
+        page.PuggemonImage.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterList[index]).GetPicture(pictureIndex);
+        page.PuggemonImage.color = new Color(255, 255, 255, 1);
+        page.AmmountDisplayText.text = "" + PlayerStats.Instance.PuggemonArray[monsterList[index]];
+        page.LoreText.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterList[index]).Lore;
+        page.NameOfPuggemon.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterList[index]).Name;
+    }
+
     public void UnloadGallery()
     {
         GameManager.Instance.UnloadGallery();
