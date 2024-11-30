@@ -62,25 +62,25 @@ public class TeacherStatDisplayController : MonoBehaviour {
 
 	public void SetWordText( string heading) {
 		List<string> easyDifficulty = StatManager.GetWordDifficultyList('e');
-		easyDifficulty = StatManager.GetNonZeroWordFloatList(easyDifficulty);
+		easyDifficulty = StatManager.GetNonZeroWordFloatList(easyDifficulty, 'e');
 		List<string> hardDifficulty = StatManager.GetWordDifficultyList('h');
-		hardDifficulty = StatManager.GetNonZeroWordFloatList(hardDifficulty);
+		hardDifficulty = StatManager.GetNonZeroWordFloatList(hardDifficulty, 'h');
 		_onesHeader.text = "Bilde Ord";
 		SetOperatorText(easyDifficulty, _onesEasy);
 		SetOperatorText(hardDifficulty, _onesHard);
 		
 		easyDifficulty = StatManager.GetLetterDifficultyList('e', LetterMode.Picture);
-		easyDifficulty = StatManager.GetNonZeroLetterFloatList(easyDifficulty, LetterMode.Picture);
+		easyDifficulty = StatManager.GetNonZeroLetterFloatList(easyDifficulty, LetterMode.Picture, 'e');
 		hardDifficulty = StatManager.GetLetterDifficultyList('h', LetterMode.Picture);
-		hardDifficulty = StatManager.GetNonZeroLetterFloatList(hardDifficulty, LetterMode.Picture);
+		hardDifficulty = StatManager.GetNonZeroLetterFloatList(hardDifficulty, LetterMode.Picture, 'h');
 		_tensHeader.text = "Bilde Bokstav";
 		SetOperatorText(easyDifficulty, _tensEasy);
 		SetOperatorText(hardDifficulty, _tensHard);
 
 		easyDifficulty = StatManager.GetLetterDifficultyList('e', LetterMode.Sound);
-		easyDifficulty = StatManager.GetNonZeroLetterFloatList(easyDifficulty, LetterMode.Sound);
+		easyDifficulty = StatManager.GetNonZeroLetterFloatList(easyDifficulty, LetterMode.Sound, 'e');
 		hardDifficulty = StatManager.GetLetterDifficultyList('h', LetterMode.Sound);
-		hardDifficulty = StatManager.GetNonZeroLetterFloatList(hardDifficulty, LetterMode.Sound);
+		hardDifficulty = StatManager.GetNonZeroLetterFloatList(hardDifficulty, LetterMode.Sound, 'h');
 		_hundredsHeader.text = "Lyd Bokstav";
 		SetOperatorText(easyDifficulty, _hundredsEasy);
 		SetOperatorText(hardDifficulty, _hundredsHard);
