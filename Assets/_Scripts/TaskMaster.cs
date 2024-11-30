@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -129,8 +128,8 @@ public class TaskMaster : MonoBehaviour {
 				for ( int i = 0; i < _maxTasks; i++ ) {
 					// first implementation, Will be replaced when a difficulty system has been created.
 					LetterTask task = new LetterTask();
-					task = LetterGenerator.GenerateWordQuestionBasedOnPerformance( ref task );
 					task.Mode = GameModeType.LetterPicture;
+					task = LetterGenerator.GenerateWordQuestionBasedOnPerformance( ref task );
 
 					task.DifficultyLetter = difficultySet[i];
 					task.DifficultySet = difficultySet;

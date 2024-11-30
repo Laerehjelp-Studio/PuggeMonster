@@ -1,23 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class LetterGenerator {
-	public static LetterTask GenerateLetterQuestion () {
-		LetterTask task = new();
-		WordPictureQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite();
-		task.Correct = wp.Word.Substring(0,1);
-		task.TaskSprite = wp.Picture;
-
-		Sprite[] tempSpriteArray = new Sprite[2];
-		tempSpriteArray[0] = wp.Picture;
-
-		task.Incorrect = new();
-		task.Incorrect.Add(WordQuestionLibrary.Instance.GetInCorrectWord(tempSpriteArray).Substring(0,1));
-		tempSpriteArray[1] = WordQuestionLibrary.GetSpriteFromValue(task.Incorrect[0]);
-		task.Incorrect.Add(WordQuestionLibrary.Instance.GetInCorrectWord(tempSpriteArray).Substring(0,1));
-		return task;
-	}
-	
 	public static LetterTask GenerateWordQuestionBasedOnPerformance(ref LetterTask task) {
 		if (task.DifficultyLetter == default) {
 			task.DifficultyLetter = 'e';
@@ -40,23 +24,44 @@ public static class LetterGenerator {
 		return task;
 	}
 	private static void UpdateTaskBasedOnGeneralMasteryUnlock(ref LetterTask task, float generalWordMastery, Grade selectedGrade) {
-		List<string> tempList = StatManager.GetLetterDifficultyList(task.DifficultyLetter, LetterMode.Picture );
+		List<string> letterDifficultyList = StatManager.GetLetterDifficultyList(task.DifficultyLetter, LetterMode.Sound);
 		
-		WordPictureQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite();
-		task.Correct = wp.Word.Substring(0,1);
+		if (task.Mode == GameModeType.LetterPicture) {
+			WordPictureQuestionPair wp = WordQuestionLibrary.Instance.GetWordAndSprite();
+			task.Correct = wp.Word.Substring(0,1);
+			task.TaskSprite = wp.Picture;
+			task.StorageKey = wp.Word;
+		}
+
+		if (task.Mode == GameModeType.Letters) {
+			task.Correct = letterDifficultyList[Random.Range(0, letterDifficultyList.Count)];
+		}
+		
 		task.LetterSound = LetterSoundQuestionLibrary.GetSoundFromValue(task.Correct);
-		task.TaskSprite = wp.Picture;
-		task.StorageKey = wp.Word;
 
 		task.Incorrect = new();
 		List<string> blocklist = new();
-		blocklist.Add(task.StorageKey.Substring(0, 1));
 		
-		task.Incorrect.Add( LetterSoundQuestionLibrary.GetInCorrectLetter( blocklist ));
-		if (task.Incorrect[0] != null) {
-			blocklist.Add(task.Incorrect[0].Substring(0, 1));
-		}
+		if (task.Mode == GameModeType.LetterPicture) {
+			blocklist.Add(task.StorageKey.Substring(0, 1));
+		
+			task.Incorrect.Add( LetterSoundQuestionLibrary.GetInCorrectLetter(LetterSoundQuestionLibrary.GetWordList, blocklist ));
+			if (task.Incorrect[0] != null) {
+				blocklist.Add(task.Incorrect[0].Substring(0, 1));
+			}
 
-		task.Incorrect.Add(LetterSoundQuestionLibrary.GetInCorrectLetter( blocklist ) );
+			task.Incorrect.Add(LetterSoundQuestionLibrary.GetInCorrectLetter(LetterSoundQuestionLibrary.GetWordList, blocklist ) );
+		}
+		
+		if (task.Mode == GameModeType.Letters) {
+			blocklist.Add(task.Correct);
+		
+			task.Incorrect.Add( LetterSoundQuestionLibrary.GetInCorrectLetter(letterDifficultyList, blocklist ));
+			if (task.Incorrect[0] != null) {
+				blocklist.Add(task.Incorrect[0]);
+			}
+
+			task.Incorrect.Add(LetterSoundQuestionLibrary.GetInCorrectLetter(letterDifficultyList, blocklist ) );
+		}
 	}
 }

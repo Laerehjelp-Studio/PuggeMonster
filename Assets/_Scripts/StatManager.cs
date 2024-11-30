@@ -186,29 +186,26 @@ static public class StatManager {
 	private static void InitializeGeneralWordMastery() {
 		_generalWordDifficultyList = ShuffleList(WordQuestionLibrary.GetWordList);
 
+		_generalWordMasteryScores = new();
 		foreach (string keyString in WordQuestionLibrary.GetWordList) {
-			if (!_generalWordMasteryScores.ContainsKey(keyString)) {
-				_generalWordMasteryScores.Add(keyString, 0f);
-			}
+			_generalWordMasteryScores.Add(keyString, 0f);
 		}
 	}
 
 	private static void InitializeGeneralLetterPictureMastery() {
 		_generalLetterPictureDifficultyList = ShuffleList(WordQuestionLibrary.GetWordList);
 
+		_generalLetterPictureMasteryScores = new();
 		foreach (string keyString in _generalLetterPictureDifficultyList) {
-			if (!_generalLetterPictureMasteryScores.ContainsKey(keyString)) {
 				_generalLetterPictureMasteryScores.Add(keyString, 0f);
-			}
 		}
 	}
 	private static void InitializeGeneralLetterSoundMastery() {
 		_generalLetterSoundDifficultyList = ShuffleList(LetterSoundQuestionLibrary.GetLetterList);
 		
+		_generalLetterSoundMasteryScores = new();
 		foreach (string keyString in _generalLetterSoundDifficultyList) {
-			if (!_generalLetterSoundMasteryScores.ContainsKey(keyString)) {
-				_generalLetterSoundMasteryScores.Add(keyString, 0f);
-			}
+			_generalLetterSoundMasteryScores.Add(keyString, 0f);
 		}
 	}
 
@@ -440,6 +437,9 @@ static public class StatManager {
 		if (PlayerPrefs.HasKey("GeneralLetterSoundMastered")) {
 			PlayerPrefs.DeleteKey("GeneralLetterSoundMastered");
 		}
+		
+		initialized = false;
+		Initialize();
 	}
 
 	/// <summary>
@@ -1004,13 +1004,14 @@ static public class StatManager {
 
 #region Words Statistics Storage Management
 	public static void RegisterAnswer(WordTask wordTask, string selectedValue, float points) {
-		_generalWordMasteryScores[selectedValue] += points;
+		_generalWordMasteryScores[wordTask.Correct] += points;
+		Debug.Log($"Word Task: {wordTask.Correct} = {selectedValue} ({points}) {_generalWordMasteryScores[wordTask.Correct]}");
 
-		AddWordGMIfMastered(selectedValue, _generalWordMasteryScores[selectedValue]);
+		AddWordGMIfMastered(selectedValue, _generalWordMasteryScores[wordTask.Correct]);
 
-		_generalWordDifficultyList = ReorderByFloats(_generalWordDifficultyList, _generalWordMasteryScores, selectedValue);
+		_generalWordDifficultyList = ReorderByFloats(_generalWordDifficultyList, _generalWordMasteryScores, wordTask.Correct);
 		
-		//PrintSortedWordDifficultyList();
+		PrintSortedWordDifficultyList();
 	}
 
 	private static void PrintSortedWordDifficultyList() {
@@ -1054,17 +1055,17 @@ static public class StatManager {
 				break;
 			case 'h':
 			case 'H':
-				_difficultyList = _generalWordDifficultyList.GetRange(_partSize*4, _partSize);
+				_difficultyList = _generalWordDifficultyList.GetRange(_partSize*4 + _tempList.Count % _partSize, _partSize);
 				break;
 		}
 
 		return _difficultyList;
 	}
 	
-	public static List<string> GetNonZeroWordFloatList(List<string> floatList) {
+	public static List<string> GetNonZeroWordFloatList(List<string> floatList, char difficulty) {
 		List<string> nonZeroList = new();
 		foreach (string key in floatList) {
-			if (_generalWordMasteryScores.ContainsKey(key) && !Mathf.Approximately(_generalWordMasteryScores[key], 0)) {
+			if (_generalWordMasteryScores.ContainsKey(key) && (difficulty == 'e' && _generalWordMasteryScores[key] > 0 || difficulty == 'h' && _generalWordMasteryScores[key] < 0)) {
 				nonZeroList.Add(key);
 			}
 		}
@@ -1077,6 +1078,7 @@ static public class StatManager {
 
 		switch (task.Mode) {
 			case GameModeType.LetterPicture:
+				string storageLetter = task.StorageKey.Substring(0, 1);
 				_generalLetterPictureMasteryScores[task.StorageKey] += points;
 
 				AddLetterPictureGMIfMastered(task.StorageKey, _generalLetterPictureMasteryScores[task.StorageKey]);
@@ -1085,13 +1087,12 @@ static public class StatManager {
 
 				break;
 			case GameModeType.Letters: {
-				string storageLetter = task.StorageKey.Substring(0, 1);
-				if (_generalLetterSoundMasteryScores.ContainsKey(storageLetter)) {
-					_generalLetterSoundMasteryScores[storageLetter] += points;
+				if (_generalLetterSoundMasteryScores.ContainsKey(task.Correct)) {
+					_generalLetterSoundMasteryScores[task.Correct] += points;
 					
-					AddLetterSoundGMIfMastered(storageLetter, _generalLetterSoundMasteryScores[storageLetter]);
+					AddLetterSoundGMIfMastered(task.Correct, _generalLetterSoundMasteryScores[task.Correct]);
 
-					_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores, storageLetter);
+					_generalLetterSoundDifficultyList = ReorderByFloats(_generalLetterSoundDifficultyList, _generalLetterSoundMasteryScores, task.Correct);
 				} else {
 					Debug.LogError("[StatManager.RegisterAnswer] There are no sound mastery scores!]");
 				}
@@ -1114,13 +1115,13 @@ static public class StatManager {
 		}
 	}
 
-	public static List<string> GetNonZeroLetterFloatList(List<string> floatList, LetterMode letterMode) {
+	public static List<string> GetNonZeroLetterFloatList(List<string> floatList, LetterMode letterMode, char difficulty) {
 		List<string> nonZeroList = new();
 		foreach (string key in floatList) {
-			if (letterMode == LetterMode.Sound && _generalLetterSoundMasteryScores.ContainsKey(key) && !Mathf.Approximately(_generalLetterSoundMasteryScores[key], 0)) {
+			if (letterMode == LetterMode.Sound && _generalLetterSoundMasteryScores.ContainsKey(key) && (difficulty == 'e' && _generalLetterSoundMasteryScores[key] > 0 || _generalLetterSoundMasteryScores[key] < 0 && difficulty == 'h')) {
 				nonZeroList.Add(key);
 			}
-			if (letterMode == LetterMode.Picture && _generalLetterPictureMasteryScores.ContainsKey(key) && !Mathf.Approximately(_generalLetterPictureMasteryScores[key], 0)) {
+			if (letterMode == LetterMode.Picture && _generalLetterPictureMasteryScores.ContainsKey(key) && (difficulty == 'e' && _generalLetterPictureMasteryScores[key] > 0 || _generalLetterPictureMasteryScores[key] < 0 && difficulty == 'h')) {
 				nonZeroList.Add(key);
 			}
 		}
@@ -1134,7 +1135,7 @@ static public class StatManager {
 		switch ( mode ) {
 			case LetterMode.Picture:
 				keyList = WordQuestionLibrary.GetWordList;
-				tempSortedList = _generalWordDifficultyList;
+				tempSortedList = _generalLetterPictureDifficultyList;
 				break;
 			case LetterMode.Sound:
 				keyList = LetterSoundQuestionLibrary.GetLetterList;

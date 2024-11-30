@@ -12,6 +12,15 @@ public class StatDumper : MonoBehaviour
 		//StatManager.OnDatabaseUpdate += UpdateInterface;
 	}
 
+
+	private void OnDisable() {
+		GameManager.OnClearSaveGame -= RefreshInterface;
+	}
+
+	private void RefreshInterface() {
+		UpdateInterface();
+	}
+
 	private void UpdateInterface () {
 		OperatorStore operatorStore = StatManager.GetStore;
 		RemoveChildren();
@@ -60,5 +69,6 @@ public class StatDumper : MonoBehaviour
 
 	private void OnEnable () {
 		UpdateInterface();
+		GameManager.OnClearSaveGame += RefreshInterface;
 	}
 }
