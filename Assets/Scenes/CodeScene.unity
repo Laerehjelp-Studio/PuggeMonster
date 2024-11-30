@@ -248,7 +248,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 102317857}
@@ -422,7 +422,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 199784554}
@@ -913,7 +913,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 958221975}
@@ -1087,7 +1087,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 997769885}
@@ -1261,7 +1261,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1194064909}
@@ -1435,7 +1435,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1651095035}
@@ -1737,7 +1737,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1749179027}
@@ -2109,7 +2109,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1960254225}
@@ -2283,7 +2283,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8471005650395662665}
         m_TargetAssemblyTypeName: CodeMenuController, Assembly-CSharp
-        m_MethodName: getInputFromButton
+        m_MethodName: GetInputFromButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1987657632}
