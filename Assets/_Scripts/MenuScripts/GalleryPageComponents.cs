@@ -6,4 +6,5 @@ public class GalleryPageComponents : MonoBehaviour
 {
     public TMP_Text LoreText, AmmountDisplayText, NameOfPuggemon;
     public Image PuggemonImage;
+    public Button PuggemonButton;
 }

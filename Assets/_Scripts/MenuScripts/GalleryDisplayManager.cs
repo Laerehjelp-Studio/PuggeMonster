@@ -127,6 +127,7 @@ public class GalleryDisplayManager : MonoBehaviour
         // no more puggemons, set page to be blank
         rightPageData.PuggemonImage.sprite = blankImage;
         rightPageData.PuggemonImage.color = new Color(1, 1, 1, 0); // set the alpha to ZERO to make the image blank.
+        rightPageData.PuggemonButton.onClick.RemoveAllListeners();
         rightPageData.AmmountDisplayText.text = "";
         rightPageData.LoreText.text = "";
         rightPageData.NameOfPuggemon.text = "";
@@ -136,6 +137,14 @@ public class GalleryDisplayManager : MonoBehaviour
     private void DisplayPage(GalleryPageComponents page, List<int> monsterList, int index, int pictureIndex) {
         page.PuggemonImage.sprite = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterList[index]).GetPicture(pictureIndex);
         page.PuggemonImage.color = new Color(255, 255, 255, 1);
+        page.PuggemonButton.onClick.RemoveAllListeners();
+        
+        if (pictureIndex == 0) {
+            page.PuggemonButton.interactable = true;
+            page.PuggemonButton.onClick.AddListener(delegate { GameManager.PlayPuggemonCollectSound(index); });
+        } else {
+            page.PuggemonButton.interactable = false;
+        }
         page.AmmountDisplayText.text = "" + PlayerStats.Instance.PuggemonArray[monsterList[index]];
         page.LoreText.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterList[index]).Lore;
         page.NameOfPuggemon.text = MonsterIndexLibrary.Instance.GetMonsterFromIndex(monsterList[index]).Name;
