@@ -1099,7 +1099,17 @@ static public class StatManager {
 				break;
 		}
 		
+		//PrintSortedLetterDifficultyList();
 		//PrintSortedWordDifficultyList();
+	}
+
+	private static void PrintSortedLetterDifficultyList() {
+		string result = String.Empty;
+		foreach (string letter in _generalLetterSoundDifficultyList) {
+			result += $"{letter}: {_generalLetterSoundMasteryScores[letter]}\n";
+		}
+
+		Debug.LogWarning(result);
 	}
 
 	private static void AddLetterPictureGMIfMastered(string taskStorageKey, float generalLetterPictureMasteryScore) {
@@ -1131,6 +1141,7 @@ static public class StatManager {
 		List <string> difficultyList = new();
 		List <string> keyList = new();
 		List <string> tempSortedList = new();
+		
 		switch ( mode ) {
 			case LetterMode.Picture:
 				keyList = WordQuestionLibrary.GetWordList;
