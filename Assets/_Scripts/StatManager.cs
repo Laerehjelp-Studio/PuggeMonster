@@ -1086,7 +1086,7 @@ static public class StatManager {
 				_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores, task.StorageKey);
 
 				break;
-			case GameModeType.Letters: {
+			case GameModeType.Letters: 
 				if (_generalLetterSoundMasteryScores.ContainsKey(task.Correct)) {
 					_generalLetterSoundMasteryScores[task.Correct] += points;
 					
@@ -1096,8 +1096,7 @@ static public class StatManager {
 				} else {
 					Debug.LogError("[StatManager.RegisterAnswer] There are no sound mastery scores!]");
 				}
-				
-			} break;
+				break;
 		}
 		
 		//PrintSortedWordDifficultyList();
