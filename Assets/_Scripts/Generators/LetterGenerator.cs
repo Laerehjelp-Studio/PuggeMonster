@@ -2,7 +2,7 @@
 using Random = UnityEngine.Random;
 
 public static class LetterGenerator {
-	public static LetterTask GenerateWordQuestionBasedOnPerformance(ref LetterTask task) {
+	public static LetterTask GenerateQuestionBasedOnPerformance(ref LetterTask task) {
 		if (task.DifficultyLetter == default) {
 			task.DifficultyLetter = 'e';
 		}

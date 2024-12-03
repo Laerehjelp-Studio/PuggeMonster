@@ -105,16 +105,15 @@ public class TaskMaster : MonoBehaviour {
 			case GameModeType.Letters:
 				_letterTasks.Clear();
 				difficultySet = GetDifficultySet( GameModeType.Letters );
-
 				for ( int i = 0; i < _maxTasks; i++ ) {
 					// first implementation, Will be replaced when a difficulty system has been created.
 					LetterTask task = new LetterTask();
 					task.Mode = GameModeType.Letters;
-					task = LetterGenerator.GenerateWordQuestionBasedOnPerformance( ref task );
-
+					
 					task.DifficultyLetter = difficultySet[i];
 					task.DifficultySet = difficultySet;
-
+					task = LetterGenerator.GenerateQuestionBasedOnPerformance( ref task );
+					
 					_letterTasks.Add( task );
 				}
 
@@ -129,7 +128,7 @@ public class TaskMaster : MonoBehaviour {
 					// first implementation, Will be replaced when a difficulty system has been created.
 					LetterTask task = new LetterTask();
 					task.Mode = GameModeType.LetterPicture;
-					task = LetterGenerator.GenerateWordQuestionBasedOnPerformance( ref task );
+					task = LetterGenerator.GenerateQuestionBasedOnPerformance( ref task );
 
 					task.DifficultyLetter = difficultySet[i];
 					task.DifficultySet = difficultySet;
