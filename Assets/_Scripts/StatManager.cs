@@ -848,10 +848,10 @@ static public class StatManager {
 		return 0f;
 	}
 
-	public static List<string> GetNonZeroMathFloatList(List<string> floatList,int decimalSpot, string operatorString) {
+	public static List<string> GetNonZeroMathFloatList(List<string> floatList,int decimalSpot, string operatorString, char difficultyLetter) {
 		List<string> nonZeroList = new();
-		foreach (string key in floatList) {
-			if (!Mathf.Approximately(GetMathPairScore(key, decimalSpot, operatorString), 0)) {
+		foreach (string key in floatList) { // !Mathf.Approximately(GetMathPairScore(key, decimalSpot, operatorString), 0)
+			if (difficultyLetter == 'e' && GetMathPairScore(key, decimalSpot, operatorString) > 0f || difficultyLetter == 'h' && GetMathPairScore(key, decimalSpot, operatorString) < 0f) {
 				nonZeroList.Add(key);
 			}
 		}
@@ -1005,13 +1005,13 @@ static public class StatManager {
 #region Words Statistics Storage Management
 	public static void RegisterAnswer(WordTask wordTask, string selectedValue, float points) {
 		_generalWordMasteryScores[wordTask.Correct] += points;
-		Debug.Log($"Word Task: {wordTask.Correct} = {selectedValue} ({points}) {_generalWordMasteryScores[wordTask.Correct]}");
+		//Debug.Log($"Word Task: {wordTask.Correct} = {selectedValue} ({points}) {_generalWordMasteryScores[wordTask.Correct]}");
 
 		AddWordGMIfMastered(selectedValue, _generalWordMasteryScores[wordTask.Correct]);
 
 		_generalWordDifficultyList = ReorderByFloats(_generalWordDifficultyList, _generalWordMasteryScores, wordTask.Correct);
 		
-		PrintSortedWordDifficultyList();
+		//PrintSortedWordDifficultyList();
 	}
 
 	private static void PrintSortedWordDifficultyList() {
@@ -1127,11 +1127,15 @@ static public class StatManager {
 	public static List<string> GetNonZeroLetterFloatList(List<string> floatList, LetterMode letterMode, char difficulty) {
 		List<string> nonZeroList = new();
 		foreach (string key in floatList) {
-			if (letterMode == LetterMode.Sound && _generalLetterSoundMasteryScores.ContainsKey(key) && (difficulty == 'e' && _generalLetterSoundMasteryScores[key] > 0 || _generalLetterSoundMasteryScores[key] < 0 && difficulty == 'h')) {
-				nonZeroList.Add(key);
+			if (letterMode == LetterMode.Sound && _generalLetterSoundMasteryScores.ContainsKey(key)) {
+				if (difficulty == 'e' && _generalLetterSoundMasteryScores[key] > 0f ||  difficulty == 'h' && _generalLetterSoundMasteryScores[key] < 0f) {
+					nonZeroList.Add(key);
+				} 
 			}
-			if (letterMode == LetterMode.Picture && _generalLetterPictureMasteryScores.ContainsKey(key) && (difficulty == 'e' && _generalLetterPictureMasteryScores[key] > 0 || _generalLetterPictureMasteryScores[key] < 0 && difficulty == 'h')) {
-				nonZeroList.Add(key);
+			if (letterMode == LetterMode.Picture && _generalLetterPictureMasteryScores.ContainsKey(key)) {
+				if (difficulty == 'e' && _generalLetterPictureMasteryScores[key] > 0 || _generalLetterPictureMasteryScores[key] < 0 && difficulty == 'h') {
+					nonZeroList.Add(key);
+				} 
 			}
 		}
 		return nonZeroList;
@@ -1154,6 +1158,7 @@ static public class StatManager {
 		}
 		
 		int partSize = (int)(keyList.Count / 5);
+		
 		//Debug.Log($"Getting word mastery scores for difficulty {taskDifficultyLetter}, part size {partSize}, and {tempSortedList.Count}");
 		
 		switch (taskDifficultyLetter) {
@@ -1167,7 +1172,7 @@ static public class StatManager {
 				break;
 			case 'h':
 			case 'H':
-				difficultyList = tempSortedList.GetRange(partSize*4, partSize);
+				difficultyList = tempSortedList.GetRange(partSize*4 + tempSortedList.Count % partSize, partSize);
 				break;
 		}
 		

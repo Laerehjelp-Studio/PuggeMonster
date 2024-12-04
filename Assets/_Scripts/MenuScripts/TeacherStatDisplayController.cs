@@ -31,8 +31,8 @@ public class TeacherStatDisplayController : MonoBehaviour {
 		MathDifficultyList easyDifficulty = StatManager.GetDifficultyLists(Operator,"e");
 		MathDifficultyList hardDifficulty = StatManager.GetDifficultyLists(Operator,"h");
 
-		ZeroUpdateMathStats(ref easyDifficulty, Operator);
-		ZeroUpdateMathStats(ref hardDifficulty,Operator);
+		ZeroUpdateMathStats(ref easyDifficulty, Operator, 'e');
+		ZeroUpdateMathStats(ref hardDifficulty,Operator, 'h');
 		//SetOperatorText(easyDifficulty.Decimal, _decimalEasy);
 		SetOperatorText(easyDifficulty.One, _onesEasy);
 		SetOperatorText(easyDifficulty.Tens, _tensEasy);
@@ -53,11 +53,11 @@ public class TeacherStatDisplayController : MonoBehaviour {
 		
 	}
 
-	private void ZeroUpdateMathStats(ref MathDifficultyList mathDifficultyLists, string Operator) {
-		mathDifficultyLists.One = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.One, 1, Operator);
-		mathDifficultyLists.Tens = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Tens, 2, Operator);
-		mathDifficultyLists.Hundreds = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Hundreds, 3, Operator);
-		mathDifficultyLists.Thousands = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Thousands, 4, Operator);
+	private void ZeroUpdateMathStats(ref MathDifficultyList mathDifficultyLists, string Operator, char difficultyLetter) {
+		mathDifficultyLists.One = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.One, 1, Operator, difficultyLetter);
+		mathDifficultyLists.Tens = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Tens, 2, Operator, difficultyLetter);
+		mathDifficultyLists.Hundreds = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Hundreds, 3, Operator, difficultyLetter);
+		mathDifficultyLists.Thousands = StatManager.GetNonZeroMathFloatList(mathDifficultyLists.Thousands, 4, Operator, difficultyLetter);
 	}
 
 	public void SetWordText( string heading) {
@@ -79,8 +79,10 @@ public class TeacherStatDisplayController : MonoBehaviour {
 
 		easyDifficulty = StatManager.GetLetterDifficultyList('e', LetterMode.Sound);
 		easyDifficulty = StatManager.GetNonZeroLetterFloatList(easyDifficulty, LetterMode.Sound, 'e');
+		
 		hardDifficulty = StatManager.GetLetterDifficultyList('h', LetterMode.Sound);
 		hardDifficulty = StatManager.GetNonZeroLetterFloatList(hardDifficulty, LetterMode.Sound, 'h');
+		
 		_hundredsHeader.text = "Lyd Bokstav";
 		SetOperatorText(easyDifficulty, _hundredsEasy);
 		SetOperatorText(hardDifficulty, _hundredsHard);
