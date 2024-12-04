@@ -1005,13 +1005,13 @@ static public class StatManager {
 #region Words Statistics Storage Management
 	public static void RegisterAnswer(WordTask wordTask, string selectedValue, float points) {
 		_generalWordMasteryScores[wordTask.Correct] += points;
-		Debug.Log($"Word Task: {wordTask.Correct} = {selectedValue} ({points}) {_generalWordMasteryScores[wordTask.Correct]}");
+		//Debug.Log($"Word Task: {wordTask.Correct} = {selectedValue} ({points}) {_generalWordMasteryScores[wordTask.Correct]}");
 
 		AddWordGMIfMastered(selectedValue, _generalWordMasteryScores[wordTask.Correct]);
 
 		_generalWordDifficultyList = ReorderByFloats(_generalWordDifficultyList, _generalWordMasteryScores, wordTask.Correct);
 		
-		PrintSortedWordDifficultyList();
+		//PrintSortedWordDifficultyList();
 	}
 
 	private static void PrintSortedWordDifficultyList() {

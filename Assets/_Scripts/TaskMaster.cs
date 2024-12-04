@@ -99,7 +99,7 @@ public class TaskMaster : MonoBehaviour {
 					_wordTasks.Add( task );
 				}
 
-				Debug.Log( $"WordTasks: {_wordTasks.Count}, first Task: {_wordTasks[0].Correct}" );
+				//Debug.Log( $"WordTasks: {_wordTasks.Count}, first Task: {_wordTasks[0].Correct}" );
 				_lastGenerationTime = Time.realtimeSinceStartup * 1000;
 
 				break;
