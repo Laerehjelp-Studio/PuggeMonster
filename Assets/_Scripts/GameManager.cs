@@ -404,6 +404,8 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public LetterCode LetterCode { get; set; }
+
 	public static float QuestionSpamTimeLimitInMS {
 		get {
 			return Instance._gameSettings.QuestionSpamTimeLimitInMS;

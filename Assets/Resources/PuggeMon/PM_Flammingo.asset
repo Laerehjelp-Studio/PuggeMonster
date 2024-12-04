@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 25d2bf19acd0ae24f873846cf8f16b3c, type: 3}
   - {fileID: 21300000, guid: 4a61851e3124e4d42bb43a5b8316a5ec, type: 3}
   Name: Flammingo
-  Lore: "Bor i sahara \xF8rken, spiser roser. "
+  Lore: "Bor i sahara-\xF8rkenen, spiser roser. "
   CollectSound: {fileID: 11400000, guid: b0413e7dd3daf304180a9cce9271ce33, type: 2}

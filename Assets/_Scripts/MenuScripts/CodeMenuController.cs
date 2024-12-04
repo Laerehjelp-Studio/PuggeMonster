@@ -9,6 +9,7 @@ public class CodeMenuController : MonoBehaviour {
 
 	private bool validCode = true;
 	private MathCode mathCode = new();
+	private LetterCode letterCode = new();
 
 	public void LoadSceneBasedOnCode() {
 		if (buttonInputs.Count < 1) {
@@ -184,7 +185,7 @@ public class CodeMenuController : MonoBehaviour {
 
 			case 2: // Letters Sound
 				
-				validCode = true;
+				validCode = false;
 				GameManager.Instance.GameMode = GameModeType.Letters;
 				break;
 			case 3: // NOTHING YET
@@ -198,43 +199,160 @@ public class CodeMenuController : MonoBehaviour {
 				break;
 		}
 
-		/*if (buttonInputs.Count < 3) {
+		if (buttonInputs.Count < 3 || GameManager.Instance.GameMode != GameModeType.Letters) {
 			return;
 		}
+
+		letterCode.AppDecides = false;
+		
 		switch (buttonInputs[2]) {
-			case 1: // 
+			case 1: // ABCDEF
+				validCode = true;
+				letterCode.AllowedLetters = new() {
+					"A",
+					"B",
+					"C",
+					"D",
+					"E",
+					"F"
+				};
+				
 				break;
 
-			case 2: // 
+			case 2: // GHKIJKL
+				validCode = true;
+				letterCode.AllowedLetters = new() {
+					"G",
+					"H",
+					"I",
+					"J",
+					"K",
+					"L"
+				};
 				break;
 
-			case 3: // 
+			case 3: // MNOPQR
+				validCode = true;
+				letterCode.AllowedLetters = new() {
+					"M",
+					"N",
+					"O",
+					"P",
+					"Q",
+					"R"
+				}; 
 				break;
 
-			case 4: // 
+			case 4: // STUVWX
+				validCode = true;
+				letterCode.AllowedLetters = new() {
+					"S",
+					"T",
+					"U",
+					"V",
+					"X",
+				}; 
 				break;
 
-			case 5: // 
+			case 5: // YZÆØÅ
+				validCode = true;
+				letterCode.AllowedLetters = new() {
+					"Y",
+					"Z",
+					"Æ",
+					"Ø",
+					"Å"
+				}; 
 				break;
 
-			case 6: // 
+			case 6: // ABCDEFGHIJKLMNO
+				validCode = true;
+				letterCode.AllowedLetters = new() {
+					"A",
+					"B",
+					"C",
+					"D",
+					"E",
+					"F",
+					"G",
+					"H",
+					"I",
+					"J",
+					"K",
+					"L",
+					"M",
+					"N",
+					"O"
+				}; 
 				break;
 
-			case 7: // 
+			case 7: // PQRSTUVWXYZÆØÅ
+				validCode = true;
+				letterCode.AllowedLetters = new(){
+					"P",
+					"Q",
+					"R",
+					"S",
+					"T",
+					"U",
+					"V",
+					"W",
+					"X",
+					"Y",
+					"Z",
+					"Æ",
+					"Ø",
+					"Å"
+				}; 
 				break;
 
-			case 8: // 
+			case 8: // ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ
+				validCode = true;
+				letterCode.AllowedLetters = new() {
+					"A",
+					"B",
+					"C",
+					"D",
+					"E",
+					"F",
+					"G",
+					"H",
+					"I",
+					"J",
+					"K",
+					"L",
+					"M",
+					"N",
+					"O",
+					"P",
+					"Q",
+					"R",
+					"S",
+					"T",
+					"U",
+					"V",
+					"W",
+					"X",
+					"Y",
+					"Z",
+					"Æ",
+					"Ø",
+					"Å"
+				};  
 				break;
 
 			case 9: // 
+				validCode = true;
+				letterCode.AppDecides = true;
 				break;
-		}*/
+		}
 		
 		
-		ClearCodeInput();
 		if (validCode) {
+			GameManager.Instance.LetterCode = letterCode;
 			GameManager.Instance.MenuLoader("GamePlayScene");
 		}
+		ClearCodeInput();
 	}
 
 

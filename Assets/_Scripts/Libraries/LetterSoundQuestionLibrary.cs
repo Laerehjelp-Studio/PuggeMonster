@@ -134,7 +134,7 @@ public class LetterSoundQuestionLibrary : MonoBehaviour {
 			return default;
 		}
 		
-		string tempCharacter = GetLetterList[Random.Range( 0, GetLetterList.Count )].Substring(0,1);
+		string tempCharacter = GetLetterList[Random.Range( 0, GetLetterList.Count )];
 		
 		if ( tempCharacter == blockedCharacter ) {
 			return GetInCorrectLetter(blockedCharacter);

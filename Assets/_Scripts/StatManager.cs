@@ -1086,7 +1086,7 @@ static public class StatManager {
 				_generalLetterPictureDifficultyList = ReorderByFloats(_generalLetterPictureDifficultyList, _generalLetterPictureMasteryScores, task.StorageKey);
 
 				break;
-			case GameModeType.Letters: {
+			case GameModeType.Letters: 
 				if (_generalLetterSoundMasteryScores.ContainsKey(task.Correct)) {
 					_generalLetterSoundMasteryScores[task.Correct] += points;
 					
@@ -1096,11 +1096,20 @@ static public class StatManager {
 				} else {
 					Debug.LogError("[StatManager.RegisterAnswer] There are no sound mastery scores!]");
 				}
-				
-			} break;
+				break;
 		}
 		
+		//PrintSortedLetterDifficultyList();
 		//PrintSortedWordDifficultyList();
+	}
+
+	private static void PrintSortedLetterDifficultyList() {
+		string result = String.Empty;
+		foreach (string letter in _generalLetterSoundDifficultyList) {
+			result += $"{letter}: {_generalLetterSoundMasteryScores[letter]}\n";
+		}
+
+		Debug.LogWarning(result);
 	}
 
 	private static void AddLetterPictureGMIfMastered(string taskStorageKey, float generalLetterPictureMasteryScore) {
@@ -1132,6 +1141,7 @@ static public class StatManager {
 		List <string> difficultyList = new();
 		List <string> keyList = new();
 		List <string> tempSortedList = new();
+		
 		switch ( mode ) {
 			case LetterMode.Picture:
 				keyList = WordQuestionLibrary.GetWordList;
