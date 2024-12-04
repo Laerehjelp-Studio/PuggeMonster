@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0412690adcf2964cae0c563502e59cc, type: 3}
-  m_Name: "SD_\xC5"
+  m_Name: SD_Z
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 90774f91899bce44dba76c0d252847a8, type: 3}
+  - {fileID: 8300000, guid: 1d8983753bbc47c4c9025273a325d139, type: 3}
   _volume:
-    minValue: 0.9162847
-    maxValue: 0.99565744
+    minValue: 0.753494
+    maxValue: 0.8328668
   _pitch:
-    minValue: 0.96989965
-    maxValue: 1.011236
+    minValue: 0.8974668
+    maxValue: 1.1009654
