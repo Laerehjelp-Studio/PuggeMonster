@@ -399,8 +399,10 @@ public class GameManager : MonoBehaviour {
 			return _gameMode;
 		}
 		set {
-			_gameMode = value; 
-			OnGameModeUpdate?.Invoke( _gameMode );
+			if (_gameMode != value) {
+				_gameMode = value; 
+				OnGameModeUpdate?.Invoke( _gameMode );
+			}
 		}
 	}
 

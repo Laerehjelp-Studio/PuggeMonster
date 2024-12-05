@@ -13,7 +13,7 @@ public class MusicManager : MonoBehaviour
 	[SerializeField] private AudioClip _gamePlaySceneLettersMusak;
 	[Range(0,1)] [SerializeField] private float _gamePlayMusakVolume = 0.2f;
 
-
+	private GameModeType _oldGameMode;
 	private void OnEnable () {
 		if (_gameManager == default) {
 			_gameManager = GameManager.Instance;
@@ -36,6 +36,9 @@ public class MusicManager : MonoBehaviour
 	}
 
 	private void SwapMusicOnGameModeChange ( GameModeType gameMode ) {
+		if (_oldGameMode == gameMode) {
+			return;
+		}
 		switch (gameMode) {
 			case GameModeType.Words:
 				_audioSourceGM.clip = _gamePlaySceneWordsMusak;
@@ -56,8 +59,10 @@ public class MusicManager : MonoBehaviour
 				break;
 		}
 		_audioSourceGM.Play();
+		
 		if (_audioSourceGM.clip == null) {
 			_audioSourceGM.clip = _mainMenuSceneMusak;
 		}
+		_oldGameMode = gameMode;
 	}
 }

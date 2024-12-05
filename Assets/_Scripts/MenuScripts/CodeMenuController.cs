@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,11 +54,8 @@ public class CodeMenuController : MonoBehaviour {
 	}
 
 	void NumberFriendsCase() {
-		GameManager.Instance.GameMode = GameModeType.Math;
-		GameManager.Instance.MathCode = mathCode;
+		validCode = false;
 		ClearCodeInput();
-		
-		GameManager.Instance.MenuLoader("GamePlayScene");
 	}
 
 
@@ -181,6 +177,7 @@ public class CodeMenuController : MonoBehaviour {
 			case 1: // Letters Picture .
 				validCode = true;
 				GameManager.Instance.GameMode = GameModeType.LetterPicture;
+				GameManager.Instance.MenuLoader("GamePlayScene");
 				break;
 
 			case 2: // Letters Sound
@@ -196,6 +193,7 @@ public class CodeMenuController : MonoBehaviour {
 			case 8: // NOTHING YET
 			case 9: // NOTHING YET
 				validCode = false;
+				ClearCodeInput();
 				break;
 		}
 
@@ -357,7 +355,10 @@ public class CodeMenuController : MonoBehaviour {
 
 
 	private void WordCase() {
-		if (buttonInputs.Count < 2) {
+		validCode = true;
+		GameManager.Instance.GameMode = GameModeType.Words;
+		
+		/*if (buttonInputs.Count < 2) {
 			return;
 		}
 		
@@ -377,7 +378,7 @@ public class CodeMenuController : MonoBehaviour {
 			case 9: // NOTHING YET
 				validCode = false;
 				break;
-		}
+		}*/
 
 		/*if (buttonInputs.Count < 3) {
 			return;
